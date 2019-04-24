@@ -14,6 +14,8 @@
     "interface-name": false,
     "ordered-imports": false,
     "object-literal-sort-keys": false,
-    "no-consecutive-blank-lines": false
+    "no-consecutive-blank-lines": false,
+    "max-len": ["warn", 120],
+    "arrow-parens": [true, "ban-single-arg-parens"]
   }
 }
