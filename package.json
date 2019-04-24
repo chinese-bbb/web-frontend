@@ -6,6 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "prettier": "prettier --config-precedence file-override --write",
+    "prettier-all": "prettier --loglevel error --config-precedence file-override --write ./**/*.{js,vue,scss,css}",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -30,7 +32,8 @@
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-core": "7.0.0-bridge.0",
     "lint-staged": "^8.1.5",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.9.2",
+    "prettier": "^1.17.0",
     "sass-loader": "^7.1.0",
     "ts-jest": "^23.0.0",
     "typescript": "^3.4.3",
@@ -42,10 +45,12 @@
   },
   "lint-staged": {
     "*.ts": [
+      "prettier",
       "vue-cli-service lint",
       "git add"
     ],
     "*.vue": [
+      "prettier",
       "vue-cli-service lint",
       "git add"
     ]

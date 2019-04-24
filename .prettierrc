@@ -1,0 +1,39 @@
+{
+  "printWidth": 120,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "semi": true,
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": "**/*.ts",
+      "options": {
+        "parser": "typescript"
+      }
+    },
+    {
+      "files": "**/*.js",
+      "options": {
+        "parser": "babylon"
+      }
+    },
+    {
+      "files": "**/*.vue",
+      "options": {
+        "parser": "vue"
+      }
+    },
+    {
+      "files": "**/*.json",
+      "options": {
+        "parser": "json"
+      }
+    },
+    {
+      "files": [".prettierrc", ".stylelintrc", ".lintstagedrc"],
+      "options": {
+        "parser": "json"
+      }
+    }
+  ]
+}
