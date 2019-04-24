@@ -6,7 +6,6 @@ Vue.use(Router);
 
 export default new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
@@ -23,6 +22,7 @@ export default new Router({
       name: 'customer',
       component: () => import('./views/customer/CustomerPortal.vue'),
       children: [
+        { path: '', redirect: '/' },
         {
           path: 'profile',
           name: 'profile',
@@ -56,6 +56,11 @@ export default new Router({
       component: () => import('./views/merchant/MerchantPortal.vue'),
       children: [
         {
+          path: '',
+          name: 'merchantDefault',
+          redirect: 'dashboard',
+        },
+        {
           path: 'dashboard',
           name: 'dashboard',
           component: () => import('./views/merchant/Dashboard.vue'),
@@ -80,5 +85,6 @@ export default new Router({
       name: 'feedback',
       component: () => import('./views/Feedback.vue'),
     },
+    { path: '*', redirect: '/' }, // handle all uncovered routes
   ],
 });
