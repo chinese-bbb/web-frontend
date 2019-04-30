@@ -18,7 +18,10 @@
       <ul class="nav">
         <!-- 通知入口 -->
         <li class="nav-item nav-notifications" v-if="isLoggedIn">
-          <i class="el-icon-edit nav-item--view"></i>
+          <el-badge :value="12" class="item nav-item--view">
+            <span><fa-icon icon="bell"></fa-icon></span>
+          </el-badge>
+          <i></i>
         </li>
 
         <!-- 登录入口 -->
@@ -44,7 +47,7 @@
         <li class="nav-item nav-theme-switch" v-if="isLoggedIn">
           <el-dropdown class="nav-item--view nav-dropdown">
             <span class="el-dropdown-link">
-              <i class="el-icon-share"></i>
+              <fa-icon icon="user"></fa-icon>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>用户主页</el-dropdown-item>
@@ -59,12 +62,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue } from 'vue-property-decorator';
 
-@Component
-export default class AppHeader extends Vue {
-  public isLoggedIn = false;
-}
+  @Component
+  export default class AppHeader extends Vue {
+    public isLoggedIn = false;
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -74,6 +77,7 @@ export default class AppHeader extends Vue {
   $--header-text-color: #fff;
   $--link-color: $--header-text-color;
   $--active-indicator-color: $--header-text-color;
+  $--header-font-size: 18px;
 
   .header {
     height: $headerHeight;
@@ -188,45 +192,46 @@ export default class AppHeader extends Vue {
     }
   }
 
+  .nav-notifications {
+    height: 100%;
+  }
+
+  .nav-notifications .el-badge {
+    display: inline;
+    vertical-align: text-bottom;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    .el-badge__content {
+      right: 20px;
+    }
+  }
+
   .nav-dropdown {
-    margin-bottom: 6px;
+    display: block;
     padding-left: 18px;
     width: 100%;
 
     span {
       display: block;
-      width: 100%;
-      font-size: 16px;
-      color: #888;
-      line-height: 40px;
+      font-size: $--header-font-size;
+      color: $--header-text-color;
       transition: .2s;
-      padding-bottom: 6px;
+      padding: 0 $--nav-item-gap;
       user-select: none;
+      opacity: 0.5;
 
       &:hover {
+        opacity: 1;
         cursor: pointer;
       }
     }
 
-    i {
-      transition: .2s;
-      font-size: 12px;
-      color: $--header-text-color;
-      transform: translateY(-2px);
-    }
-
-    .is-active {
-      span, i {
-        color: $--active-indicator-color;
-      }
-
-      i {
-        transform: rotateZ(180deg) translateY(3px);
-      }
-    }
-
     &:hover {
-      span, i {
+      span {
         color: $--active-indicator-color;
       }
     }
@@ -272,31 +277,13 @@ export default class AppHeader extends Vue {
       }
 
       .nav-item {
-        a {
-          font-size: 12px;
-          vertical-align: top;
-        }
-
-        &.lang-item {
-          height: 100%;
-
-          .nav-lang {
-            display: flex;
-            align-items: center;
-
-            span {
-              padding-bottom: 0;
-            }
-          }
+        a, span {
+          font-size: $--header-font-size;
         }
       }
 
       .nav-dropdown {
         padding: 0;
-
-        span {
-          font-size: 12px;
-        }
       }
 
       .nav-gap {
