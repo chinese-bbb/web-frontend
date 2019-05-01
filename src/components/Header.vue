@@ -26,7 +26,7 @@
 
         <!-- 登录入口 -->
         <li class="nav-item entrance-item" v-if="!isLoggedIn">
-          <router-link class="nav-item--view" to="/customer/login">
+          <router-link class="nav-item--view" to="/customer/signin">
             <span class="label">登录</span>
           </router-link>
         </li>
@@ -38,7 +38,7 @@
 
         <!-- 注册入口 -->
         <li class="nav-item entrance-item" v-if="!isLoggedIn">
-          <router-link class="nav-item--view" to="/customer/register">
+          <router-link class="nav-item--view" to="/customer/signup">
             <span class="label">注册</span>
           </router-link>
         </li>
@@ -272,10 +272,6 @@
 
   @include media-breakpoint-up(md) {
     .header {
-      .container {
-        padding: 0 $--nav-item-gap * 2;
-      }
-
       .nav-item {
         a, span {
           font-size: $--header-font-size;

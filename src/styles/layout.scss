@@ -11,7 +11,10 @@
   background-color: #e9eef3;
   color: $--color-text-regular;
   text-align: center;
-  line-height: 160px;
+}
+
+.main-content {
+  display: block;
 }
 
 body > .el-container {

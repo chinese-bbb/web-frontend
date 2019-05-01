@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
+import { SignInType } from '@/constants';
 
 Vue.use(Router);
 
@@ -48,6 +49,21 @@ export default new Router({
           name: 'settings',
           component: () => import('./views/customer/UserSettings.vue'),
         },
+        {
+          path: 'signin', name: 'cSignIn', component: () => import('./views/SignIn.vue'),
+          props: () => ({ from: SignInType.Customer }),
+        },
+        {
+          path: 'signup', name: 'cSignUp', component: () => import('./views/SignUp.vue'),
+          props: () => ({ from: SignInType.Customer }),
+        },
+        {
+          path: 'signup-success', name: 'cSignUpSuccess', component: () => import('./views/SignUpSuccess.vue'),
+          props: () => ({ from: SignInType.Customer }),
+        },
+        {
+          path: 'realname-auth', name: 'realnameAuth', component: () => import('./views/customer/RealNameAuth.vue'),
+        },
       ],
     },
     {
@@ -69,6 +85,14 @@ export default new Router({
           path: 'complaint-details',
           name: 'complaintDetails',
           component: () => import('./views/merchant/ComplaintDetails.vue'),
+        },
+        {
+          path: 'signin', name: 'mSignIn', component: () => import('./views/SignIn.vue'),
+          props: () => ({ from: SignInType.Merchant }),
+        },
+        {
+          path: 'signup-success', name: 'mSignUpSuccess', component: () => import('./views/SignUpSuccess.vue'),
+          props: () => ({ from: SignInType.Merchant }),
         },
       ],
     },
