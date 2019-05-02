@@ -20,10 +20,13 @@ export default new Router({
     },
     {
       path: '/customer',
-      name: 'customer',
       component: () => import('./views/customer/CustomerPortal.vue'),
       children: [
-        { path: '', redirect: '/' },
+        {
+          path: '',
+          name: 'customer',
+          redirect: '/',
+        },
         {
           path: 'profile',
           name: 'profile',
@@ -68,12 +71,11 @@ export default new Router({
     },
     {
       path: '/merchant',
-      name: 'merchant',
       component: () => import('./views/merchant/MerchantPortal.vue'),
       children: [
         {
           path: '',
-          name: 'merchantDefault',
+          name: 'merchant',
           redirect: 'dashboard',
         },
         {

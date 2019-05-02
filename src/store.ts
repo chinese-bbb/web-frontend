@@ -4,7 +4,16 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    inHomePage: false,
+  },
+  mutations: {
+    visitHomePage(state) {
+      state.inHomePage = true;
+    },
+    leaveHomePage(state) {
+      state.inHomePage = false;
+    },
+  },
   actions: {},
 });

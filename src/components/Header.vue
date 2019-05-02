@@ -8,6 +8,7 @@
             <img
               alt="element-logo"
               class="nav-logo"
+              :class="{'in-home-page': inHomePage}"
               src="../assets/images/logo.png">
           </slot>
           <span class="title">互信公益</span>
@@ -62,12 +63,15 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
-  @Component
-  export default class AppHeader extends Vue {
-    public isLoggedIn = false;
+@Component
+export default class AppHeader extends Vue {
+  public isLoggedIn = false;
+  get inHomePage() {
+    return this.$store.state.inHomePage;
   }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -272,6 +276,9 @@
 
   @include media-breakpoint-up(md) {
     .header {
+      .nav-logo.in-home-page {
+        width: 200px;
+      }
       .nav-item {
         a, span {
           font-size: $--header-font-size;
