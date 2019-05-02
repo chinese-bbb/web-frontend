@@ -1,17 +1,17 @@
 <template>
   <header class="header" ref="header">
     <div class="container">
-      <h1>
-        <router-link to="/">
+      <h1 class="title">
+        <router-link class="title-link" to="/">
           <!-- logo -->
           <slot>
             <img
               alt="element-logo"
               class="nav-logo"
               :class="{'in-home-page': inHomePage}"
-              src="../assets/images/logo.png">
+              src="../assets/images/logo-inverse.png">
           </slot>
-          <span class="title">互信公益</span>
+          <span class="title-content">互信公益</span>
         </router-link>
       </h1>
 
@@ -112,6 +112,16 @@ export default class AppHeader extends Vue {
     }
 
     .title {
+      line-height: inherit;
+    }
+
+    .title-link {
+      &:hover {
+        color: inherit;
+      }
+    }
+
+    .title-content {
       display: block;
       float: right;
       margin-left: 1rem;
@@ -151,13 +161,10 @@ export default class AppHeader extends Vue {
       }
     }
 
-    .nav-logo,
-    .nav-logo-small {
-      vertical-align: sub;
-    }
-
-    .nav-logo-small {
-      display: none;
+    .nav-logo {
+      width: 60px;
+      vertical-align: middle;
+      transition: 0.3s linear;
     }
 
     .nav-item {
@@ -247,14 +254,6 @@ export default class AppHeader extends Vue {
 
   @include media-breakpoint-down(xs) {
     .header {
-      .nav-logo {
-        display: none;
-      }
-
-      .nav-logo-small {
-        display: inline-block;
-      }
-
       .nav-item {
         margin-left: 6px;
 
