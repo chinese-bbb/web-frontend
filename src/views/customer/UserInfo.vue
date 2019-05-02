@@ -61,7 +61,7 @@
 
           <el-divider></el-divider>
 
-          <div>设置</div>
+          <p>设置</p>
         </el-card>
       </el-col>
     </el-row>
