@@ -78,7 +78,7 @@ export default class AppHeader extends Vue {
   @import "../styles/helper";
 
   $--nav-item-gap: 15px;
-  $--header-text-color: #fff;
+  $--header-text-color: $--color-primary-inverse;
   $--link-color: $--header-text-color;
   $--active-indicator-color: $--header-text-color;
   $--header-font-size: 18px;

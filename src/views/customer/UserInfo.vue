@@ -5,7 +5,7 @@
         <el-tabs :value="activeTab" @tab-click="tabChanged" type="card">
           <el-tab-pane label="最近投诉消息" name="recent">
             <ul class="complaints-list list-unstyled">
-              <user-complaint-card class="mb-3" v-for="item in recentComplaints">
+              <user-complaint-card class="mb-3" v-for="item in recentComplaints" :key="item">
               </user-complaint-card>
             </ul>
 
@@ -149,7 +149,7 @@ export default class UserInfo extends Vue {
 
     .el-tabs__item.is-active {
       background-color: $--color-primary;
-      color: $white;
+      color: $--color-primary-inverse;
     }
   }
 
