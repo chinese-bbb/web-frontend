@@ -6,3 +6,9 @@
 .el-form-item:last-child {
   margin-bottom: 0;
 }
+
+.el-pager li.active {
+  background-color: #1a535c;
+  border-radius: 1rem;
+  color: white;
+}
