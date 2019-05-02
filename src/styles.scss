@@ -1,7 +1,7 @@
 @import "./styles/browser-hacks";
 @import "./styles/helper";
-@import "~bootstrap/scss/bootstrap-grid";
-@import "~bootstrap/scss/utilities/visibility";
+@import './styles/element-ui.scss';
+@import "./styles/bootstrap";
 @import './styles/general';
 @import './styles/common';
 @import './styles/layout';
