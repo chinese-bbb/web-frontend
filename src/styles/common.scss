@@ -20,3 +20,7 @@
 .el-button.el-button--primary {
   color: $--color-primary-inverse;
 }
+
+.route-link-view:hover {
+  text-decoration: none;
+}

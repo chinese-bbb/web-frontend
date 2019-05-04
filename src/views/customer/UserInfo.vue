@@ -5,18 +5,22 @@
         <el-tabs :value="activeTab" @tab-click="tabChanged" type="card">
           <el-tab-pane label="最近投诉消息" name="recent">
             <ul class="complaints-list list-unstyled">
-              <user-complaint-card class="mb-3" v-for="item in recentComplaints" :key="item">
-              </user-complaint-card>
+              <li :key="item" class="mb-3" v-for="item in recentComplaints">
+                <router-link class="route-link-view" to="/merchant/complaint-details">
+                  <user-complaint-card>
+                  </user-complaint-card>
+                </router-link>
+              </li>
             </ul>
 
-            <div class="block">
+            <div>
               <div v-if="!recentComplaints.length"><p>没有数据哦</p></div>
 
               <el-pagination
-                layout="prev, pager, next"
                 :page-size="10"
+                :total="recentComplaints.length"
                 hide-on-single-page
-                :total="recentComplaints.length">
+                layout="prev, pager, next">
               </el-pagination>
             </div>
           </el-tab-pane>
@@ -69,54 +73,53 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { ElTabPane } from 'element-ui/types/tab-pane';
-import UserComplaintCard from '@/components/UserComplaintCard.vue';
+  import { Component, Vue } from 'vue-property-decorator';
+  import { ElTabPane } from 'element-ui/types/tab-pane';
+  import UserComplaintCard from '@/components/UserComplaintCard.vue';
 
-@Component({
-  components: {
-    UserComplaintCard,
-  },
-  props: {
-    from: String,
-    tab: String,
-  },
-})
-export default class UserInfo extends Vue {
-  activeTab = 'recent';
-  tab: string;
-  timeoutId: number | undefined;
-  searchStr = '';
-  recentComplaints: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  @Component({
+    components: {
+      UserComplaintCard,
+    },
+    props: {
+      tab: String,
+    },
+  })
+  export default class UserInfo extends Vue {
+    activeTab = 'recent';
+    tab: string;
+    timeoutId: number | undefined;
+    searchStr = '';
+    recentComplaints: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-  search(value: string) {
-    this.searchStr = value;
+    search(value: string) {
+      this.searchStr = value;
 
-    if (this.timeoutId) {
-      clearInterval(this.timeoutId);
+      if (this.timeoutId) {
+        clearInterval(this.timeoutId);
+      }
+
+      this.timeoutId = setTimeout(() => {
+        this._search();
+      }, 500);
     }
 
-    this.timeoutId = setTimeout(() => {
-      this._search();
-    }, 500);
-  }
+    created() {
+      this.activeTab = this.tab || this.activeTab;
+    }
 
-  created() {
-    this.activeTab = this.tab || this.activeTab;
-  }
+    tabChanged(tab: ElTabPane, event: MouseEvent) {
+      if (this.activeTab !== tab.name) {
+        // do something
+      }
 
-  tabChanged(tab: ElTabPane, event: MouseEvent) {
-    if (this.activeTab !== tab.name) {
+      this.activeTab = tab.name;
+    }
+
+    private _search() {
       // do something
     }
-
-    this.activeTab = tab.name;
   }
-
-  private _search() {
-    // do something
-  }
-}
 </script>
 
 <style lang="scss" scoped>

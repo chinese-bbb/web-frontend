@@ -5,18 +5,22 @@
         <el-tabs :value="activeTab" @tab-click="tabChanged" type="card">
           <el-tab-pane label="最近投诉消息" name="recent">
             <ul class="complaints-list list-unstyled">
-              <user-complaint-card class="mb-3" v-for="item in recentComplaints" :key="item">
-              </user-complaint-card>
+              <li :key="item" class="mb-3" v-for="item in recentComplaints">
+                <router-link class="route-link-view" to="/merchant/complaint-details">
+                  <user-complaint-card>
+                  </user-complaint-card>
+                </router-link>
+              </li>
             </ul>
 
             <div class="block">
               <div v-if="!recentComplaints.length"><p>没有数据哦</p></div>
 
               <el-pagination
-                layout="prev, pager, next"
                 :page-size="10"
+                :total="recentComplaints.length"
                 hide-on-single-page
-                :total="recentComplaints.length">
+                layout="prev, pager, next">
               </el-pagination>
             </div>
           </el-tab-pane>
@@ -83,7 +87,6 @@
       UserComplaintCard,
     },
     props: {
-      from: String,
       tab: String,
     },
   })
