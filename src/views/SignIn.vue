@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { phonePattern } from '@/constants';
+import { phonePattern, SignInType } from '@/constants';
 import { ElForm } from 'element-ui/types/form';
 
 @Component({
@@ -45,6 +45,7 @@ import { ElForm } from 'element-ui/types/form';
   },
 })
 export default class SignIn extends Vue {
+  from: SignInType;
   form = {
     username: '',
     password: '',
@@ -63,7 +64,7 @@ export default class SignIn extends Vue {
   submitForm() {
     (this.$refs.form as ElForm).validate(valid => {
       if  (valid) {
-        alert('submit!');
+        this.$router.push({name: this.from === SignInType.Customer ? 'profile' : 'dashboard'});
       } else {
         return false;
       }

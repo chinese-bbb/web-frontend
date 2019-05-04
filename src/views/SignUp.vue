@@ -62,7 +62,7 @@ export default class SignIn extends Vue {
   submitForm() {
     (this.$refs.form as ElForm).validate(valid => {
       if  (valid) {
-        alert('submit!');
+        this.$router.push({name: 'cSignUpSuccess'});
       } else {
         return false;
       }

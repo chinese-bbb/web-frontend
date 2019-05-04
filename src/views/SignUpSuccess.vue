@@ -1,5 +1,5 @@
 <template>
-  <div class="signup-success-view">
+  <div class="signup-success-view container text-center">
     <template v-if="from === 'c'">
       <h2 class="title"><i class="el-icon-success"></i>注册成功</h2>
 
@@ -21,6 +21,7 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator';
+  import { SignInType } from '@/constants';
 
   @Component({
     props: {
@@ -28,6 +29,8 @@
     },
   })
   export default class SignUpSuccess extends Vue {
+    from: SignInType;
+
     gotoRealNameAuth() {
       this.$router.push({ name: 'realnameAuth' });
     }
