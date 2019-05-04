@@ -1,5 +1,6 @@
 <template>
-  <div v-show="active" class="wizard-tab-container"
+  <div v-show="active"
+       class="wizard-tab-container"
        role="tabpanel"
        :id="tabId"
        :aria-hidden="!active"

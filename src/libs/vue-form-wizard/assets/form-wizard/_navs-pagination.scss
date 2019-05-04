@@ -20,7 +20,6 @@
         margin: 0 auto;
         color: $form-placeholder-color;
         position: relative;
-        top: 3px;
         &:hover,
         &:focus{
             background-color: transparent;
@@ -39,6 +38,9 @@
         background-color: transparent;
         @include transition-font-size(.2s, linear);
 
+        .step-title {
+          color: $white-color;
+        }
 
         .wizard-icon{
             color: $white-color;
