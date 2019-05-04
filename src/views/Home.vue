@@ -4,7 +4,7 @@
       <el-input
         class="search-input"
         v-model="searchStr"
-        @input="search"
+        @keyup.enter.native="search"
         placeholder="请输入您想查询的商户/产品/关键词"
         suffix-icon="el-icon-search">
       </el-input>
@@ -54,26 +54,27 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
-  @Component({
-    components: {},
-  })
-  export default class Home extends Vue {
-    searchStr: string = '';
+@Component({
+  components: {},
+})
+export default class Home extends Vue {
+  searchStr: string = '';
 
-    mounted() {
-      this.$store.commit('visitHomePage');
-    }
-
-    beforeDestroy() {
-      this.$store.commit('leaveHomePage');
-    }
-
-    search() {
-      // do something
-    }
+  mounted() {
+    this.$store.commit('visitHomePage');
   }
+
+  beforeDestroy() {
+    this.$store.commit('leaveHomePage');
+  }
+
+  search() {
+    // do something
+    this.$router.push({name: 'search'});
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -98,7 +99,6 @@
     width: 20rem;
     font-size: 1.5em;
     text-decoration: none;
-    color: $--color-primary-inverse;
   }
 
   .news-img {

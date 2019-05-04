@@ -19,6 +19,11 @@ export default new Router({
       component: () => import('./views/SearchResult.vue'),
     },
     {
+      path: '/merchant-info',
+      name: 'merchantInfo',
+      component: () => import('./views/MerchantInfo.vue'),
+    },
+    {
       path: '/customer',
       component: () => import('./views/customer/CustomerPortal.vue'),
       children: [
