@@ -21,6 +21,15 @@
   color: $--color-primary-inverse;
 }
 
+.search-input .el-input-group__append {
+  background-color: $--color-primary;
+  border: 0;
+
+  .el-button:hover {
+    color: $--color-primary-inverse;
+  }
+}
+
 .route-link-view:hover {
   text-decoration: none;
 }

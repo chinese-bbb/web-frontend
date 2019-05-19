@@ -22,7 +22,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import './styles/helper.scss';
+  @import 'styles/helper';
 
   .el-main {
     min-height: calc(100vh - #{$headerHeight + $footerHeight});
