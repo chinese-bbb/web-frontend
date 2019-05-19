@@ -38,6 +38,7 @@
     "@vue/cli-service": "^3.6.0",
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-core": "7.0.0-bridge.0",
+    "husky": "^2.3.0",
     "lint-staged": "^8.1.5",
     "node-sass": "^4.9.2",
     "prettier": "^1.17.0",
@@ -47,8 +48,10 @@
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.5.21"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.ts": [
@@ -59,6 +62,10 @@
     "*.vue": [
       "prettier",
       "vue-cli-service lint",
+      "git add"
+    ],
+    "*.scss": [
+      "prettier",
       "git add"
     ]
   }

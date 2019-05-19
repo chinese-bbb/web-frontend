@@ -7,8 +7,7 @@
             <ul class="complaints-list list-unstyled">
               <li :key="item" class="mb-3" v-for="item in recentComplaints">
                 <router-link class="route-link-view" to="/merchant/complaint-details">
-                  <user-complaint-card>
-                  </user-complaint-card>
+                  <user-complaint-card> </user-complaint-card>
                 </router-link>
               </li>
             </ul>
@@ -20,7 +19,8 @@
                 :page-size="10"
                 :total="recentComplaints.length"
                 hide-on-single-page
-                layout="prev, pager, next">
+                layout="prev, pager, next"
+              >
               </el-pagination>
             </div>
           </el-tab-pane>
@@ -37,11 +37,7 @@
 
       <el-col :span="8" class="side-col">
         <div class="search-wrapper">
-          <el-input
-            :value="searchStr"
-            @input="search"
-            placeholder="请输入投诉消息关键词"
-            suffix-icon="el-icon-search">
+          <el-input :value="searchStr" @input="search" placeholder="请输入投诉消息关键词" suffix-icon="el-icon-search">
           </el-input>
         </div>
 
@@ -73,93 +69,94 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import { ElTabPane } from 'element-ui/types/tab-pane';
-  import UserComplaintCard from '@/components/UserComplaintCard.vue';
+import { Component, Vue } from 'vue-property-decorator';
+import { ElTabPane } from 'element-ui/types/tab-pane';
+import UserComplaintCard from '@/components/UserComplaintCard.vue';
 
-  @Component({
-    components: {
-      UserComplaintCard,
-    },
-    props: {
-      tab: String,
-    },
-  })
-  export default class UserInfo extends Vue {
-    activeTab = 'recent';
-    tab: string;
-    timeoutId: number | undefined;
-    searchStr = '';
-    recentComplaints: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+@Component({
+  components: {
+    UserComplaintCard,
+  },
+  props: {
+    tab: String,
+  },
+})
+export default class UserInfo extends Vue {
+  activeTab = 'recent';
+  tab: string;
+  timeoutId: number | undefined;
+  searchStr = '';
+  recentComplaints: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-    search(value: string) {
-      this.searchStr = value;
+  search(value: string) {
+    this.searchStr = value;
 
-      if (this.timeoutId) {
-        clearInterval(this.timeoutId);
-      }
-
-      this.timeoutId = setTimeout(() => {
-        this._search();
-      }, 500);
+    if (this.timeoutId) {
+      clearInterval(this.timeoutId);
     }
 
-    created() {
-      this.activeTab = this.tab || this.activeTab;
-    }
+    this.timeoutId = setTimeout(() => {
+      this._search();
+    }, 500);
+  }
 
-    tabChanged(tab: ElTabPane, event: MouseEvent) {
-      if (this.activeTab !== tab.name) {
-        // do something
-      }
+  created() {
+    this.activeTab = this.tab || this.activeTab;
+  }
 
-      this.activeTab = tab.name;
-    }
-
-    private _search() {
+  tabChanged(tab: ElTabPane, event: MouseEvent) {
+    if (this.activeTab !== tab.name) {
       // do something
     }
+
+    this.activeTab = tab.name;
   }
+
+  private _search() {
+    // do something
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-  @import "../../styles/helper";
+@import '../../styles/helper';
 
-  .main-col {
-    //background-color: #666666;
+.main-col {
+  //background-color: #666666;
+}
+
+.side-col {
+  //background-color: #CCCCCC;
+}
+
+.el-tabs /deep/ {
+  .el-tabs__nav-wrap {
+    margin-bottom: 0;
   }
 
-  .side-col {
-    //background-color: #CCCCCC;
+  .el-tabs__header {
+    border-bottom-width: 2px;
   }
 
-  .el-tabs /deep/ {
-    .el-tabs__nav-wrap {
-      margin-bottom: 0;
-    }
-
-    .el-tabs__header {
-      border-bottom-width: 2px;
-    }
-
-    .el-tabs__nav {
-      border-radius: 0;
-    }
-
-    .el-tabs__nav, .el-tabs__item {
-      border: 0 !important;
-    }
-
-    .el-tabs__item.is-active {
-      background-color: $--color-primary;
-      color: $--color-primary-inverse;
-    }
+  .el-tabs__nav {
+    border-radius: 0;
   }
 
-  .complaints-list {
+  .el-tabs__nav,
+  .el-tabs__item {
+    border: 0 !important;
   }
 
-  .username {
-    font-size: 2em;
+  .el-tabs__item.is-active {
+    background-color: $--color-primary;
+    color: $--color-primary-inverse;
   }
+}
+
+.complaints-list {
+}
+
+.username {
+  font-size: 2em;
+}
 </style>

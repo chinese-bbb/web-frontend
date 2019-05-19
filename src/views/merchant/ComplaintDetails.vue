@@ -11,7 +11,8 @@
 
           <div class="content">
             <p class="brief-summary">
-              300字雷克雅未克大教堂位于市中心，全名叫哈尔格林姆斯教堂（Hallgrimskirkja），以冰岛著名文学家哈尔格林姆斯的名字而命名，纪念他对冰岛文学的巨大贡献。该教堂于1940年开始奠基，于六十年代末基本完工。由于经费靠教会筹集和信徒捐助。雷克雅未克大教堂位于市中心，全名叫哈尔格林姆斯教堂（Hallgrimskirkja），以冰岛著名文学家哈尔格林姆斯的名字而命名，纪念他对冰岛文学的巨大贡献。该教堂于1940年开始奠基，于六十年代末基本完工。由于经费靠教会筹集和信徒捐助。雷克雅未克大教堂位于市中心，全名叫哈尔格林姆斯教堂（Hallgrimskirkja），以冰岛著名文学家哈尔格林姆斯的名字而命名，纪念他对冰岛文学的巨大贡献。该教堂于1940年开始奠基，于六十年代末基本完工。由于经费靠教会筹集和信徒捐助。</p>
+              300字雷克雅未克大教堂位于市中心，全名叫哈尔格林姆斯教堂（Hallgrimskirkja），以冰岛著名文学家哈尔格林姆斯的名字而命名，纪念他对冰岛文学的巨大贡献。该教堂于1940年开始奠基，于六十年代末基本完工。由于经费靠教会筹集和信徒捐助。雷克雅未克大教堂位于市中心，全名叫哈尔格林姆斯教堂（Hallgrimskirkja），以冰岛著名文学家哈尔格林姆斯的名字而命名，纪念他对冰岛文学的巨大贡献。该教堂于1940年开始奠基，于六十年代末基本完工。由于经费靠教会筹集和信徒捐助。雷克雅未克大教堂位于市中心，全名叫哈尔格林姆斯教堂（Hallgrimskirkja），以冰岛著名文学家哈尔格林姆斯的名字而命名，纪念他对冰岛文学的巨大贡献。该教堂于1940年开始奠基，于六十年代末基本完工。由于经费靠教会筹集和信徒捐助。
+            </p>
           </div>
         </el-card>
 
@@ -29,7 +30,6 @@
                 </div>
 
                 <p class="comment-content">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx11</p>
-
               </div>
             </li>
 
@@ -53,11 +53,7 @@
         <div class="mt-5">
           <h3>回复</h3>
 
-          <el-input
-            type="textarea"
-            :autosize="{ minRows: 4}"
-            placeholder="请输入内容">
-          </el-input>
+          <el-input type="textarea" :autosize="{ minRows: 4 }" placeholder="请输入内容"> </el-input>
 
           <div class="text-right mt-2">
             <el-button class="btn-submit" type="primary" @click="reply()">提交</el-button>
@@ -73,41 +69,39 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
-  @Component({
-    components: {},
-  })
-  export default class ComplaintDetails extends Vue {
-
-    reply() {
-      // do something
-    }
+@Component({
+  components: {},
+})
+export default class ComplaintDetails extends Vue {
+  reply() {
+    // do something
   }
+}
 </script>
 
 <style lang="scss" scoped>
-  @import "../../styles/helper";
+@import '../../styles/helper';
 
-  .complaint-main-info {
-    //height: 450px;
-  }
+.complaint-main-info {
+  //height: 450px;
+}
 
-  .thumb {
-    font-size: 64px;
-    line-height: 1;
-  }
+.thumb {
+  font-size: 64px;
+  line-height: 1;
+}
 
-  .invoice-info {
-    height: 250px;
-  }
-  .btn-submit {
-    width: 10em;
-  }
+.invoice-info {
+  height: 250px;
+}
+.btn-submit {
+  width: 10em;
+}
 
-  .comment:not(:last-child) {
-    margin-bottom: 1rem;
-    border-bottom: 1px solid $--border-color-light;
-  }
-
+.comment:not(:last-child) {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid $--border-color-light;
+}
 </style>

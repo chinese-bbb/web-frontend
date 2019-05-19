@@ -19,11 +19,11 @@ $--color-primary-inverse: #fff;
 $--color-text-primary: #333;
 $--color-text-regular: #666;
 $--color-text-secondary: #999;
-$--color-text-placeholder: #CCC;
+$--color-text-placeholder: #ccc;
 
 // border-color
-$--border-color-base: #D7d7d7;
-$--border-color-light: #E4e4e4;
+$--border-color-base: #d7d7d7;
+$--border-color-light: #e4e4e4;
 $--border-color-lighter: #f2f2f2;
 
 // font size
@@ -51,4 +51,4 @@ $--xxl: 1920px;
 
 // NOTE: due to special design in element-ui, its var import should be put at the bottom
 // because its internal import var everywhere which causes undesired overlap
-@import "~element-ui/packages/theme-chalk/src/common/var";
+@import '~element-ui/packages/theme-chalk/src/common/var';

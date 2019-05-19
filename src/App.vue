@@ -3,7 +3,7 @@
     <el-container>
       <app-header></app-header>
       <el-main>
-        <router-view/>
+        <router-view />
       </el-main>
       <el-footer height="80px">Footer</el-footer>
     </el-container>
@@ -11,20 +11,19 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import AppHeader from '@/components/Header.vue';
+import { Component, Vue } from 'vue-property-decorator';
+import AppHeader from '@/components/Header.vue';
 
-  @Component({
-    components: { AppHeader },
-  })
-  export default class App extends Vue {
-  }
+@Component({
+  components: { AppHeader },
+})
+export default class App extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-  @import 'styles/helper';
+@import 'styles/helper';
 
-  .el-main {
-    min-height: calc(100vh - #{$headerHeight + $footerHeight});
-  }
+.el-main {
+  min-height: calc(100vh - #{$headerHeight + $footerHeight});
+}
 </style>

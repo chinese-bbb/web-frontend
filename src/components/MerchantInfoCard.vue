@@ -17,43 +17,41 @@
 </template>
 
 <script>
-  import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
-  @Component
-  export default class MerchantInfoCard extends Vue {
-
-  }
+@Component
+export default class MerchantInfoCard extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-  @import "../styles/helper";
-  $card-height: 142px;
+@import '../styles/helper';
+$card-height: 142px;
 
-  .media {
-    background-color: #fafafa;
-  }
+.media {
+  background-color: #fafafa;
+}
 
-  .thumb {
-    width: $card-height;
-    height: $card-height;
-    background-color: #CCCCCC;
-  }
+.thumb {
+  width: $card-height;
+  height: $card-height;
+  background-color: #cccccc;
+}
 
-  .title {
-    //font-size: ;
-  }
+.title {
+  //font-size: ;
+}
 
-  .media-content {
-    text-align: left;
-    padding: $grid-gutter-width / 2;
-  }
+.media-content {
+  text-align: left;
+  padding: $grid-gutter-width / 2;
+}
 
-  .media-main-content p{
-    line-height: 20px;
-  }
+.media-main-content p {
+  line-height: 20px;
+}
 
-  .company-name {
-    font-size: 1.5rem;
-    line-height: 1;
-  }
+.company-name {
+  font-size: 1.5rem;
+  line-height: 1;
+}
 </style>

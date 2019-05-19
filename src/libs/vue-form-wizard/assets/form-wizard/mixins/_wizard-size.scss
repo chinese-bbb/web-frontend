@@ -1,8 +1,8 @@
-@mixin wizard-size($name, $size, $font-size){
+@mixin wizard-size($name, $size, $font-size) {
   $computed-font-size: $size/2 + 5px;
 
-  &.#{$name}{
-    .wizard-icon-circle{
+  &.#{$name} {
+    .wizard-icon-circle {
       width: $size;
       height: $size;
       font-size: $font-size;

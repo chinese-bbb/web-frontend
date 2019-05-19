@@ -1,5 +1,5 @@
-@import "mixins/wizard-size";
-@import "variables";
+@import 'mixins/wizard-size';
+@import 'variables';
 
 .vue-form-wizard {
   padding-bottom: 20px;
@@ -78,7 +78,7 @@
   .category {
     font-size: 14px;
     font-weight: 400;
-    color: #9A9A9A;
+    color: #9a9a9a;
     margin-bottom: 0px;
     text-align: center;
   }
@@ -91,14 +91,14 @@
 
       .wizard-progress-bar {
         box-shadow: none;
-        -webkit-transition: width .3s ease;
-        -o-transition: width .3s ease;
-        transition: width .3s ease;
+        -webkit-transition: width 0.3s ease;
+        -o-transition: width 0.3s ease;
+        transition: width 0.3s ease;
       }
     }
   }
   .clearfix::after {
-    content: "";
+    content: '';
     clear: both;
     display: table;
   }
@@ -113,18 +113,18 @@
   }
   @media screen and (max-width: 350px) {
     .wizard-card-footer {
-      display:flex;
+      display: flex;
       justify-content: center;
       flex-direction: column;
       .wizard-footer-left,
       .wizard-footer-right {
         float: none;
-        flex:1;
+        flex: 1;
         display: flex;
-        justify-content:center;
+        justify-content: center;
       }
-      .wizard-footer-right button{
-        margin-top:10px;
+      .wizard-footer-right button {
+        margin-top: 10px;
       }
     }
   }
@@ -142,7 +142,6 @@
     }
     .wizard-card-footer {
       padding-top: 30px;
-
     }
   }
 }

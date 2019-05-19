@@ -9,20 +9,18 @@
       class="upload-box"
       drag
       list-type="picture"
-      ref="uploader">
-
+      ref="uploader"
+    >
       <div class="text-center">
         请点此上传您的身份证照片正面
-        <br>
+        <br />
         或
-        <br>
+        <br />
         将身份证照片正面拖至此框
       </div>
-
     </el-upload>
 
     <el-button @click="submitUpload" type="primary" v-if="fileSelected">上传文件</el-button>
-
   </div>
 </template>
 
@@ -49,27 +47,27 @@ export default class RealNameAuth extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  .realname-verification {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.realname-verification {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .upload-box {
-    line-height: 40px;
-    margin-top: 10vh;
-    margin-bottom: 1rem;
+.upload-box {
+  line-height: 40px;
+  margin-top: 10vh;
+  margin-bottom: 1rem;
 
-    /deep/ {
-      .el-upload-dragger {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+  /deep/ {
+    .el-upload-dragger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-      .el-upload-list__item-thumbnail {
-        object-fit: contain;
-      }
+    .el-upload-list__item-thumbnail {
+      object-fit: contain;
     }
   }
+}
 </style>

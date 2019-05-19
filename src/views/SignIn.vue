@@ -54,9 +54,7 @@ export default class SignIn extends Vue {
   };
 
   rules = {
-    username: [
-      { required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' },
-    ],
+    username: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
     password: [
       { required: true, message: '请输入密码', trigger: 'blur' },
       { min: 6, message: '密码须为6位以上', trigger: 'blur' },
@@ -65,14 +63,16 @@ export default class SignIn extends Vue {
 
   submitForm() {
     (this.$refs.form as ElForm).validate(valid => {
-      if  (valid) {
-        authService.signin(this.form.username, this.form.password)
-          .then(() => {
+      if (valid) {
+        authService.signin(this.form.username, this.form.password).then(
+          () => {
             this.$store.commit('authenticate');
-            this.$router.push({name: this.from === SignInType.Customer ? 'profile' : 'dashboard'});
-          }, () => {
+            this.$router.push({ name: this.from === SignInType.Customer ? 'profile' : 'dashboard' });
+          },
+          () => {
             this.$message.error('登录失败，请重试');
-          });
+          },
+        );
       } else {
         return false;
       }
@@ -82,33 +82,34 @@ export default class SignIn extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  .signin-form {
-    width: 360px;
-    margin-top: 5rem;
+.signin-form {
+  width: 360px;
+  margin-top: 5rem;
+}
+
+.form-title {
+  line-height: 1;
+  font-weight: normal;
+}
+
+.el-input--prefix /deep/ {
+  .el-input__prefix {
+    left: 0.5em;
   }
 
-  .form-title {
-    line-height: 1;
-    font-weight: normal;
+  .el-input__inner {
+    padding-left: 4em;
+  }
+}
+
+.el-form-item:last-child /deep/ .el-form-item__content {
+  &::before,
+  &::after {
+    content: none;
   }
 
-  .el-input--prefix /deep/ {
-    .el-input__prefix {
-      left: .5em
-    }
-
-    .el-input__inner {
-      padding-left: 4em;
-    }
-  }
-
-  .el-form-item:last-child /deep/ .el-form-item__content {
-    &::before, &::after {
-      content: none;
-    }
-
-    display: flex;
-    justify-content: space-between;
-    line-height: 1;
-  }
+  display: flex;
+  justify-content: space-between;
+  line-height: 1;
+}
 </style>

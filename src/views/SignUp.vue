@@ -5,17 +5,16 @@
         <h2 class="form-title text-center mb-3">注册</h2>
 
         <el-form-item prop="phone_num">
-          <el-input placeholder="请输入手机号" v-model="form.phone_num">
-          </el-input>
+          <el-input placeholder="请输入手机号" v-model="form.phone_num"> </el-input>
         </el-form-item>
 
         <el-form-item class="captcha-row" prop="captcha">
           <el-input class="captcha-input" ref="captchaInput" placeholder="请输入验证码" v-model="form.captcha">
           </el-input>
 
-          <el-button class="btn-captha-request ml-2"
-                     :disabled="captchaDisabled"
-                     @click.prevent="requestCaptcha()">获取验证码<span v-if="captchaDisabled">({{counter}}s)</span></el-button>
+          <el-button class="btn-captha-request ml-2" :disabled="captchaDisabled" @click.prevent="requestCaptcha()"
+            >获取验证码<span v-if="captchaDisabled">({{ counter }}s)</span></el-button
+          >
         </el-form-item>
 
         <el-form-item>
@@ -36,7 +35,6 @@ import { ElInput } from 'element-ui/types/input';
   components: {},
 })
 export default class SignIn extends Vue {
-
   counter = 0;
 
   form = {
@@ -45,12 +43,8 @@ export default class SignIn extends Vue {
   };
 
   rules = {
-    phone_num: [
-      { required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' },
-    ],
-    captcha: [
-      { required: true, pattern: captchaPattern, message: '验证码格式有误', trigger: 'blur' },
-    ],
+    phone_num: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
+    captcha: [{ required: true, pattern: captchaPattern, message: '验证码格式有误', trigger: 'blur' }],
   };
 
   captchaDisabled = false;
@@ -62,8 +56,8 @@ export default class SignIn extends Vue {
 
   submitForm() {
     (this.$refs.form as ElForm).validate(valid => {
-      if  (valid) {
-        this.$router.push({name: 'cSignUpSuccess'});
+      if (valid) {
+        this.$router.push({ name: 'cSignUpSuccess' });
       } else {
         return false;
       }
@@ -73,7 +67,6 @@ export default class SignIn extends Vue {
   requestCaptcha() {
     this.countDown();
   }
-
 
   private countDown() {
     this.counter = 59;
@@ -91,26 +84,25 @@ export default class SignIn extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  .signup-form {
-    width: 360px;
-    margin-top: 5rem;
-  }
+.signup-form {
+  width: 360px;
+  margin-top: 5rem;
+}
 
-  .form-title {
-    line-height: 1;
-    font-weight: normal;
-  }
+.form-title {
+  line-height: 1;
+  font-weight: normal;
+}
+
+.captcha-input {
+  width: 50%;
+}
+
+.captcha-row /deep/ .el-form-item__content {
+  display: flex;
 
   .captcha-input {
-    width: 50%;
+    flex-grow: 1;
   }
-
-  .captcha-row /deep/ .el-form-item__content {
-    display: flex;
-
-    .captcha-input {
-      flex-grow: 1;
-    }
-  }
+}
 </style>
-
