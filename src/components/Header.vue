@@ -6,9 +6,9 @@
           <!-- logo -->
           <slot>
             <img
+              :class="{'in-home-page': inHomePage}"
               alt="element-logo"
               class="nav-logo"
-              :class="{'in-home-page': inHomePage}"
               src="../assets/images/logo-inverse.png">
           </slot>
           <span class="title-content">互信公益</span>
@@ -19,7 +19,7 @@
       <ul class="nav">
         <!-- 通知入口 -->
         <li class="nav-item nav-notifications" v-if="isLoggedIn">
-          <el-badge :value="12" class="item nav-item--view">
+          <el-badge :value="12" class="nav-item--view">
             <span><fa-icon icon="bell"></fa-icon></span>
           </el-badge>
           <i></i>
@@ -45,7 +45,7 @@
         </li>
 
         <!-- 用户管理菜单 -->
-        <li class="nav-item nav-theme-switch" v-if="isLoggedIn">
+        <li class="nav-item nav-user-management" v-if="isLoggedIn">
           <el-dropdown class="nav-item--view nav-dropdown">
             <span class="el-dropdown-link">
               <fa-icon icon="user"></fa-icon>
@@ -63,15 +63,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue } from 'vue-property-decorator';
+  import { State } from 'vuex-class';
 
-@Component
-export default class AppHeader extends Vue {
-  public isLoggedIn = false;
-  get inHomePage() {
-    return this.$store.state.inHomePage;
+  @Component
+  export default class AppHeader extends Vue {
+    @State('authenticated') isLoggedIn: boolean;
+    @State('inHomePage') inHomePage: boolean;
   }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -130,7 +129,7 @@ export default class AppHeader extends Vue {
     .nav {
       float: right;
       height: 100%;
-      line-height: 80px;
+      line-height: $headerHeight;
       background: transparent;
       padding: 0;
       margin: 0;
@@ -148,7 +147,7 @@ export default class AppHeader extends Vue {
     .nav-gap {
       position: relative;
       width: 1px;
-      height: 80px;
+      height: $headerHeight;
       padding: 0 $--nav-item-gap;
 
       &::before {
@@ -201,10 +200,11 @@ export default class AppHeader extends Vue {
     .nav-item--view {
       padding: 0 $--nav-item-gap;
     }
-  }
 
-  .nav-notifications {
-    height: 100%;
+    .nav-notifications {
+      height: 100%;
+      margin: 0 $--nav-item-gap * 2;
+    }
   }
 
   .nav-notifications .el-badge {
@@ -276,8 +276,9 @@ export default class AppHeader extends Vue {
   @include media-breakpoint-up(md) {
     .header {
       .nav-logo.in-home-page {
-        width: 200px;
+        width: 140px;
       }
+
       .nav-item {
         a, span {
           font-size: $--header-font-size;

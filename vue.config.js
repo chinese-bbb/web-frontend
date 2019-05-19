@@ -1,5 +1,5 @@
 module.exports = {
-  baseUrl: '',
+  publicPath: '',
   lintOnSave: true,
   devServer: {
     disableHostCheck: true,
