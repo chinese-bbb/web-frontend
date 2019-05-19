@@ -2,7 +2,7 @@
   <div class="signin-view d-flex justify-content-center">
     <el-card class="signin-form">
       <el-form :model="form" :rules="rules" ref="form">
-        <h2 class="form-title mt-0">登录</h2>
+        <h2 class="form-title text-center mb-3">登录</h2>
 
         <el-form-item prop="username">
           <el-input placeholder="" v-model="form.username">
@@ -39,6 +39,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import { phonePattern, SignInType } from '@/constants';
 import { ElForm } from 'element-ui/types/form';
 
+import authService from '../services/authentication.service';
+
 @Component({
   props: {
     from: String,
@@ -64,7 +66,13 @@ export default class SignIn extends Vue {
   submitForm() {
     (this.$refs.form as ElForm).validate(valid => {
       if  (valid) {
-        this.$router.push({name: this.from === SignInType.Customer ? 'profile' : 'dashboard'});
+        authService.signin(this.form.username, this.form.password)
+          .then(() => {
+            this.$store.commit('authenticate');
+            this.$router.push({name: this.from === SignInType.Customer ? 'profile' : 'dashboard'});
+          }, () => {
+            this.$message.error('登录失败，请重试');
+          });
       } else {
         return false;
       }

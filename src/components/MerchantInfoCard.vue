@@ -5,12 +5,12 @@
 
       <div class="media-content">
         <div class="media-main-content">
-          <h3 class="title">商户名称</h3>
-          <p class="industry-type mb-1">行业：xxx</p>
-          <p class="brief-summary mb-0">简介：xxxxxxxxxxxxxxxxxxxxxxxx</p>
+          <h3 class="company-name">奔驰（中国）股份有限公司</h3>
+          <p class="establishment-time mb-0">成立时间 ：2001.5</p>
+          <p class="business-scope mb-0">经营范围 ：汽车及汽车相关服务</p>
+          <p class="corporative-name mb-0">法人姓名 ：赵三例</p>
+          <p class="ibn mb-0">工商号码 ：18758390283665</p>
         </div>
-
-        <span class="score">评分：<span class="score-num">7.9</span></span>
       </div>
     </div>
   </div>
@@ -27,14 +27,15 @@
 
 <style lang="scss" scoped>
   @import "../styles/helper";
+  $card-height: 142px;
 
   .media {
     background-color: #fafafa;
   }
 
   .thumb {
-    width: 120px;
-    height: 120px;
+    width: $card-height;
+    height: $card-height;
     background-color: #CCCCCC;
   }
 
@@ -44,9 +45,15 @@
 
   .media-content {
     text-align: left;
-    display: flex;
-    flex-grow: 1;
-    justify-content: space-between;
     padding: $grid-gutter-width / 2;
+  }
+
+  .media-main-content p{
+    line-height: 20px;
+  }
+
+  .company-name {
+    font-size: 1.5rem;
+    line-height: 1;
   }
 </style>

@@ -1,12 +1,16 @@
 <template>
   <div class="user-complaint-card">
     <div class="media d-flex">
-      <div class="thumb"></div>
+      <div class="header">
+        <span class="complaint-type">投诉类型：xxx</span>
+        <span class="complaint-status">状态：xxx</span>
+        <span class="complaint-owner">投诉人：xxx</span>
+      </div>
 
       <div class="content ml-3">
-        <h3 class="title">xxxxxxxxxxxxxxxxxxxxxxx</h3>
-        <p class="issue-time">投诉时间：xxxxxxxxx</p>
         <p class="brief-summary">简要内容：xxxxxxxxxxxxxxxxxxxxxxxx</p>
+
+        <el-button class="btn-block">查看具体</el-button>
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
   <div class="signup-view d-flex justify-content-center">
     <el-card class="signup-form">
       <el-form :model="form" :rules="rules" ref="form">
-        <h2 class="form-title mt-0">注册</h2>
+        <h2 class="form-title text-center mb-3">注册</h2>
 
         <el-form-item prop="phone_num">
           <el-input placeholder="请输入手机号" v-model="form.phone_num">
@@ -12,6 +12,7 @@
         <el-form-item class="captcha-row" prop="captcha">
           <el-input class="captcha-input" ref="captchaInput" placeholder="请输入验证码" v-model="form.captcha">
           </el-input>
+
           <el-button class="btn-captha-request ml-2"
                      :disabled="captchaDisabled"
                      @click.prevent="requestCaptcha()">获取验证码<span v-if="captchaDisabled">({{counter}}s)</span></el-button>
@@ -74,7 +75,7 @@ export default class SignIn extends Vue {
   }
 
 
-  countDown() {
+  private countDown() {
     this.counter = 59;
     this.captchaDisabled = true;
     this.countDownTimer = setInterval(() => {
