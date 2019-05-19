@@ -28,10 +28,6 @@
           <el-tab-pane label="历史投诉消息" name="history">
             即将推出，敬请期待!
           </el-tab-pane>
-
-          <el-tab-pane label="历史投诉统计" name="analysis">
-            即将推出，敬请期待!
-          </el-tab-pane>
         </el-tabs>
       </el-col>
 
