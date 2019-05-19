@@ -72,6 +72,7 @@ export default new Router({
         {
           path: 'realname-auth', name: 'realnameAuth', component: () => import('./views/customer/RealNameAuth.vue'),
         },
+        { path: 'resetpwd', name: 'resetPwd', component: () => import('./views/resetPassword.vue') },
       ],
     },
     {
