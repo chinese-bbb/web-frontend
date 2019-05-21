@@ -19,12 +19,12 @@
       <!-- nav -->
       <ul class="nav">
         <!-- 通知入口 -->
-        <li class="nav-item nav-notifications" v-if="isLoggedIn">
-          <el-badge :value="12" class="nav-item--view">
-            <span><fa-icon icon="bell"></fa-icon></span>
-          </el-badge>
-          <i></i>
-        </li>
+        <!--        <li class="nav-item nav-notifications" v-if="isLoggedIn">-->
+        <!--          <el-badge :value="12" class="nav-item&#45;&#45;view">-->
+        <!--            <span><fa-icon icon="bell"></fa-icon></span>-->
+        <!--          </el-badge>-->
+        <!--          <i></i>-->
+        <!--        </li>-->
 
         <!-- 登录入口 -->
         <li class="nav-item entrance-item" v-if="!isLoggedIn">
@@ -47,14 +47,14 @@
 
         <!-- 用户管理菜单 -->
         <li class="nav-item nav-user-management" v-if="isLoggedIn">
-          <el-dropdown class="nav-item--view nav-dropdown">
+          <el-dropdown @command="handleCommand" class="nav-item--view nav-dropdown">
             <span class="el-dropdown-link">
               <fa-icon icon="user"></fa-icon>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>用户主页</el-dropdown-item>
-              <el-dropdown-item>用户信息</el-dropdown-item>
-              <el-dropdown-item>设置</el-dropdown-item>
+              <el-dropdown-item command="profile">用户主页</el-dropdown-item>
+              <el-dropdown-item disabled>用户信息</el-dropdown-item>
+              <el-dropdown-item disabled>设置</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </li>
@@ -64,242 +64,252 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
+  import { Component, Vue } from 'vue-property-decorator';
+  import { State } from 'vuex-class';
+  import { UserRole } from '@/store';
 
-@Component
-export default class AppHeader extends Vue {
-  @State('authenticated') isLoggedIn: boolean;
-  @State('inHomePage') inHomePage: boolean;
-}
+  @Component
+  export default class AppHeader extends Vue {
+    @State('authenticated') isLoggedIn: boolean;
+    @State('inHomePage') inHomePage: boolean;
+    @State('userRole') userRole: UserRole | null;
+
+    handleCommand(item: string) {
+      if (item === 'profile' && this.userRole) {
+        this.$router.push({
+          path: this.userRole === UserRole.Customer ? '/customer/profile' : '/merchant/dashboard',
+        });
+      }
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/helper';
+  @import '../styles/helper';
 
-$--nav-item-gap: 15px;
-$--header-text-color: $--color-primary-inverse;
-$--link-color: $--header-text-color;
-$--active-indicator-color: $--header-text-color;
-$--header-font-size: 18px;
+  $--nav-item-gap: 15px;
+  $--header-text-color: $--color-primary-inverse;
+  $--link-color: $--header-text-color;
+  $--active-indicator-color: $--header-text-color;
+  $--header-font-size: 18px;
 
-.header {
-  height: $headerHeight;
-  background-color: $--color-primary;
-  color: $--header-text-color;
-  top: 0;
-  left: 0;
-  width: 100%;
-  line-height: $headerHeight;
-  z-index: 100;
-  position: relative;
-
-  .container {
-    height: 100%;
-    box-sizing: border-box;
-  }
-
-  h1 {
-    margin: 0;
-    float: left;
-    font-size: 32px;
-    font-weight: normal;
-
-    a {
-      text-decoration: none;
-      display: block;
-    }
-  }
-
-  .title {
-    line-height: inherit;
-  }
-
-  .title-link {
-    &:hover {
-      color: inherit;
-    }
-  }
-
-  .title-content {
-    display: block;
-    float: right;
-    margin-left: 1rem;
-  }
-
-  .nav {
-    float: right;
-    height: 100%;
-    line-height: $headerHeight;
-    background: transparent;
-    padding: 0;
-    margin: 0;
-
-    &::before,
-    &::after {
-      display: table;
-      content: '';
-    }
-
-    &::after {
-      clear: both;
-    }
-  }
-
-  .nav-gap {
-    position: relative;
-    width: 1px;
+  .header {
     height: $headerHeight;
-    padding: 0 $--nav-item-gap;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: calc(50% - 8px);
-      width: 1px;
-      height: 16px;
-      background: $--border-color-lighter;
-    }
-  }
-
-  .nav-logo {
-    width: 60px;
-    vertical-align: middle;
-    transition: 0.3s linear;
-  }
-
-  .nav-item {
-    margin: 0;
-    float: left;
-    list-style: none;
-    position: relative;
-    cursor: pointer;
-
-    a {
-      text-decoration: none;
-      color: $--link-color;
-      opacity: 0.5;
-      display: block;
-
-      &.active,
-      &:hover {
-        opacity: 1;
-      }
-
-      &.active::after {
-        content: '';
-        display: inline-block;
-        position: absolute;
-        bottom: 0;
-        left: calc(50% - 15px);
-        width: 30px;
-        height: 2px;
-        background: $--active-indicator-color;
-      }
-    }
-  }
-
-  .nav-item--view {
-    padding: 0 $--nav-item-gap;
-  }
-
-  .nav-notifications {
-    height: 100%;
-    margin: 0 $--nav-item-gap * 2;
-  }
-}
-
-.nav-notifications .el-badge {
-  display: inline;
-  vertical-align: text-bottom;
-  opacity: 0.5;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  .el-badge__content {
-    right: 20px;
-  }
-}
-
-.nav-dropdown {
-  display: block;
-  padding-left: 18px;
-  width: 100%;
-
-  span {
-    display: block;
-    font-size: $--header-font-size;
+    background-color: $--color-primary;
     color: $--header-text-color;
-    transition: 0.2s;
-    padding: 0 $--nav-item-gap;
-    user-select: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    line-height: $headerHeight;
+    z-index: 100;
+    position: relative;
+
+    .container {
+      height: 100%;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      margin: 0;
+      float: left;
+      font-size: 32px;
+      font-weight: normal;
+
+      a {
+        text-decoration: none;
+        display: block;
+      }
+    }
+
+    .title {
+      line-height: inherit;
+    }
+
+    .title-link {
+      &:hover {
+        color: inherit;
+      }
+    }
+
+    .title-content {
+      display: block;
+      float: right;
+      margin-left: 1rem;
+    }
+
+    .nav {
+      float: right;
+      height: 100%;
+      line-height: $headerHeight;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+
+      &::before,
+      &::after {
+        display: table;
+        content: '';
+      }
+
+      &::after {
+        clear: both;
+      }
+    }
+
+    .nav-gap {
+      position: relative;
+      width: 1px;
+      height: $headerHeight;
+      padding: 0 $--nav-item-gap;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: calc(50% - 8px);
+        width: 1px;
+        height: 16px;
+        background: $--border-color-lighter;
+      }
+    }
+
+    .nav-logo {
+      width: 60px;
+      vertical-align: middle;
+      transition: 0.3s linear;
+    }
+
+    .nav-item {
+      margin: 0;
+      float: left;
+      list-style: none;
+      position: relative;
+      cursor: pointer;
+
+      a {
+        text-decoration: none;
+        color: $--link-color;
+        opacity: 0.5;
+        display: block;
+
+        &.active,
+        &:hover {
+          opacity: 1;
+        }
+
+        &.active::after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          bottom: 0;
+          left: calc(50% - 15px);
+          width: 30px;
+          height: 2px;
+          background: $--active-indicator-color;
+        }
+      }
+    }
+
+    .nav-item--view {
+      padding: 0 $--nav-item-gap;
+    }
+
+    .nav-notifications {
+      height: 100%;
+      margin: 0 $--nav-item-gap * 2;
+    }
+  }
+
+  .nav-notifications .el-badge {
+    display: inline;
+    vertical-align: text-bottom;
     opacity: 0.5;
 
     &:hover {
       opacity: 1;
-      cursor: pointer;
+    }
+
+    .el-badge__content {
+      right: 20px;
     }
   }
 
-  &:hover {
+  .nav-dropdown {
+    display: block;
+    padding-left: 18px;
+    width: 100%;
+
     span {
-      color: $--active-indicator-color;
-    }
-  }
-}
+      display: block;
+      font-size: $--header-font-size;
+      color: $--header-text-color;
+      transition: 0.2s;
+      padding: 0 $--nav-item-gap;
+      user-select: none;
+      opacity: 0.5;
 
-.nav-dropdown-list {
-  width: auto;
-}
-
-@include media-breakpoint-down(xs) {
-  .header {
-    .nav-item {
-      margin-left: 6px;
-
-      &.lang-item,
-      &:last-child {
-        margin-left: 10px;
-      }
-
-      a {
-        padding: 0 5px;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
       }
     }
 
-    .nav-theme-switch,
-    .nav-algolia-search {
-      display: none;
-    }
-  }
-}
-
-@include media-breakpoint-up(md) {
-  .header {
-    .nav-logo.in-home-page {
-      width: 140px;
-    }
-
-    .nav-item {
-      a,
+    &:hover {
       span {
-        font-size: $--header-font-size;
+        color: $--active-indicator-color;
       }
     }
+  }
 
-    .nav-dropdown {
-      padding: 0;
-    }
+  .nav-dropdown-list {
+    width: auto;
+  }
 
-    .nav-gap {
-      padding: 0 8px;
-    }
+  @include media-breakpoint-down(xs) {
+    .header {
+      .nav-item {
+        margin-left: 6px;
 
-    .nav-versions {
-      display: none;
+        &.lang-item,
+        &:last-child {
+          margin-left: 10px;
+        }
+
+        a {
+          padding: 0 5px;
+        }
+      }
+
+      .nav-theme-switch,
+      .nav-algolia-search {
+        display: none;
+      }
     }
   }
-}
+
+  @include media-breakpoint-up(md) {
+    .header {
+      .nav-logo.in-home-page {
+        width: 140px;
+      }
+
+      .nav-item {
+        a,
+        span {
+          font-size: $--header-font-size;
+        }
+      }
+
+      .nav-dropdown {
+        padding: 0;
+      }
+
+      .nav-gap {
+        padding: 0 8px;
+      }
+
+      .nav-versions {
+        display: none;
+      }
+    }
+  }
 </style>
