@@ -9,8 +9,12 @@ if (process.env.NODE_ENV === 'production') {
         'App is being served from cache by a service worker.\n' + 'For more details, visit https://goo.gl/AFskqB',
       );
     },
-    registered() {
-      console.log('Service worker has been registered.');
+    registered(registration: ServiceWorkerRegistration) {
+      console.log('Service Worker Registered');
+
+      setInterval(() => {
+        registration.update();
+      }, 1000 * 60 * 60); // e.g. hourly checks
     },
     cached() {
       console.log('Content has been cached for offline use.');
@@ -18,8 +22,10 @@ if (process.env.NODE_ENV === 'production') {
     updatefound() {
       console.log('New content is downloading.');
     },
-    updated() {
-      console.log('New content is available; please refresh.');
+    updated(registration) {
+      document.dispatchEvent(
+        new CustomEvent('swUpdated', { detail: registration }),
+      );
     },
     offline() {
       console.log('No internet connection found. App is running in offline mode.');

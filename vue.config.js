@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: '',
+  publicPath: process.env.NODE_ENV === 'production' ? '/web-frontend/dist/' : '',
   lintOnSave: true,
   devServer: {
     disableHostCheck: true,
@@ -44,9 +44,14 @@ module.exports = {
     },
   },
   pwa: {
+    themeColor: '#1a535c',
+    msTileColor: '#1a535c',
+    workboxPluginMode: 'InjectManifest',
     workboxOptions: {
       importWorkboxFrom: 'disabled',
       importScripts: ['https://g.alicdn.com/kg/workbox/3.6.3/workbox-sw.js'],
+      swSrc: './src/sw.js',
+      swDest: 'service-worker.js',
     },
   },
 };

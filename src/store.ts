@@ -18,7 +18,7 @@ export enum UserRole {
 export default new Vuex.Store<RootState>({
   state: {
     inHomePage: false,
-    authenticated: true,
+    authenticated: false,
     userRole: null,
   },
   mutations: {

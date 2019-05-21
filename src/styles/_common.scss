@@ -33,3 +33,11 @@
 .route-link-view:hover {
   text-decoration: none;
 }
+
+a.primary-router-link {
+  color: $--color-primary;
+}
+
+.new-version-update-notification {
+  border-radius: 3px;
+}
