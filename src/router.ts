@@ -35,7 +35,7 @@ export default new Router({
         {
           path: 'profile',
           name: 'profile',
-          component: () => import('./views/customer/UserInfo.vue'),
+          component: () => import('./views/customer/Profile.vue'),
         },
         {
           path: 'file-complaint',

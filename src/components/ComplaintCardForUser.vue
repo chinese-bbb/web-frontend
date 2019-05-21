@@ -20,7 +20,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class UserComplaintCard extends Vue {}
+export default class ComplaintCardForUser extends Vue {}
 </script>
 
 <style lang="scss" scoped>

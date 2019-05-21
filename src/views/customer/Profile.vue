@@ -7,7 +7,7 @@
             <ul class="complaints-list list-unstyled">
               <li :key="item" class="mb-3" v-for="item in recentComplaints">
                 <router-link class="route-link-view" to="/merchant/complaint-details">
-                  <user-complaint-card> </user-complaint-card>
+                  <complaint-card> </complaint-card>
                 </router-link>
               </li>
             </ul>
@@ -43,21 +43,13 @@
               <fa-icon class="portrait" icon="user-circle" size="6x"></fa-icon>
             </div>
 
-            <h3 class="username">xxx</h3>
+            <h3 class="username"><span class="family-name">王</span>&nbsp;<span class="gender">先生</span></h3>
           </div>
 
           <el-divider></el-divider>
 
-          <p>个人信息</p>
-          <p>个人信息</p>
-          <p>个人信息</p>
-          <p>个人信息</p>
-          <p>个人信息</p>
-          <p>个人信息</p>
-
-          <el-divider></el-divider>
-
-          <p>设置</p>
+          <p>注册时间：2019年3月4日</p>
+          <p class="d-flex justify-content-between"><span>是否实名：否</span> <router-link class="primary-router-link" to="/customer/realname-auth">立即实名</router-link></p>
         </el-card>
       </el-col>
     </el-row>
@@ -67,17 +59,17 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ElTabPane } from 'element-ui/types/tab-pane';
-import UserComplaintCard from '@/components/UserComplaintCard.vue';
+import ComplaintCard from '@/components/ComplaintCard.vue';
 
 @Component({
   components: {
-    UserComplaintCard,
+    ComplaintCard,
   },
   props: {
     tab: String,
   },
 })
-export default class UserInfo extends Vue {
+export default class Profile extends Vue {
   activeTab = 'recent';
   tab: string;
   timeoutId: number | undefined;
@@ -100,7 +92,7 @@ export default class UserInfo extends Vue {
     this.activeTab = this.tab || this.activeTab;
   }
 
-  tabChanged(tab: ElTabPane, event: MouseEvent) {
+  tabChanged(tab: ElTabPane) {
     if (this.activeTab !== tab.name) {
       // do something
     }

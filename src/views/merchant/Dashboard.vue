@@ -7,7 +7,7 @@
             <ul class="complaints-list list-unstyled">
               <li :key="item" class="mb-3" v-for="item in recentComplaints">
                 <router-link class="route-link-view" to="/merchant/complaint-details">
-                  <user-complaint-card> </user-complaint-card>
+                  <complaint-card> </complaint-card>
                 </router-link>
               </li>
             </ul>
@@ -54,11 +54,11 @@
           <p>解决率（12月）：xxx%</p>
           <p>回复速度（12月）：xxx%</p>
 
-          <el-divider></el-divider>
+<!--          <el-divider></el-divider>-->
 
-          <p>商户个体信息</p>
-          <p>联系我们</p>
-          <p>设置</p>
+<!--          <p>商户个体信息</p>-->
+<!--          <p>联系我们</p>-->
+<!--          <p>设置</p>-->
         </el-card>
       </el-col>
     </el-row>
@@ -68,11 +68,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ElTabPane } from 'element-ui/types/tab-pane';
-import UserComplaintCard from '@/components/UserComplaintCard.vue';
+import ComplaintCard from '@/components/ComplaintCard.vue';
 
 @Component({
   components: {
-    UserComplaintCard,
+    ComplaintCard,
   },
   props: {
     tab: String,
