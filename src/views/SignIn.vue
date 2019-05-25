@@ -64,17 +64,14 @@ export default class SignIn extends Vue {
   submitForm() {
     (this.$refs.form as ElForm).validate(valid => {
       if (valid) {
-        this.$store.commit('authenticate', this.form);
-        this.$router.push({ name: this.from === SignInType.Customer ? 'profile' : 'dashboard' });
-        // authService.signin(this.form.username, this.form.password).then(
-        //   () => {
-        //     this.$store.commit('authenticate', this.form);
-        //     this.$router.push({ name: this.from === SignInType.Customer ? 'profile' : 'dashboard' });
-        //   },
-        //   () => {
-        //     this.$message.error('登录失败，请重试');
-        //   },
-        // );
+        authService.signin(this.form.username, this.form.password).then(
+          () => {
+            this.$store.commit('authenticate', this.form);
+            this.$router.push({ name: this.from === SignInType.Customer ? 'profile' : 'dashboard' });
+          }, error => {
+            this.$message.error(error.message);
+          },
+        );
       } else {
         return false;
       }

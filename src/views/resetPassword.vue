@@ -3,7 +3,7 @@
     <h2 class="mb-4">找回密码</h2>
 
     <section v-if="step === 1">
-      <el-form :model="form1" :rules="rules" ref="form1">
+      <el-form :model="form1" :rules="rules" ref="form1" key="form3">
         <el-form-item prop="username">
           <el-input placeholder="手机号" v-model="form1.username"> </el-input>
         </el-form-item>
@@ -25,7 +25,7 @@
     <section v-if="step === 2">
       <p class="hint text-center">验证码已发送到您的手机</p>
 
-      <el-form :model="form2" :rules="rules" ref="form2">
+      <el-form :model="form2" :rules="rules" ref="form2" key="form2">
         <el-form-item prop="username">
           <el-input :disabled="true" placeholder="手机号" v-model="form2.username"> </el-input>
         </el-form-item>
@@ -48,7 +48,7 @@
     <section v-if="step === 3">
       <p class="hint text-center">设置新密码，不少于8位</p>
 
-      <el-form :model="form3" :rules="rules" ref="form3">
+      <el-form :model="form3" :rules="rules" ref="form3" key="form3">
         <el-form-item prop="password">
           <el-input placeholder="请设置您的新密码" show-password v-model="form3.password"> </el-input>
         </el-form-item>
@@ -86,7 +86,6 @@ export default class ResetPassword extends Vue {
     username: '',
     picCaptcha: '',
   };
-
   form2 = {
     username: '',
     smsCaptcha: '',

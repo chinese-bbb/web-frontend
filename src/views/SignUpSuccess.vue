@@ -31,7 +31,7 @@ import { SignInType } from '@/constants';
   },
 })
 export default class SignUpSuccess extends Vue {
-  from: SignInType;
+  from!: SignInType;
 
   gotoRealNameAuth() {
     this.$router.push({ name: 'realnameAuth' });
