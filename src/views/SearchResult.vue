@@ -3,20 +3,20 @@
     <header class="mb-4 text-center">
       <el-input
         :suffix-icon="searchStr ? '' : 'el-icon-search'"
-        @keyup.enter.native="search"
+        @keyup.enter.native="search(searchStr)"
         class="search-input"
         placeholder="请输入您想查询的商户/产品/关键词"
         v-model="searchStr"
       >
-        <el-button @click="search" icon="el-icon-search" slot="append" type="primary" v-if="searchStr">搜索 </el-button>
+        <el-button @click="search(searchStr)" icon="el-icon-search" slot="append" type="primary" v-if="searchStr">搜索 </el-button>
       </el-input>
     </header>
 
     <div class="search-output row">
       <main class="results-wrapper col-12">
-        <div class="filters">
-          筛选器
-        </div>
+<!--        <div class="filters">-->
+<!--          筛选器-->
+<!--        </div>-->
 
         <ul class="results list-unstyled mt-4">
           <li class="mb-3" v-for="item in viewResults" :key="item">
@@ -27,7 +27,7 @@
         </ul>
 
         <div>
-          <div v-if="!viewResults.length"><p>没有数据哦</p></div>
+          <div v-if="!viewResults.length"><p>找不到相关数据哦</p></div>
 
           <el-pagination layout="prev, pager, next" :page-size="10" hide-on-single-page :total="viewResults.length">
           </el-pagination>
@@ -38,10 +38,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import MerchantInfoCard from '@/components/MerchantInfoCard.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+  import MerchantInfoCard from '@/components/MerchantInfoCard.vue';
 
-@Component({
+  import searchService from '../services/search.service';
+
+  @Component({
   components: {
     MerchantInfoCard,
   },
@@ -50,12 +52,19 @@ import MerchantInfoCard from '@/components/MerchantInfoCard.vue';
   },
 })
 export default class MerchantDashboard extends Vue {
+  @Prop(String) queryKey: string;
   activeTab = 'recent';
   searchStr = '';
-  viewResults: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  viewResults: any[] = [];
 
-  search() {
-    // do something
+  search(keyword: string) {
+    searchService.search(keyword).then(() => {
+      this.viewResults = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    });
+  }
+
+  mounted() {
+    this.search(this.queryKey || '');
   }
 }
 </script>

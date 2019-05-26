@@ -55,7 +55,7 @@ export default class Home extends Vue {
 
   search() {
     if (this.$store.state.authenticated) {
-      this.$router.push({ name: 'search' });
+      this.$router.push({ name: 'search', query: { q: this.searchStr }});
     } else {
       this.authDialogVisible = true;
     }

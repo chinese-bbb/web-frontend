@@ -37,6 +37,7 @@ export default new Router({
       name: 'search',
       component: () => import('./views/SearchResult.vue'),
       beforeEnter: commandAuthGuard,
+      props: route => ({ queryKey: route.query.q }),
     },
     {
       path: '/merchant-info',
