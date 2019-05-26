@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 import { SignInType } from '@/constants';
 
 import router from './router';
@@ -53,4 +54,5 @@ export default new Vuex.Store<RootState>({
       });
     },
   },
+  plugins: [createPersistedState({ storage: window.sessionStorage })],
 });
