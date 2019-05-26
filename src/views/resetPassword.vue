@@ -100,11 +100,11 @@ export default class ResetPassword extends Vue {
     username: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
     password: [
       { required: true, message: '请输入密码', trigger: 'blur' },
-      { min: 8, message: '密码须为6位以上', trigger: 'blur' },
+      { min: 8, message: '密码须为8位以上', trigger: 'blur' },
     ],
     confirmPassword: [
       { required: true, message: '请输入密码', trigger: 'blur' },
-      { min: 8, message: '密码须为6位以上', trigger: 'blur' },
+      { min: 8, message: '密码须为8位以上', trigger: 'blur' },
       { validator: this.validateConfirmPass, trigger: 'blur' },
     ],
     smsCaptcha: [
@@ -120,6 +120,10 @@ export default class ResetPassword extends Vue {
   captchaDisabled = false;
   private countDownTimer: undefined | number;
 
+    beforeDestroy() {
+      clearInterval(this.countDownTimer);
+    }
+
   submitPicCaptcha() {
     (this.$refs.form1 as ElForm).validate(valid => {
       if (valid) {
@@ -132,8 +136,9 @@ export default class ResetPassword extends Vue {
   submitSMSCaptcha() {
     (this.$refs.form2 as ElForm).validate(valid => {
       if (valid) {
-        this.form3.username = this.form2.username;
-        this.step = 3;
+      clearInterval(this.countDownTimer);
+      this.form3.username = this.form2.username;
+      this.step = 3;
       }
     });
   }

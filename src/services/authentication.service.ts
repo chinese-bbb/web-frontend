@@ -5,16 +5,20 @@ export class AuthenticationService {
     return axios.post('/login', { phone_num: username, password: pwd });
   }
 
+  public signout() {
+    return axios.post('/logout');
+  }
+
   public signup(phoneNum: string, password: string, sex: string) {
     return axios.post('/register', { phone_num: phoneNum, password, sex });
   }
 
   public sendSMS(phoneNum: string) {
-    return axios.get('/sms', { params: { phone_num: phoneNum } });
+    return axios.get('/sms/' + phoneNum/*, { params: { phone_num: phoneNum } }*/);
   }
 
   public validateSMS(phoneNum: string, captcha: string) {
-    return axios.post('/sms', { phone_num: phoneNum, v_code: captcha });
+    return axios.post('/sms/' + phoneNum, { /*phone_num: phoneNum,*/ v_code: captcha });
   }
 
   public resetPwd(phoneNum: string, password: string) {

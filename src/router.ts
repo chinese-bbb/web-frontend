@@ -1,9 +1,28 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import Router, { NavigationGuard } from 'vue-router';
 import Home from './views/Home.vue';
 import { SignInType } from '@/constants';
+import store from './store';
 
 Vue.use(Router);
+
+const commandAuthGuard: NavigationGuard = (to, from, next) => {
+  if (to.name && (to.name.endsWith('SignUp') || to.name.endsWith('SignIn'))) {
+    if (store.state.authenticated) {
+      Vue.prototype.$message.warning('用户已登录');
+      return next({ name: 'home' });
+    } else {
+      return next();
+    }
+  }
+
+  if (!store.state.authenticated) {
+    Vue.prototype.$message.error('非法访问');
+    next({ name: 'home' });
+  } else {
+    next();
+  }
+};
 
 export default new Router({
   mode: 'history',
@@ -17,15 +36,18 @@ export default new Router({
       path: '/search',
       name: 'search',
       component: () => import('./views/SearchResult.vue'),
+      beforeEnter: commandAuthGuard,
     },
     {
       path: '/merchant-info',
       name: 'merchantInfo',
       component: () => import('./views/MerchantInfo.vue'),
+      beforeEnter: commandAuthGuard,
     },
     {
       path: '/customer',
       component: () => import('./views/customer/CustomerPortal.vue'),
+      beforeEnter: commandAuthGuard,
       children: [
         {
           path: '',
@@ -85,6 +107,7 @@ export default new Router({
     },
     {
       path: '/merchant',
+      beforeEnter: commandAuthGuard,
       component: () => import('./views/merchant/MerchantPortal.vue'),
       children: [
         {
