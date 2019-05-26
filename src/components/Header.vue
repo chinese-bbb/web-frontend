@@ -5,14 +5,15 @@
         <router-link class="title-link" to="/">
           <!-- logo -->
           <slot>
-            <img
+            <logo
               :class="{ 'in-home-page': inHomePage }"
               alt="element-logo"
               class="nav-logo"
-              src="../assets/images/logo-inverse.png"
-            />
+              :svgSrc="svgContent"
+            ></logo>
           </slot>
-          <span class="title-content">互信公益</span>
+
+          <img class="title-content" src="../assets/images/logos/logo-text.inverse.svg" alt="logo-text" />
         </router-link>
       </h1>
 
@@ -55,6 +56,7 @@
               <el-dropdown-item command="profile">用户主页</el-dropdown-item>
               <el-dropdown-item disabled>用户信息</el-dropdown-item>
               <el-dropdown-item disabled>设置</el-dropdown-item>
+              <el-dropdown-item command="signout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </li>
@@ -64,24 +66,32 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import { State } from 'vuex-class';
-  import { UserRole } from '@/store';
+import { Component, Vue } from 'vue-property-decorator';
+import { State } from 'vuex-class';
+import { UserRole } from '@/store';
 
-  @Component
-  export default class AppHeader extends Vue {
-    @State('authenticated') isLoggedIn: boolean;
-    @State('inHomePage') inHomePage: boolean;
-    @State('userRole') userRole: UserRole | null;
+import logoSVG from '!!raw-loader!../assets/images/logos/logo.svg';
 
-    handleCommand(item: string) {
-      if (item === 'profile' && this.userRole) {
-        this.$router.push({
-          path: this.userRole === UserRole.Customer ? '/customer/profile' : '/merchant/dashboard',
-        });
-      }
+@Component
+export default class AppHeader extends Vue {
+  @State('authenticated') isLoggedIn: boolean;
+  @State('inHomePage') inHomePage: boolean;
+  @State('userRole') userRole: UserRole | null;
+
+  svgContent = logoSVG;
+
+  handleCommand(item: string) {
+    if (item === 'profile' && this.userRole) {
+      this.$router.push({
+        path: this.userRole === UserRole.Customer ? '/customer/profile' : '/merchant/dashboard',
+      });
+    }
+
+    if (item === 'signout') {
+      this.$store.dispatch('signout');
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -126,15 +136,29 @@
     }
 
     .title-link {
+      display: flex;
+
       &:hover {
         color: inherit;
       }
     }
 
+    .nav-logo {
+      width: 60px;
+      transition: 0.3s linear;
+
+      /deep/ svg {
+        fill: $--color-primary-inverse;
+      }
+
+      &.in-home-page /deep/ svg {
+        fill: $--color-primary;
+        background-color: $--color-primary-inverse;
+      }
+    }
+
     .title-content {
-      display: block;
-      float: right;
-      margin-left: 1rem;
+      height: $headerHeight;
     }
 
     .nav {
@@ -170,12 +194,6 @@
         height: 16px;
         background: $--border-color-lighter;
       }
-    }
-
-    .nav-logo {
-      width: 60px;
-      vertical-align: middle;
-      transition: 0.3s linear;
     }
 
     .nav-item {
