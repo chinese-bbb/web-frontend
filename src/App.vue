@@ -5,7 +5,15 @@
       <el-main>
         <router-view/>
       </el-main>
-      <el-footer height="80px">Footer</el-footer>
+      <el-footer class="d-flex flex-column justify-content-center" height="80px">
+        <h3 class="footer-title">联系我们</h3>
+
+        <div class="row justify-content-around" style="line-height: 1.5">
+          <div>微信公众号</div>
+          <div>微博</div>
+          <div>邮箱</div>
+        </div>
+      </el-footer>
     </el-container>
   </div>
 </template>
@@ -83,5 +91,13 @@ function createDynamicVnode(options: ComponentOptions<Vue>) {
 
   .el-main {
     min-height: calc(100vh - #{$headerHeight + $footerHeight});
+  }
+
+  .el-footer {
+    color: white;
+  }
+
+  .footer-title {
+    font-size: $--font-size-title;
   }
 </style>
