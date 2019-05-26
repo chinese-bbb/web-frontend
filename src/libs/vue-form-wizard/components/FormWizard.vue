@@ -144,13 +144,13 @@ export default {
       type: String,
       default: 'md',
       validator: value => {
-        let acceptedValues = ['xs', 'sm', 'md', 'lg'];
+        const acceptedValues = ['xs', 'sm', 'md', 'lg'];
         return acceptedValues.indexOf(value) !== -1;
       },
     },
     /**
      * Name of the transition when transition between steps
-     * */
+     */
     transition: {
       type: String,
       default: '',
@@ -224,8 +224,8 @@ export default {
     progress() {
       let percentage = 0;
       if (this.activeTabIndex > 0) {
-        let stepsToAdd = 1;
-        let stepMultiplier = 2;
+        const stepsToAdd = 1;
+        const stepMultiplier = 2;
         percentage = this.stepPercentage * (this.activeTabIndex * stepMultiplier + stepsToAdd);
       } else {
         percentage = this.stepPercentage;
@@ -279,9 +279,9 @@ export default {
       });
     },
     navigateToTab(index) {
-      let validate = index > this.activeTabIndex;
+      const validate = index > this.activeTabIndex;
       if (index <= this.maxStep) {
-        let cb = () => {
+        const cb = () => {
           if (validate && index - this.activeTabIndex > 1) {
             // validate all steps recursively until destination index
             this.changeTab(this.activeTabIndex, this.activeTabIndex + 1);
@@ -301,7 +301,7 @@ export default {
       return index <= this.maxStep;
     },
     nextTab() {
-      let cb = () => {
+      const cb = () => {
         if (this.activeTabIndex < this.tabCount - 1) {
           this.changeTab(this.activeTabIndex, this.activeTabIndex + 1);
           this.afterTabChange(this.activeTabIndex);
@@ -312,7 +312,7 @@ export default {
       this.beforeTabChange(this.activeTabIndex, cb);
     },
     prevTab() {
-      let cb = () => {
+      const cb = () => {
         if (this.activeTabIndex > 0) {
           this.setValidationError(null);
           this.changeTab(this.activeTabIndex, this.activeTabIndex - 1);
@@ -325,18 +325,18 @@ export default {
       }
     },
     focusNextTab() {
-      let tabIndex = getFocusedTabIndex(this.tabs);
+      const tabIndex = getFocusedTabIndex(this.tabs);
       if (tabIndex !== -1 && tabIndex < this.tabs.length - 1) {
-        let tabToFocus = this.tabs[tabIndex + 1];
+        const tabToFocus = this.tabs[tabIndex + 1];
         if (tabToFocus.checked) {
           findElementAndFocus(tabToFocus.tabId);
         }
       }
     },
     focusPrevTab() {
-      let tabIndex = getFocusedTabIndex(this.tabs);
+      const tabIndex = getFocusedTabIndex(this.tabs);
       if (tabIndex !== -1 && tabIndex > 0) {
-        let toFocusId = this.tabs[tabIndex - 1].tabId;
+        const toFocusId = this.tabs[tabIndex - 1].tabId;
         findElementAndFocus(toFocusId);
       }
     },
@@ -356,7 +356,7 @@ export default {
         promiseFn
           .then(res => {
             this.setLoading(false);
-            let validationResult = res === true;
+            const validationResult = res === true;
             this.executeBeforeChange(validationResult, callback);
           })
           .catch(error => {
@@ -365,7 +365,7 @@ export default {
           });
         // we have a simple function
       } else {
-        let validationResult = promiseFn === true;
+        const validationResult = promiseFn === true;
         this.executeBeforeChange(validationResult, callback);
       }
     },
@@ -381,9 +381,9 @@ export default {
       if (this.loading) {
         return;
       }
-      let oldTab = this.tabs[index];
+      const oldTab = this.tabs[index];
       if (oldTab && oldTab.beforeChange !== undefined) {
-        let tabChangeRes = oldTab.beforeChange();
+        const tabChangeRes = oldTab.beforeChange();
         this.validateBeforeChange(tabChangeRes, callback);
       } else {
         callback();
@@ -393,14 +393,14 @@ export default {
       if (this.loading) {
         return;
       }
-      let newTab = this.tabs[index];
+      const newTab = this.tabs[index];
       if (newTab && newTab.afterChange !== undefined) {
         newTab.afterChange();
       }
     },
     changeTab(oldIndex, newIndex, emitChangeEvent = true) {
-      let oldTab = this.tabs[oldIndex];
-      let newTab = this.tabs[newIndex];
+      const oldTab = this.tabs[oldIndex];
+      const newTab = this.tabs[newIndex];
       if (oldTab) {
         oldTab.active = false;
       }
@@ -421,8 +421,8 @@ export default {
     },
     checkRouteChange(route) {
       let matchingTabIndex = -1;
-      let matchingTab = this.tabs.find((tab, index) => {
-        let match = tab.route === route;
+      const matchingTab = this.tabs.find((tab, index) => {
+        const match = tab.route === route;
         if (match) {
           matchingTabIndex = index;
         }
@@ -441,7 +441,7 @@ export default {
     },
     activateTab(index) {
       this.deactivateTabs();
-      let tab = this.tabs[index];
+      const tab = this.tabs[index];
       if (tab) {
         tab.active = true;
         tab.checked = true;

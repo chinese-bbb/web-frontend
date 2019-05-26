@@ -41,7 +41,7 @@ export default {
   props: {
     tab: {
       type: Object,
-      default: () => {},
+      default: () => void 0,
     },
     transition: {
       type: String,
@@ -70,7 +70,7 @@ export default {
       };
     },
     stepTitleStyle() {
-      let isError = this.tab.validationError;
+      const isError = this.tab.validationError;
       return {
         color: isError ? this.tab.errorColor : this.tab.color,
       };

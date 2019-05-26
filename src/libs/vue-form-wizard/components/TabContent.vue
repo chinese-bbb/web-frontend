@@ -44,7 +44,7 @@ export default {
     },
     additionalInfo: {
       type: Object,
-      default: () => {},
+      default: () => void 0,
     },
   },
   inject: ['addTab', 'removeTab'],
