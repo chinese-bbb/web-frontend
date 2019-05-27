@@ -46,7 +46,7 @@ module.exports = {
     },
   },
   chainWebpack: (config) => {
-    if (process.env.NODE_ENV === 'production')
+    if (process.env.NODE_ENV === 'production') {
       config
         .plugin('html')
         .tap(([options]) => [
@@ -55,6 +55,9 @@ module.exports = {
             template: path.resolve('./public/index.prod.html'),
           },
         ]);
+    }
+
+    config.plugins.delete('prefetch');
   },
   pwa: {
     themeColor: '#1a535c',
