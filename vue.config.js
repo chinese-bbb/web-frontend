@@ -67,4 +67,5 @@ module.exports = {
       swDest: 'service-worker.js',
     },
   },
+  transpileDependencies: ['vue-clamp', 'resize-detector']
 };
