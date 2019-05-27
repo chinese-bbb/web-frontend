@@ -3,6 +3,7 @@ import Router, { NavigationGuard, RouteConfig } from 'vue-router';
 import Home from './views/Home.vue';
 import { SignInType } from '@/constants';
 import store from './store';
+import * as NProgress from 'nprogress';
 
 Vue.use(Router);
 
@@ -158,6 +159,15 @@ const routes: RouteConfig[] = [
 const router = new Router({
   mode: 'history',
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  NProgress.start();
+  next();
+});
+
+router.afterEach(() => {
+  NProgress.done();
 });
 
 export default router;
