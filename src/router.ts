@@ -8,7 +8,7 @@ import * as NProgress from 'nprogress';
 Vue.use(Router);
 
 const commandAuthGuard: NavigationGuard = (to, from, next) => {
-  if (to.name && (to.name.endsWith('SignUp') || to.name.endsWith('SignIn'))) {
+  if (to.meta.skipAuthCheck) {
     if (store.state.authenticated) {
       Vue.prototype.$message.warning('用户已登录');
       return next({ name: 'home' });
@@ -85,25 +85,41 @@ const routes: RouteConfig[] = [
         name: 'cSignIn',
         component: () => import('./views/SignIn.vue'),
         props: () => ({ from: SignInType.Customer }),
+        meta: {
+          skipAuthCheck: true,
+        },
       },
       {
         path: 'signup',
         name: 'cSignUp',
         component: () => import('./views/SignUp.vue'),
         props: () => ({ from: SignInType.Customer }),
+        meta: {
+          skipAuthCheck: true,
+        },
       },
       {
         path: 'signup-success',
         name: 'cSignUpSuccess',
         component: () => import('./views/SignUpSuccess.vue'),
         props: () => ({ from: SignInType.Customer }),
+        meta: {
+          skipAuthCheck: true,
+        },
       },
       {
         path: 'realname-auth',
         name: 'realnameAuth',
         component: () => import('./views/customer/RealNameAuth.vue'),
       },
-      { path: 'resetpwd', name: 'resetPwd', component: () => import('./views/resetPassword.vue') },
+      {
+        path: 'resetpwd',
+        name: 'resetPwd',
+        component: () => import('./views/resetPassword.vue'),
+        meta: {
+          skipAuthCheck: true,
+        },
+      },
     ],
   },
   {
@@ -131,12 +147,18 @@ const routes: RouteConfig[] = [
         name: 'mSignIn',
         component: () => import('./views/SignIn.vue'),
         props: () => ({ from: SignInType.Merchant }),
+        meta: {
+          skipAuthCheck: true,
+        },
       },
       {
         path: 'signup-success',
         name: 'mSignUpSuccess',
         component: () => import('./views/SignUpSuccess.vue'),
         props: () => ({ from: SignInType.Merchant }),
+        meta: {
+          skipAuthCheck: true,
+        },
       },
     ],
   },

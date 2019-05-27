@@ -9,3 +9,11 @@ declare module 'vue-clamp' {
   const contents: VueClass <Vue>;
   export default contents;
 }
+
+declare module 'verification-code' {
+  export interface CodeMeta {
+    code: string;
+    dataURL: string;
+  }
+  export function create(): CodeMeta;
+}
