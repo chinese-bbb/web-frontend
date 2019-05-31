@@ -10,7 +10,8 @@
     "prettier-all": "prettier --loglevel error --config-precedence file-override --write ./**/*.{ts,js,vue,scss,css}",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
-    "gh-deploy": "bash ./gh-pages-deploy.sh"
+    "gh-deploy": "bash ./gh-pages-deploy.sh",
+    "s3-deploy": "aws s3 sync dist s3://huxingongyi.com"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
