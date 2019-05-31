@@ -5,6 +5,10 @@
 yarn install
 ```
 
+## Extra Setup!!!
+
+run the `gen.sh` in `./certs` to generate require ssl certificate.
+
 ### Compiles and hot-reloads for development
 ```
 yarn run serve

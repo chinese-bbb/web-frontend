@@ -22,3 +22,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Custom
+certs
+!certs/gen.sh
+!certs/server.csr.cnf
+!certs/v3.ext

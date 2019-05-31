@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 
 module.exports = {
   publicPath: '',
@@ -8,6 +9,10 @@ module.exports = {
     historyApiFallback: {
       rewrites: [{ from: /.*/, to: '/index.html' }],
     },
+    https: {
+      key: fs.readFileSync(path.join(__dirname, './certs/server.key')),
+      cert: fs.readFileSync(path.join(__dirname, './certs/server.crt'))
+    }
   },
   configureWebpack: {
     resolve: {
