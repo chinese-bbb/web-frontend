@@ -64,6 +64,7 @@ const routes: RouteConfig[] = [
         path: 'file-complaint',
         name: 'fileComplaint',
         component: () => import('./views/customer/FileComplaint.vue'),
+        props: route => ({merchantId: route.query.id}),
       },
       {
         path: 'current-complaints',

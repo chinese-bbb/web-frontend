@@ -1,6 +1,6 @@
 <template>
   <div class="file-complaint-view container">
-    <form-wizard @on-complete="onComplete" color="#1a535c" hide-buttons ref="wizard" shape="tab">
+    <form-wizard @on-complete="onComplete" color="#1a535c" hide-buttons ref="wizard" shape="tab" :v-loading="submitting">
       <tab-content title="投诉说明">
         <div class="row">
           <div class="col-8">
@@ -66,7 +66,7 @@
                       <el-radio :label="7">物流问题</el-radio>
                       <el-radio :label="8">商业违规行为等问题</el-radio>
                       <el-radio :label="9"
-                        >其他
+                      >其他
                         <el-input
                           :disabled="complaintTypeForm.complaintType !== 9"
                           name="other"
@@ -79,7 +79,7 @@
                   <li>
                     <h5>你是否已经同商家沟通过？</h5>
 
-                    <el-radio-group v-model="complaintTypeForm.communicated">
+                    <el-radio-group v-model="complaintTypeForm.negotiated">
                       <el-radio :label="true">是</el-radio>
                       <el-radio :label="false">否</el-radio>
                     </el-radio-group>
@@ -90,11 +90,11 @@
 
                     <div>
                       <el-date-picker
-                        :disabled="!complaintTypeForm.communicated"
+                        :disabled="!complaintTypeForm.negotiated"
                         :pickerOptions="pickerOptions"
                         placeholder="选择日期时间"
                         type="datetime"
-                        v-model="complaintTypeForm.communicateDate"
+                        v-model="complaintTypeForm.negotiateDate"
                       >
                       </el-date-picker>
                     </div>
@@ -103,7 +103,7 @@
                   <li>
                     <h5>你是否同意公开投诉内容？</h5>
 
-                    <el-radio-group v-model="complaintTypeForm.willingToExpose">
+                    <el-radio-group v-model="complaintTypeForm.allowPublicView">
                       <el-radio :label="true">是</el-radio>
                       <el-radio :label="false">否</el-radio>
                     </el-radio-group>
@@ -231,11 +231,12 @@
 
                   <el-upload
                     :file-list="uploadForm.invoiceImages"
+                    with-credentials
                     :on-preview="handlePictureCardPreview"
                     :on-remove="removeInvoice"
                     :on-success="handleInvoiceUploadSuccess"
                     :show-file-list="true"
-                    action="https://be9a16ff-96bd-4700-a113-f0692a20855b.mock.pstmn.io/upload"
+                    action="https://api.huxingongyi.com/api/complain/upload_id"
                     class="el-upload"
                     list-type="picture-card"
                   >
@@ -252,6 +253,7 @@
                     :on-remove="removeOtherEvidence"
                     :on-success="handleOtherEvidenceUploadSuccess"
                     :show-file-list="true"
+                    with-credentials
                     action="https://be9a16ff-96bd-4700-a113-f0692a20855b.mock.pstmn.io/upload"
                     class="el-upload"
                     list-type="picture-card"
@@ -261,7 +263,7 @@
                 </el-form-item>
 
                 <el-dialog :visible.sync="dialogVisible">
-                  <img :src="dialogImageUrl" alt="" width="100%" />
+                  <img :src="dialogImageUrl" alt="" width="100%"/>
                 </el-dialog>
 
                 <footer class="text-right">
@@ -296,8 +298,9 @@
               <footer class="text-right">
                 <el-button @click.native="$refs.wizard.prevTab()">上一步</el-button>
 
-                <el-button class="btn-confirm-finish" @click.native="$refs.wizard.nextTab()" size="large" type="primary"
-                  >完成</el-button
+                <el-button @click.native="$refs.wizard.nextTab()" class="btn-confirm-finish" size="large" type="primary"
+                >完成
+                </el-button
                 >
               </footer>
             </el-card>
@@ -313,10 +316,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import FormWizard from '@/libs/vue-form-wizard/components/FormWizard.vue';
 import TabContent from '@/libs/vue-form-wizard/components/TabContent.vue';
 import { ElForm } from 'element-ui/types/form';
+
+import customerService from '../../services/customer.service';
 
 @Component({
   components: {
@@ -325,19 +330,36 @@ import { ElForm } from 'element-ui/types/form';
   },
 })
 export default class FileComplaint extends Vue {
+  @Prop(String) merchantId: string;
+
   dialogImageUrl = '';
   dialogVisible = false;
+  submitting = false;
 
-  complaintTypeForm = {
-    communicateDate: '',
+  complaintTypeForm: {
+    negotiateDate: string | Date
+    otherComplaintType: string
+    complaintType: number
+    negotiated: boolean
+    allowPublicView: boolean
+    allowPress: boolean,
+  } = {
+    negotiateDate: '',
     otherComplaintType: '',
     complaintType: 1,
-    communicated: false,
-    willingToExpose: false,
+    negotiated: false,
+    allowPublicView: false,
     allowPress: false,
   };
 
-  complaintDetailForm = {
+  complaintDetailForm: {
+    content: string
+    expectedSolution: string
+    tradeDate: string | Date
+    tradeInfo: string
+    consumptionAmount: string
+    relatedProducts: string,
+  } = {
     content: '',
     expectedSolution: '',
     tradeDate: '',
@@ -358,6 +380,9 @@ export default class FileComplaint extends Vue {
       { required: false, message: '请输入投诉内容', trigger: 'blur' },
       { min: 300, message: '内容长度不满足要求', trigger: 'blur' },
     ],
+    tradeDate: [
+      { required: true, message: '请输入有效时间', trigger: 'blur' },
+    ],
     expectedSolution: [{ required: false, message: '请输入期望解决方案', trigger: 'blur' }, { min: 150 }],
     uploadedInvoices: [{ required: false, type: 'array', message: '至少上传一张发票图片', trigger: 'blur' }],
   };
@@ -371,15 +396,36 @@ export default class FileComplaint extends Vue {
   };
 
   onComplete() {
-    this.$msgbox
-      .alert('成功提交投诉，请等候商家处理', {
-        showConfirmButton: true,
-        showClose: false,
-        center: true,
-      })
-      .then(() => {
-        this.$message.success('closed');
-      });
+    (this.$refs.wizard as any).setLoading(true);
+    this.submitting = true;
+
+    customerService.createComplaint({
+      merchantId: this.merchantId,
+      complaintType: this.complaintTypeForm.complaintType.toString(),
+      otherComplaintType: this.complaintTypeForm.otherComplaintType,
+      negotiated: this.complaintTypeForm.negotiated,
+      negotiateDate: typeof this.complaintTypeForm.negotiateDate === 'string' ? this.complaintTypeForm.negotiateDate : this.complaintTypeForm.negotiateDate.toISOString(),
+      allowPublicView: this.complaintTypeForm.allowPublicView,
+      allowPress: this.complaintTypeForm.allowPress,
+      mainContent: this.complaintDetailForm.content,
+      expectedSolution: this.complaintDetailForm.expectedSolution,
+      consumptionAmount: this.complaintDetailForm.consumptionAmount,
+      relatedProducts: this.complaintDetailForm.relatedProducts,
+      tradeInfo: this.complaintDetailForm.tradeInfo,
+      purchaseDate: typeof this.complaintDetailForm.tradeDate === 'string' ? this.complaintDetailForm.tradeDate : this.complaintDetailForm.tradeDate.toISOString(),
+    }).then(resp => {
+      this.$msgbox
+        .alert('成功提交投诉，请等候商家处理', {
+          showConfirmButton: true,
+          showClose: false,
+          center: true,
+        })
+        .then(() => {
+          this.$router.push({ name: 'profile' });
+        });
+    }, error => {
+      // do something
+    }).finally(() => this.submitting = false);
   }
 
   validateFormAndJump(form: any, wizard: any) {
@@ -422,39 +468,39 @@ export default class FileComplaint extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.el-radio {
-  display: block;
-}
-
-.hint-card {
-  min-height: 300px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  font-size: 1.25rem;
-}
-
-.vue-form-wizard /deep/ {
-  .wizard-tab-content {
-    margin-top: 2em;
+  .el-radio {
+    display: block;
   }
-}
 
-.without-label /deep/ .el-form-item__content {
-  margin-left: 0 !important;
-}
-
-.complaint-type-questions {
-  li:not(:last-child) {
-    margin-bottom: 1rem;
+  .hint-card {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: 1.25rem;
   }
-}
 
-.el-upload /deep/ .el-upload-list__item-thumbnail {
-  object-fit: contain;
-}
+  .vue-form-wizard /deep/ {
+    .wizard-tab-content {
+      margin-top: 2em;
+    }
+  }
 
-.btn-confirm-finish {
-  width: 10rem;
-}
+  .without-label /deep/ .el-form-item__content {
+    margin-left: 0 !important;
+  }
+
+  .complaint-type-questions {
+    li:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .el-upload /deep/ .el-upload-list__item-thumbnail {
+    object-fit: contain;
+  }
+
+  .btn-confirm-finish {
+    width: 10rem;
+  }
 </style>

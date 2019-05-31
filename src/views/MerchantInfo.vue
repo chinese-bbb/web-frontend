@@ -23,7 +23,7 @@
             chart
           </div>
 
-          <router-link :to="{ name: 'fileComplaint' }" class="btn-file-complaint el-button el-button--primary"
+          <router-link :to="{ name: 'fileComplaint', query: { id: merchantInfo.No } }" class="btn-file-complaint el-button el-button--primary"
           >我要投诉
           </router-link>
         </div>

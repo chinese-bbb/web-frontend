@@ -37,3 +37,56 @@ export interface MerchantDetail {
   TermStart: TimeString;
   UpdatedDate: TimeString;
 }
+
+export interface RawComplaint {
+  merchantId: string;
+  /**
+   * 投诉类型
+   */
+  complaintType: string;
+  /**
+   * 其他投诉类型
+   */
+  otherComplaintType: string;
+  /**
+   * 是否沟通协商过
+   */
+  negotiated: boolean;
+  /**
+   * 沟通时间
+   */
+  negotiateDate: TimeString;
+  /**
+   * 是否允许公开
+   */
+  allowPublicView: boolean;
+  /**
+   * 是否允许媒体报道
+   */
+  allowPress: boolean;
+  /**
+   * 主题投书内容
+   */
+  mainContent: string;
+  /**
+   * 期望方案
+   */
+  expectedSolution: string;
+  /**
+   * 消费总金额
+   */
+  consumptionAmount: string;
+  /**
+   * 关联产品
+   */
+  relatedProducts: string;
+  /**
+   * 交易信息
+   */
+  tradeInfo: string;
+  /**
+   * 交易时间
+   */
+  purchaseDate: TimeString;
+
+}
