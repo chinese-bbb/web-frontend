@@ -51,17 +51,6 @@ module.exports = {
     },
   },
   chainWebpack: (config) => {
-    if (process.env.NODE_ENV === 'production') {
-      config
-        .plugin('html')
-        .tap(([options]) => [
-          {
-            ...options,
-            template: path.resolve('./public/index.prod.html'),
-          },
-        ]);
-    }
-
     config.plugins.delete('prefetch');
   },
   pwa: {
