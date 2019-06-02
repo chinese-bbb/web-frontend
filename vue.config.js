@@ -5,6 +5,7 @@ module.exports = {
   publicPath: '',
   lintOnSave: true,
   devServer: {
+    port: 8080,
     disableHostCheck: true,
     historyApiFallback: {
       rewrites: [{ from: /.*/, to: '/index.html' }],
@@ -12,7 +13,9 @@ module.exports = {
     https: {
       key: fs.readFileSync(path.join(__dirname, './certs/server.key')),
       cert: fs.readFileSync(path.join(__dirname, './certs/server.crt'))
-    }
+    },
+    sockHost: 'localhost',
+    sockPort: '8080'
   },
   configureWebpack: {
     resolve: {
@@ -56,12 +59,11 @@ module.exports = {
   pwa: {
     themeColor: '#1a535c',
     msTileColor: '#1a535c',
-    workboxPluginMode: 'InjectManifest',
     workboxOptions: {
+      clientsClaim: true,
+      cleanupOutdatedCaches: true,
       importWorkboxFrom: 'disabled',
-      importScripts: ['https://g.alicdn.com/kg/workbox/3.6.3/workbox-sw.js'],
-      swSrc: './src/sw.js',
-      swDest: 'service-worker.js',
+      importScripts: ['https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js'],
     },
   },
   transpileDependencies: ['vue-clamp', 'resize-detector']

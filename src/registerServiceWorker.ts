@@ -1,37 +1,53 @@
-/* tslint:disable:no-console */
+// tslint:disable:no-console
+async function tryToRegisterServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    const { Workbox } = await import('workbox-window');
 
-import { register } from 'register-service-worker';
+    const wb = new Workbox(`${process.env.BASE_URL}service-worker.js`);
 
-if (process.env.NODE_ENV === 'production') {
-  register(`${process.env.BASE_URL}service-worker.js`, {
-    ready() {
-      console.log(
-        'App is being served from cache by a service worker.\n' + 'For more details, visit https://goo.gl/AFskqB',
-      );
-    },
-    registered(registration: ServiceWorkerRegistration) {
-      console.log('Service Worker Registered');
+    function installHandler(event: any) {
+      console.debug('Service Worker Installed');
+
+      if (event.isUpdate || event.type === 'externalinstalled') {
+        document.dispatchEvent(
+          new CustomEvent('swUpdated'),
+        );
+      }
+    }
+
+    wb.addEventListener('installed', installHandler);
+    wb.addEventListener('externalinstalled', installHandler);
+
+    let refreshing = false;
+
+    function refreshHandler() {
+      if (refreshing) {
+        return;
+      }
+      refreshing = true;
+      console.debug('Service Worker Refreshing');
+      window.location.reload();
+    }
+
+    wb.addEventListener('controlling', refreshHandler);
+    wb.addEventListener('externalactivated', refreshHandler);
+
+    wb.register().then(registration => {
+      console.debug('Service Worker Installed');
 
       setInterval(() => {
         registration.update();
-      }, 1000 * 60 * 60); // e.g. hourly checks
-    },
-    cached() {
-      console.log('Content has been cached for offline use.');
-    },
-    updatefound() {
-      console.log('New content is downloading.');
-    },
-    updated(registration) {
-      document.dispatchEvent(
-        new CustomEvent('swUpdated', { detail: registration }),
-      );
-    },
-    offline() {
-      console.log('No internet connection found. App is running in offline mode.');
-    },
-    error(error) {
-      console.error('Error during service worker registration:', error);
-    },
-  });
+      }, 1000 * 60 * 60);
+
+      document.addEventListener('refreshApp', () => {
+        if (!registration.waiting) {
+          return;
+        }
+
+        registration.waiting.postMessage({type: 'SKIP_WAITING'});
+      });
+    });
+  }
 }
+
+tryToRegisterServiceWorker();

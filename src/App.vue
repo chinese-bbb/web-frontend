@@ -27,34 +27,15 @@ import { ComponentOptions } from 'vue';
   components: { AppHeader },
 })
 export default class App extends Vue {
-  refreshing = false;
-  registration: ServiceWorkerRegistration | null = null;
-
   created() {
-    document.addEventListener(
-      'swUpdated', this.showRefreshUI as any, { once: true },
-    );
-    navigator.serviceWorker.addEventListener(
-      'controllerchange', () => {
-        if (this.refreshing) {
-          return;
-        }
-        this.refreshing = true;
-        window.location.reload();
-      },
-    );
+    document.addEventListener('swUpdated', this.showRefreshUI as any, { once: true });
   }
 
   refreshApp() {
-    if (!this.registration || !this.registration.waiting) {
-      return;
-    }
-
-    this.registration.waiting.postMessage('skipWaiting');
+    document.dispatchEvent(new CustomEvent('refreshApp'));
   }
 
-  showRefreshUI(e: CustomEvent<ServiceWorkerRegistration>) {
-    this.registration = e.detail;
+  showRefreshUI() {
     const that = this;
 
     const vnode = createDynamicVnode({
