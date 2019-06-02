@@ -30,6 +30,9 @@ const routes: RouteConfig[] = [
     path: '/',
     name: 'home',
     component: Home,
+    meta: {
+      title: '主页',
+    },
   },
   {
     path: '/search',
@@ -37,6 +40,9 @@ const routes: RouteConfig[] = [
     component: () => import('./views/SearchResult.vue'),
     beforeEnter: commandAuthGuard,
     props: route => ({ queryKey: route.query.q }),
+    meta: {
+      title: '商家搜索',
+    },
   },
   {
     path: '/merchant-info/:id',
@@ -59,22 +65,34 @@ const routes: RouteConfig[] = [
         path: 'profile',
         name: 'profile',
         component: () => import('./views/customer/Profile.vue'),
+        meta: {
+          title: '个人主页',
+        },
       },
       {
         path: 'file-complaint',
         name: 'fileComplaint',
         component: () => import('./views/customer/FileComplaint.vue'),
-        props: route => ({merchantId: route.query.id}),
+        props: route => ({ merchantId: route.query.id }),
+        meta: {
+          title: '商家搜索',
+        },
       },
       {
         path: 'current-complaints',
         name: 'currentComplaints',
         component: () => import('./views/customer/CurrentComplaints.vue'),
+        meta: {
+          title: '当前投诉',
+        },
       },
       {
         path: 'complaints-history',
         name: 'complaintsHistory',
         component: () => import('./views/customer/ComplaintsHistory.vue'),
+        meta: {
+          title: '历史投诉',
+        },
       },
       {
         path: 'settings',
@@ -87,6 +105,7 @@ const routes: RouteConfig[] = [
         component: () => import('./views/SignIn.vue'),
         props: () => ({ from: SignInType.Customer }),
         meta: {
+          title: '消费者登录',
           skipAuthCheck: true,
         },
       },
@@ -96,6 +115,7 @@ const routes: RouteConfig[] = [
         component: () => import('./views/SignUp.vue'),
         props: () => ({ from: SignInType.Customer }),
         meta: {
+          title: '消费者注册',
           skipAuthCheck: true,
         },
       },
@@ -105,6 +125,7 @@ const routes: RouteConfig[] = [
         component: () => import('./views/SignUpSuccess.vue'),
         props: () => ({ from: SignInType.Customer }),
         meta: {
+          title: '注册成功',
           skipAuthCheck: true,
         },
       },
@@ -112,12 +133,16 @@ const routes: RouteConfig[] = [
         path: 'realname-auth',
         name: 'realnameAuth',
         component: () => import('./views/customer/RealNameAuth.vue'),
+        meta: {
+          title: '实名认证',
+        },
       },
       {
         path: 'resetpwd',
         name: 'resetPwd',
         component: () => import('./views/resetPassword.vue'),
         meta: {
+          title: '重置密码',
           skipAuthCheck: true,
         },
       },
@@ -137,11 +162,17 @@ const routes: RouteConfig[] = [
         path: 'dashboard',
         name: 'dashboard',
         component: () => import('./views/merchant/Dashboard.vue'),
+        meta: {
+          title: '商家主页',
+        },
       },
       {
         path: 'complaint-details',
         name: 'complaintDetails',
         component: () => import('./views/merchant/ComplaintDetails.vue'),
+        meta: {
+          title: '投诉详情',
+        },
       },
       {
         path: 'signin',
@@ -149,6 +180,17 @@ const routes: RouteConfig[] = [
         component: () => import('./views/SignIn.vue'),
         props: () => ({ from: SignInType.Merchant }),
         meta: {
+          title: '投诉详情',
+          skipAuthCheck: true,
+        },
+      },
+      {
+        path: 'signup',
+        name: 'mSignUp',
+        component: () => import('./views/SignUp.vue'),
+        props: () => ({ from: SignInType.Merchant }),
+        meta: {
+          title: '商家注册',
           skipAuthCheck: true,
         },
       },
@@ -158,6 +200,7 @@ const routes: RouteConfig[] = [
         component: () => import('./views/SignUpSuccess.vue'),
         props: () => ({ from: SignInType.Merchant }),
         meta: {
+          title: '投诉详情',
           skipAuthCheck: true,
         },
       },
@@ -170,11 +213,17 @@ const routes: RouteConfig[] = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import('./views/About.vue'),
+    meta: {
+      title: '关于',
+    },
   },
   {
     path: '/feedback',
     name: 'feedback',
     component: () => import('./views/Feedback.vue'),
+    meta: {
+      title: '反馈',
+    },
   },
   { path: '*', redirect: '/' }, // handle all uncovered routes
 ];
@@ -185,6 +234,11 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  /* 路由发生变化修改页面title */
+  if (to.meta.title) {
+    document.title = '互信公益 - ' + to.meta.title;
+  }
+
   NProgress.start();
   next();
 });
