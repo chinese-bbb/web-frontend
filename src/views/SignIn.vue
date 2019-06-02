@@ -39,7 +39,7 @@
   import { phonePattern, SignInType } from '@/constants';
   import { ElForm } from 'element-ui/types/form';
 
-  import authService from '../services/authentication.service';
+  import {authService} from '../services';
 
   @Component({
     props: {

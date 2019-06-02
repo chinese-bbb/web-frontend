@@ -1,13 +1,12 @@
 import axios from 'axios';
-import { RawComplaint } from '@/models';
 
 export class CustomerService {
   public getCurrentUserInfo() {
     return axios.get('/users/me');
   }
 
-  public createComplaint(rawComplaint: RawComplaint) {
-    return axios.post('/complain', rawComplaint);
+  public queryComplaints(customerId: string) {
+    return axios.get('/complains', {params: {type: 0, id: customerId}});
   }
 }
 

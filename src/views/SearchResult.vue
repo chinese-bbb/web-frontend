@@ -9,7 +9,7 @@
         v-model="searchStr"
         type="search"
       >
-        <el-button @click="search(searchStr)" icon="el-icon-search" slot="append" type="primary" v-if="searchStr">搜索
+        <el-button :loading="loading" @click="search(searchStr)" icon="el-icon-search" slot="append" type="primary" v-if="searchStr">搜索
         </el-button>
       </el-input>
     </header>
@@ -43,7 +43,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import MerchantInfoCard from '@/components/MerchantInfoCard.vue';
 
-import searchService from '../services/search.service';
+import {searchService} from '../services';
 import { SearchItem } from '@/models';
 
 @Component({

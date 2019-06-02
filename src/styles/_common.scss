@@ -23,9 +23,11 @@
 
 .search-input .el-input-group__append {
   background-color: $--color-primary;
+  color: #d9d9d9;
   border: 0;
 
-  .el-button:hover {
+  &:hover {
+    background-color: lighten($--color-primary, 5);
     color: $--color-primary-inverse;
   }
 }
@@ -40,4 +42,18 @@ a.primary-router-link {
 
 .new-version-update-notification {
   border-radius: 3px;
+}
+
+
+// fadein transition
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }

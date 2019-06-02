@@ -72,7 +72,7 @@
   import { ElForm } from 'element-ui/types/form';
   import { CodeMeta, create as createVerificationCode } from 'verification-code';
 
-  import authService from '../services/authentication.service';
+  import {authService} from '../services';
 
   @Component({})
   export default class ResetPassword extends Vue {

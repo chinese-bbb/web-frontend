@@ -65,7 +65,7 @@ export interface RawComplaint {
    */
   allowPress: boolean;
   /**
-   * 主题投书内容
+   * 主题投诉内容
    */
   mainContent: string;
   /**
@@ -75,11 +75,11 @@ export interface RawComplaint {
   /**
    * 消费总金额
    */
-  consumptionAmount: string;
+  totalConsumption: string;
   /**
-   * 关联产品
+   * 涉及产品
    */
-  relatedProducts: string;
+  involvedProducts: string;
   /**
    * 交易信息
    */

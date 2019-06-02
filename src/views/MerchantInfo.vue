@@ -106,7 +106,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import VClamp from 'vue-clamp';
 
-import searchService from '../services/search.service';
+import {searchService} from '../services';
 import { MerchantDetail } from '@/models';
 import { yearDuration } from '@/filters';
 

@@ -68,7 +68,7 @@
   import { ElForm } from 'element-ui/types/form';
   import { ElInput } from 'element-ui/types/input';
 
-  import authService from '../services/authentication.service';
+  import {authService} from '../services';
 
   @Component({
     components: {},
