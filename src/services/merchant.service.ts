@@ -6,7 +6,7 @@ export class MerchantService {
   }
 
   public queryComplaints(merchantId: string) {
-    return axios.get('/complains', {params: {type: 1, id: merchantId}});
+    return axios.get('/complains', { params: { type: 1, id: merchantId } });
   }
 }
 

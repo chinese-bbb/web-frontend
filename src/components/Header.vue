@@ -95,239 +95,239 @@ export default class AppHeader extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/helper';
+@import '../styles/helper';
 
-  $--nav-item-gap: 15px;
-  $--header-text-color: $--color-primary-inverse;
-  $--link-color: $--header-text-color;
-  $--active-indicator-color: $--header-text-color;
-  $--header-font-size: 18px;
+$--nav-item-gap: 15px;
+$--header-text-color: $--color-primary-inverse;
+$--link-color: $--header-text-color;
+$--active-indicator-color: $--header-text-color;
+$--header-font-size: 18px;
 
-  .header {
-    height: $headerHeight;
-    background-color: $--color-primary;
-    color: $--header-text-color;
-    top: 0;
-    left: 0;
-    width: 100%;
-    line-height: $headerHeight;
-    z-index: 100;
-    position: relative;
+.header {
+  height: $headerHeight;
+  background-color: $--color-primary;
+  color: $--header-text-color;
+  top: 0;
+  left: 0;
+  width: 100%;
+  line-height: $headerHeight;
+  z-index: 100;
+  position: relative;
 
-    .container {
-      height: 100%;
-      box-sizing: border-box;
-    }
+  .container {
+    height: 100%;
+    box-sizing: border-box;
+  }
 
-    h1 {
-      margin: 0;
-      float: left;
-      font-size: 32px;
-      font-weight: normal;
+  h1 {
+    margin: 0;
+    float: left;
+    font-size: 32px;
+    font-weight: normal;
 
-      a {
-        text-decoration: none;
-        display: block;
-      }
-    }
-
-    .title {
-      line-height: inherit;
-    }
-
-    .title-link {
-      display: flex;
-
-      &:hover {
-        color: inherit;
-      }
-    }
-
-    .nav-logo {
-      width: 60px;
-      transition: 0.3s linear;
-
-      /deep/ svg {
-        fill: $--color-primary-inverse;
-      }
-
-      &.in-home-page /deep/ svg {
-        fill: $--color-primary;
-        background-color: $--color-primary-inverse;
-      }
-    }
-
-    .title-content {
-      height: $headerHeight;
-    }
-
-    .nav {
-      float: right;
-      height: 100%;
-      line-height: $headerHeight;
-      background: transparent;
-      padding: 0;
-      margin: 0;
-
-      &::before,
-      &::after {
-        display: table;
-        content: '';
-      }
-
-      &::after {
-        clear: both;
-      }
-    }
-
-    .nav-gap {
-      position: relative;
-      width: 1px;
-      height: $headerHeight;
-      padding: 0 $--nav-item-gap;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: calc(50% - 8px);
-        width: 1px;
-        height: 16px;
-        background: $--border-color-lighter;
-      }
-    }
-
-    .nav-item {
-      margin: 0;
-      float: left;
-      list-style: none;
-      position: relative;
-      cursor: pointer;
-
-      a {
-        text-decoration: none;
-        color: $--link-color;
-        opacity: 0.5;
-        display: block;
-
-        &.active,
-        &:hover {
-          opacity: 1;
-        }
-
-        &.active::after {
-          content: '';
-          display: inline-block;
-          position: absolute;
-          bottom: 0;
-          left: calc(50% - 15px);
-          width: 30px;
-          height: 2px;
-          background: $--active-indicator-color;
-        }
-      }
-    }
-
-    .nav-item--view {
-      padding: 0 $--nav-item-gap;
-    }
-
-    .nav-notifications {
-      height: 100%;
-      margin: 0 $--nav-item-gap * 2;
+    a {
+      text-decoration: none;
+      display: block;
     }
   }
 
-  .nav-notifications .el-badge {
-    display: inline;
-    vertical-align: text-bottom;
+  .title {
+    line-height: inherit;
+  }
+
+  .title-link {
+    display: flex;
+
+    &:hover {
+      color: inherit;
+    }
+  }
+
+  .nav-logo {
+    width: 60px;
+    transition: 0.3s linear;
+
+    /deep/ svg {
+      fill: $--color-primary-inverse;
+    }
+
+    &.in-home-page /deep/ svg {
+      fill: $--color-primary;
+      background-color: $--color-primary-inverse;
+    }
+  }
+
+  .title-content {
+    height: $headerHeight;
+  }
+
+  .nav {
+    float: right;
+    height: 100%;
+    line-height: $headerHeight;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+
+    &::before,
+    &::after {
+      display: table;
+      content: '';
+    }
+
+    &::after {
+      clear: both;
+    }
+  }
+
+  .nav-gap {
+    position: relative;
+    width: 1px;
+    height: $headerHeight;
+    padding: 0 $--nav-item-gap;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: calc(50% - 8px);
+      width: 1px;
+      height: 16px;
+      background: $--border-color-lighter;
+    }
+  }
+
+  .nav-item {
+    margin: 0;
+    float: left;
+    list-style: none;
+    position: relative;
+    cursor: pointer;
+
+    a {
+      text-decoration: none;
+      color: $--link-color;
+      opacity: 0.5;
+      display: block;
+
+      &.active,
+      &:hover {
+        opacity: 1;
+      }
+
+      &.active::after {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        bottom: 0;
+        left: calc(50% - 15px);
+        width: 30px;
+        height: 2px;
+        background: $--active-indicator-color;
+      }
+    }
+  }
+
+  .nav-item--view {
+    padding: 0 $--nav-item-gap;
+  }
+
+  .nav-notifications {
+    height: 100%;
+    margin: 0 $--nav-item-gap * 2;
+  }
+}
+
+.nav-notifications .el-badge {
+  display: inline;
+  vertical-align: text-bottom;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .el-badge__content {
+    right: 20px;
+  }
+}
+
+.nav-dropdown {
+  display: block;
+  padding-left: 18px;
+  width: 100%;
+
+  span {
+    display: block;
+    font-size: $--header-font-size;
+    color: $--header-text-color;
+    transition: 0.2s;
+    padding: 0 $--nav-item-gap;
+    user-select: none;
     opacity: 0.5;
 
     &:hover {
       opacity: 1;
-    }
-
-    .el-badge__content {
-      right: 20px;
+      cursor: pointer;
     }
   }
 
-  .nav-dropdown {
-    display: block;
-    padding-left: 18px;
-    width: 100%;
-
+  &:hover {
     span {
-      display: block;
-      font-size: $--header-font-size;
-      color: $--header-text-color;
-      transition: 0.2s;
-      padding: 0 $--nav-item-gap;
-      user-select: none;
-      opacity: 0.5;
+      color: $--active-indicator-color;
+    }
+  }
+}
 
-      &:hover {
-        opacity: 1;
-        cursor: pointer;
+.nav-dropdown-list {
+  width: auto;
+}
+
+@include media-breakpoint-down(xs) {
+  .header {
+    .nav-item {
+      margin-left: 6px;
+
+      &.lang-item,
+      &:last-child {
+        margin-left: 10px;
+      }
+
+      a {
+        padding: 0 5px;
       }
     }
 
-    &:hover {
+    .nav-theme-switch,
+    .nav-algolia-search {
+      display: none;
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .header {
+    .nav-logo.in-home-page {
+      width: 140px;
+    }
+
+    .nav-item {
+      a,
       span {
-        color: $--active-indicator-color;
+        font-size: $--header-font-size;
       }
     }
-  }
 
-  .nav-dropdown-list {
-    width: auto;
-  }
+    .nav-dropdown {
+      padding: 0;
+    }
 
-  @include media-breakpoint-down(xs) {
-    .header {
-      .nav-item {
-        margin-left: 6px;
+    .nav-gap {
+      padding: 0 8px;
+    }
 
-        &.lang-item,
-        &:last-child {
-          margin-left: 10px;
-        }
-
-        a {
-          padding: 0 5px;
-        }
-      }
-
-      .nav-theme-switch,
-      .nav-algolia-search {
-        display: none;
-      }
+    .nav-versions {
+      display: none;
     }
   }
-
-  @include media-breakpoint-up(md) {
-    .header {
-      .nav-logo.in-home-page {
-        width: 140px;
-      }
-
-      .nav-item {
-        a,
-        span {
-          font-size: $--header-font-size;
-        }
-      }
-
-      .nav-dropdown {
-        padding: 0;
-      }
-
-      .nav-gap {
-        padding: 0 8px;
-      }
-
-      .nav-versions {
-        display: none;
-      }
-    }
-  }
+}
 </style>

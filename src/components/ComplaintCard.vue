@@ -13,31 +13,28 @@
 </template>
 
 <script>
-  import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
-  @Component()
-  export default class ComplaintCard extends Vue {
-
-  }
+@Component()
+export default class ComplaintCard extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-  .media {
-    background-color: #fafafa;
-  }
+.media {
+  background-color: #fafafa;
+}
 
-  .thumb {
-    width: 120px;
-    height: 120px;
-    background-color: #CCCCCC;
-  }
+.thumb {
+  width: 120px;
+  height: 120px;
+  background-color: #cccccc;
+}
 
-  .title {
-    //font-size: ;
-  }
+.title {
+  //font-size: ;
+}
 
-  .content {
-    text-align: left;
-  }
+.content {
+  text-align: left;
+}
 </style>
-

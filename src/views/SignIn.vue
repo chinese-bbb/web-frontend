@@ -35,84 +35,86 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import { phonePattern, SignInType } from '@/constants';
-  import { ElForm } from 'element-ui/types/form';
+import { Component, Vue } from 'vue-property-decorator';
+import { phonePattern, SignInType } from '@/constants';
+import { ElForm } from 'element-ui/types/form';
 
-  import {authService} from '../services';
+import { authService } from '../services';
 
-  @Component({
-    props: {
-      from: String,
-    },
-  })
-  export default class SignIn extends Vue {
-    from: SignInType;
-    form = {
-      username: '',
-      password: '',
-    };
-    submitting = false;
+@Component({
+  props: {
+    from: String,
+  },
+})
+export default class SignIn extends Vue {
+  from: SignInType;
+  form = {
+    username: '',
+    password: '',
+  };
+  submitting = false;
 
-    rules = {
-      username: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
-      password: [
-        { required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 6, message: '密码须为6位以上', trigger: 'blur' },
-      ],
-    };
+  rules = {
+    username: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
+    password: [
+      { required: true, message: '请输入密码', trigger: 'blur' },
+      { min: 6, message: '密码须为6位以上', trigger: 'blur' },
+    ],
+  };
 
-    submitForm() {
-      (this.$refs.form as ElForm).validate(valid => {
-        if (valid) {
-          this.submitting = true;
-          authService.signin(this.form.username, this.form.password)
-            .then(
-              () => {
-                this.$store.commit('authenticate', { phone: this.form.username, type: this.from });
-                this.$router.push({ name: this.from === SignInType.Customer ? 'profile' : 'dashboard' });
-              }, error => {
-                this.$message.error(error.message);
-              },
-            )
-            .finally(() => this.submitting = false);
-        } else {
-          return false;
-        }
-      });
-    }
+  submitForm() {
+    (this.$refs.form as ElForm).validate(valid => {
+      if (valid) {
+        this.submitting = true;
+        authService
+          .signin(this.form.username, this.form.password)
+          .then(
+            () => {
+              this.$store.commit('authenticate', { phone: this.form.username, type: this.from });
+              this.$router.push({ name: this.from === SignInType.Customer ? 'profile' : 'dashboard' });
+            },
+            error => {
+              this.$message.error(error.message);
+            },
+          )
+          .finally(() => (this.submitting = false));
+      } else {
+        return false;
+      }
+    });
   }
+}
 </script>
 
 <style lang="scss" scoped>
-  .signin-form {
-    width: 360px;
-    margin-top: 5rem;
+.signin-form {
+  width: 360px;
+  margin-top: 5rem;
+}
+
+.form-title {
+  line-height: 1;
+  font-weight: normal;
+}
+
+.el-input--prefix /deep/ {
+  .el-input__prefix {
+    left: 0.5em;
   }
 
-  .form-title {
-    line-height: 1;
-    font-weight: normal;
+  .el-input__inner {
+    padding-left: 4em;
+  }
+}
+
+.el-form-item:last-child /deep/ .el-form-item__content {
+  &::before,
+  &::after {
+    content: none;
   }
 
-  .el-input--prefix /deep/ {
-    .el-input__prefix {
-      left: 0.5em;
-    }
-
-    .el-input__inner {
-      padding-left: 4em;
-    }
-  }
-
-  .el-form-item:last-child /deep/ .el-form-item__content {
-    &::before,
-    &::after {
-      content: none;
-    }
-
-    display: flex;
-    justify-content: space-between;
-    line-height: 1;
-  }
+  display: flex;
+  justify-content: space-between;
+  line-height: 1;
+}
 </style>

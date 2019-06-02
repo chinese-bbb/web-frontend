@@ -49,7 +49,10 @@
           <el-divider></el-divider>
 
           <p>注册时间：2019年3月4日</p>
-          <p class="d-flex justify-content-between"><span>是否实名：否</span> <router-link class="primary-router-link" to="/customer/realname-auth">立即实名</router-link></p>
+          <p class="d-flex justify-content-between">
+            <span>是否实名：否</span>
+            <router-link class="primary-router-link" to="/customer/realname-auth">立即实名</router-link>
+          </p>
         </el-card>
       </el-col>
     </el-row>

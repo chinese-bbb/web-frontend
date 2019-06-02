@@ -1,7 +1,13 @@
 <template>
   <div class="file-complaint-view container">
-    <form-wizard :v-loading="submitting" @on-complete="onComplete" color="#1a535c" hide-buttons ref="wizard"
-                 shape="tab">
+    <form-wizard
+      :v-loading="submitting"
+      @on-complete="onComplete"
+      color="#1a535c"
+      hide-buttons
+      ref="wizard"
+      shape="tab"
+    >
       <tab-content title="投诉说明">
         <div class="row">
           <div class="col-8">
@@ -67,7 +73,7 @@
                       <el-radio :label="7">物流问题</el-radio>
                       <el-radio :label="8">商业违规行为等问题</el-radio>
                       <el-radio :label="9"
-                      >其他
+                        >其他
                         <el-input
                           :disabled="complaintTypeForm.complaintType !== 9"
                           name="other"
@@ -264,7 +270,7 @@
                 </el-form-item>
 
                 <el-dialog :visible.sync="dialogVisible">
-                  <img :src="dialogImageUrl" alt="" width="100%"/>
+                  <img :src="dialogImageUrl" alt="" width="100%" />
                 </el-dialog>
 
                 <footer class="text-right">
@@ -300,9 +306,8 @@
                 <el-button @click.native="$refs.wizard.prevTab()">上一步</el-button>
 
                 <el-button @click.native="$refs.wizard.nextTab()" class="btn-confirm-finish" size="large" type="primary"
-                >完成
-                </el-button
-                >
+                  >完成
+                </el-button>
               </footer>
             </el-card>
           </div>
@@ -317,95 +322,97 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator';
-  import FormWizard from '@/libs/vue-form-wizard/components/FormWizard.vue';
-  import TabContent from '@/libs/vue-form-wizard/components/TabContent.vue';
-  import { ElForm } from 'element-ui/types/form';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import FormWizard from '@/libs/vue-form-wizard/components/FormWizard.vue';
+import TabContent from '@/libs/vue-form-wizard/components/TabContent.vue';
+import { ElForm } from 'element-ui/types/form';
 
-  import { complaintService } from '../../services';
+import { complaintService } from '../../services';
 
-  @Component({
-    components: {
-      FormWizard,
-      TabContent,
+@Component({
+  components: {
+    FormWizard,
+    TabContent,
+  },
+})
+export default class FileComplaint extends Vue {
+  @Prop(String) merchantId: string;
+
+  dialogImageUrl = '';
+  dialogVisible = false;
+  submitting = false;
+
+  complaintTypeForm: {
+    negotiateDate: string | Date;
+    otherComplaintType: string;
+    complaintType: number;
+    negotiated: boolean;
+    allowPublicView: boolean;
+    allowPress: boolean;
+  } = {
+    negotiateDate: '',
+    otherComplaintType: '',
+    complaintType: 1,
+    negotiated: false,
+    allowPublicView: false,
+    allowPress: false,
+  };
+
+  complaintDetailForm: {
+    content: string;
+    expectedSolution: string;
+    tradeDate: string | Date;
+    tradeInfo: string;
+    totalConsumption: string;
+    relatedProducts: string;
+  } = {
+    content: '',
+    expectedSolution: '',
+    tradeDate: '',
+    tradeInfo: '',
+    totalConsumption: '',
+    relatedProducts: '',
+  };
+
+  uploadForm = {
+    invoiceImages: [] as any[],
+    otherEvidenceImages: [] as any[],
+    uploadedInvoices: [] as string[],
+    uploadedOtherEvidences: [] as string[],
+  };
+
+  rules = {
+    content: [
+      { required: false, message: '请输入投诉内容', trigger: 'blur' },
+      { min: 300, message: '内容长度不满足要求', trigger: 'blur' },
+    ],
+    tradeDate: [{ required: true, message: '请输入有效时间', trigger: 'blur' }],
+    expectedSolution: [{ required: false, message: '请输入期望解决方案', trigger: 'blur' }, { min: 150 }],
+    uploadedInvoices: [{ required: false, type: 'array', message: '至少上传一张发票图片', trigger: 'blur' }],
+  };
+
+  pickerOptions = {
+    disabledDate(time: Date) {
+      return time.getTime() > Date.now();
     },
-  })
-  export default class FileComplaint extends Vue {
-    @Prop(String) merchantId: string;
+    format: 'yyyy-MM-dd HH:mm',
+    valueFormat: 'yyyy-MM-dd HH:mm',
+  };
 
-    dialogImageUrl = '';
-    dialogVisible = false;
-    submitting = false;
+  onComplete() {
+    (this.$refs.wizard as any).setLoading(true);
+    this.submitting = true;
 
-    complaintTypeForm: {
-      negotiateDate: string | Date
-      otherComplaintType: string
-      complaintType: number
-      negotiated: boolean
-      allowPublicView: boolean
-      allowPress: boolean,
-    } = {
-      negotiateDate: '',
-      otherComplaintType: '',
-      complaintType: 1,
-      negotiated: false,
-      allowPublicView: false,
-      allowPress: false,
-    };
-
-    complaintDetailForm: {
-      content: string
-      expectedSolution: string
-      tradeDate: string | Date
-      tradeInfo: string
-      totalConsumption: string
-      relatedProducts: string,
-    } = {
-      content: '',
-      expectedSolution: '',
-      tradeDate: '',
-      tradeInfo: '',
-      totalConsumption: '',
-      relatedProducts: '',
-    };
-
-    uploadForm = {
-      invoiceImages: [] as any[],
-      otherEvidenceImages: [] as any[],
-      uploadedInvoices: [] as string[],
-      uploadedOtherEvidences: [] as string[],
-    };
-
-    rules = {
-      content: [
-        { required: false, message: '请输入投诉内容', trigger: 'blur' },
-        { min: 300, message: '内容长度不满足要求', trigger: 'blur' },
-      ],
-      tradeDate: [
-        { required: true, message: '请输入有效时间', trigger: 'blur' },
-      ],
-      expectedSolution: [{ required: false, message: '请输入期望解决方案', trigger: 'blur' }, { min: 150 }],
-      uploadedInvoices: [{ required: false, type: 'array', message: '至少上传一张发票图片', trigger: 'blur' }],
-    };
-
-    pickerOptions = {
-      disabledDate(time: Date) {
-        return time.getTime() > Date.now();
-      },
-      format: 'yyyy-MM-dd HH:mm',
-      valueFormat: 'yyyy-MM-dd HH:mm',
-    };
-
-    onComplete() {
-      (this.$refs.wizard as any).setLoading(true);
-      this.submitting = true;
-
-      complaintService.createComplaint({
+    complaintService
+      .createComplaint({
         merchantId: this.merchantId,
         complaintType: this.complaintTypeForm.complaintType.toString(),
         otherComplaintType: this.complaintTypeForm.otherComplaintType,
         negotiated: this.complaintTypeForm.negotiated,
-        negotiateDate: typeof this.complaintTypeForm.negotiateDate === 'string' ? this.complaintTypeForm.negotiateDate : this.complaintTypeForm.negotiateDate.toISOString(),
+        negotiateDate:
+          typeof this.complaintTypeForm.negotiateDate === 'string'
+            ? this.complaintTypeForm.negotiateDate
+            : this.complaintTypeForm.negotiateDate.toISOString(),
         allowPublicView: this.complaintTypeForm.allowPublicView,
         allowPress: this.complaintTypeForm.allowPress,
         mainContent: this.complaintDetailForm.content,
@@ -413,95 +420,103 @@
         totalConsumption: this.complaintDetailForm.totalConsumption,
         involvedProducts: this.complaintDetailForm.relatedProducts,
         tradeInfo: this.complaintDetailForm.tradeInfo,
-        purchaseDate: typeof this.complaintDetailForm.tradeDate === 'string' ? this.complaintDetailForm.tradeDate : this.complaintDetailForm.tradeDate.toISOString(),
-      }).then(resp => {
-        this.$msgbox
-          .alert('成功提交投诉，请等候商家处理', {
-            showConfirmButton: true,
-            showClose: false,
-            center: true,
-          })
-          .then(() => {
-            this.$router.push({ name: 'profile' });
-          });
-      }, error => {
-        // do something
-      }).finally(() => this.submitting = false);
-    }
-
-    validateFormAndJump(form: any, wizard: any) {
-      form.validate((valid: boolean) => {
-        if (valid) {
-          wizard.nextTab();
-        }
-      });
-    }
-
-    handlePictureCardPreview(file: any) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    }
-
-    handleInvoiceUploadSuccess(response: any, file: any, filelist: any[]) {
-      this.uploadForm.invoiceImages = filelist;
-      this.uploadForm.uploadedInvoices.push('a');
-      (this.$refs.uploadForm as ElForm).validateField('uploadedInvoices', () => void 0);
-    }
-
-    handleOtherEvidenceUploadSuccess(response: any, file: any, filelist: any[]) {
-      this.uploadForm.otherEvidenceImages = filelist;
-      this.uploadForm.uploadedOtherEvidences.push('a');
-      (this.$refs.uploadForm as ElForm).validateField('uploadedOtherEvidences', () => void 0);
-    }
-
-    removeOtherEvidence(file: any, filelist: any[]) {
-      const index = this.uploadForm.otherEvidenceImages.findIndex(img => img === file);
-      this.uploadForm.uploadedOtherEvidences.splice(index, 1);
-      this.uploadForm.otherEvidenceImages = filelist;
-    }
-
-    removeInvoice(file: any, filelist: any[]) {
-      const index = this.uploadForm.invoiceImages.findIndex(img => img === file);
-      this.uploadForm.uploadedInvoices.splice(index, 1);
-      this.uploadForm.invoiceImages = filelist;
-    }
+        purchaseDate:
+          typeof this.complaintDetailForm.tradeDate === 'string'
+            ? this.complaintDetailForm.tradeDate
+            : this.complaintDetailForm.tradeDate.toISOString(),
+      })
+      .then(
+        resp => {
+          this.$msgbox
+            .alert('成功提交投诉，请等候商家处理', {
+              showConfirmButton: true,
+              showClose: false,
+              center: true,
+            })
+            .then(() => {
+              this.$router.push({ name: 'profile' });
+            });
+        },
+        error => {
+          // do something
+        },
+      )
+      .finally(() => (this.submitting = false));
   }
+
+  validateFormAndJump(form: any, wizard: any) {
+    form.validate((valid: boolean) => {
+      if (valid) {
+        wizard.nextTab();
+      }
+    });
+  }
+
+  handlePictureCardPreview(file: any) {
+    this.dialogImageUrl = file.url;
+    this.dialogVisible = true;
+  }
+
+  handleInvoiceUploadSuccess(response: any, file: any, filelist: any[]) {
+    this.uploadForm.invoiceImages = filelist;
+    this.uploadForm.uploadedInvoices.push('a');
+    (this.$refs.uploadForm as ElForm).validateField('uploadedInvoices', () => void 0);
+  }
+
+  handleOtherEvidenceUploadSuccess(response: any, file: any, filelist: any[]) {
+    this.uploadForm.otherEvidenceImages = filelist;
+    this.uploadForm.uploadedOtherEvidences.push('a');
+    (this.$refs.uploadForm as ElForm).validateField('uploadedOtherEvidences', () => void 0);
+  }
+
+  removeOtherEvidence(file: any, filelist: any[]) {
+    const index = this.uploadForm.otherEvidenceImages.findIndex(img => img === file);
+    this.uploadForm.uploadedOtherEvidences.splice(index, 1);
+    this.uploadForm.otherEvidenceImages = filelist;
+  }
+
+  removeInvoice(file: any, filelist: any[]) {
+    const index = this.uploadForm.invoiceImages.findIndex(img => img === file);
+    this.uploadForm.uploadedInvoices.splice(index, 1);
+    this.uploadForm.invoiceImages = filelist;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-  .el-radio {
-    display: block;
-  }
+.el-radio {
+  display: block;
+}
 
-  .hint-card {
-    min-height: 300px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    font-size: 1.25rem;
-  }
+.hint-card {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 1.25rem;
+}
 
-  .vue-form-wizard /deep/ {
-    .wizard-tab-content {
-      margin-top: 2em;
-    }
+.vue-form-wizard /deep/ {
+  .wizard-tab-content {
+    margin-top: 2em;
   }
+}
 
-  .without-label /deep/ .el-form-item__content {
-    margin-left: 0 !important;
-  }
+.without-label /deep/ .el-form-item__content {
+  margin-left: 0 !important;
+}
 
-  .complaint-type-questions {
-    li:not(:last-child) {
-      margin-bottom: 1rem;
-    }
+.complaint-type-questions {
+  li:not(:last-child) {
+    margin-bottom: 1rem;
   }
+}
 
-  .el-upload /deep/ .el-upload-list__item-thumbnail {
-    object-fit: contain;
-  }
+.el-upload /deep/ .el-upload-list__item-thumbnail {
+  object-fit: contain;
+}
 
-  .btn-confirm-finish {
-    width: 10rem;
-  }
+.btn-confirm-finish {
+  width: 10rem;
+}
 </style>

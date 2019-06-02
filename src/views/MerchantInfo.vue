@@ -8,7 +8,7 @@
           <h3 class="company-name">{{ merchantInfo.Name }}</h3>
 
           <p class="establishment-time">成立时间 ：{{ merchantInfo.StartDate | date }}</p>
-          <p class="years-in-business">营业年数 ：{{ new Date | yearDuration(merchantInfo.StartDate) }}</p>
+          <p class="years-in-business">营业年数 ：{{ new Date() | yearDuration(merchantInfo.StartDate) }}</p>
           <p class="corporative-name">法人姓名 ：{{ merchantInfo.OperName }}</p>
           <p class="ibn">工商号码 ：{{ merchantInfo.CreditCode }}</p>
           <p class="address">地址 ：{{ merchantInfo.Address }}</p>
@@ -23,8 +23,10 @@
             chart
           </div>
 
-          <router-link :to="{ name: 'fileComplaint', query: { id: merchantInfo.No } }" class="btn-file-complaint el-button el-button--primary"
-          >我要投诉
+          <router-link
+            :to="{ name: 'fileComplaint', query: { id: merchantInfo.No } }"
+            class="btn-file-complaint el-button el-button--primary"
+            >我要投诉
           </router-link>
         </div>
       </div>
@@ -95,7 +97,7 @@
         <div v-if="!viewResults.length"><p>没有数据哦</p></div>
 
         <el-button class="btn-block align-self-end" v-if="viewResults.length"
-        >点击显示更多<i class="el-icon-arrow-down"></i>
+          >点击显示更多<i class="el-icon-arrow-down"></i>
         </el-button>
       </div>
     </div>
@@ -106,7 +108,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import VClamp from 'vue-clamp';
 
-import {searchService} from '../services';
+import { searchService } from '../services';
 import { MerchantDetail } from '@/models';
 import { yearDuration } from '@/filters';
 
@@ -139,63 +141,66 @@ export default class MerchantInfoView extends Vue {
 
   mounted() {
     this.loading = true;
-    searchService.queryMerchant(this.id).then(resp => {
-      this.merchantInfo = resp.data.return;
-    }).finally(() => this.loading = false);
+    searchService
+      .queryMerchant(this.id)
+      .then(resp => {
+        this.merchantInfo = resp.data.return;
+      })
+      .finally(() => (this.loading = false));
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/helper';
+@import '../styles/helper';
 
-  .info-card {
-    background-color: #eaeaea;
+.info-card {
+  background-color: #eaeaea;
+}
+
+.merchant-logo {
+  width: 150px;
+  height: 150px;
+}
+
+.company-info {
+  p {
+    margin-bottom: 0.25rem;
   }
+}
 
-  .merchant-logo {
-    width: 150px;
-    height: 150px;
+.analysis {
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-file-complaint {
+  align-self: flex-end;
+  text-decoration: none;
+  width: 12em;
+}
+
+.complaint-info-item {
+  background-color: #fafafa;
+  padding: 15px;
+
+  .header {
+    font-size: $--font-size-primary;
   }
+}
 
-  .company-info {
-    p {
-      margin-bottom: 0.25rem;
-    }
+.complaint-img {
+  height: 150px;
+  width: 150px;
+  background-color: #e4e4e4;
+}
+
+.filters .el-dropdown {
+  cursor: pointer;
+
+  &:not(:last-child) {
+    margin-right: 1.5rem;
   }
-
-  .analysis {
-    height: 480px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .btn-file-complaint {
-    align-self: flex-end;
-    text-decoration: none;
-    width: 12em;
-  }
-
-  .complaint-info-item {
-    background-color: #fafafa;
-    padding: 15px;
-
-    .header {
-      font-size: $--font-size-primary;
-    }
-  }
-
-  .complaint-img {
-    height: 150px;
-    width: 150px;
-    background-color: #e4e4e4;
-  }
-
-  .filters .el-dropdown {
-    cursor: pointer;
-
-    &:not(:last-child) {
-      margin-right: 1.5rem;
-    }
-  }
+}
 </style>

@@ -14,7 +14,7 @@ export class AuthenticationService {
   }
 
   public sendSMS(phoneNum: string) {
-    return axios.get('/sms/' + phoneNum/*, { params: { phone_num: phoneNum } }*/);
+    return axios.get('/sms/' + phoneNum /*, { params: { phone_num: phoneNum } }*/);
   }
 
   public validateSMS(phoneNum: string, captcha: string) {

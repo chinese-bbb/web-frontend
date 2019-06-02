@@ -34,7 +34,7 @@ export default new Vuex.Store<RootState>({
     leaveHomePage(state) {
       state.inHomePage = false;
     },
-    authenticate(state, { phone, type }: { phone: string, type: SignInType }) {
+    authenticate(state, { phone, type }: { phone: string; type: SignInType }) {
       state.authenticated = true;
       state.userPhone = phone;
       state.userRole = SignInType.Customer === type ? UserRole.Customer : UserRole.Merchant;

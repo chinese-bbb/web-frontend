@@ -9,7 +9,14 @@
         v-model="searchStr"
         type="search"
       >
-        <el-button :loading="loading" @click="search(searchStr)" icon="el-icon-search" slot="append" type="primary" v-if="searchStr">搜索
+        <el-button
+          :loading="loading"
+          @click="search(searchStr)"
+          icon="el-icon-search"
+          slot="append"
+          type="primary"
+          v-if="searchStr"
+          >搜索
         </el-button>
       </el-input>
     </header>
@@ -43,7 +50,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import MerchantInfoCard from '@/components/MerchantInfoCard.vue';
 
-import {searchService} from '../services';
+import { searchService } from '../services';
 import { SearchItem } from '@/models';
 
 @Component({
@@ -64,11 +71,12 @@ export default class MerchantDashboard extends Vue {
   search(keyword: string) {
     this.loading = true;
 
-    searchService.search(keyword)
+    searchService
+      .search(keyword)
       .then(resp => {
         this.viewResults = resp.data.return;
       })
-      .finally(() => this.loading = false);
+      .finally(() => (this.loading = false));
   }
 
   mounted() {
@@ -79,16 +87,16 @@ export default class MerchantDashboard extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  .filters {
-    background-color: #eaeaea;
-    height: 100px;
-  }
+.filters {
+  background-color: #eaeaea;
+  height: 100px;
+}
 
-  .search-input {
-    width: 75%;
-  }
+.search-input {
+  width: 75%;
+}
 
-  .results {
-    min-height: 50vh;
-  }
+.results {
+  min-height: 50vh;
+}
 </style>

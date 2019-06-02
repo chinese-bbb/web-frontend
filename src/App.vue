@@ -5,7 +5,7 @@
 
       <el-main>
         <fade-in-transition>
-          <router-view/>
+          <router-view />
         </fade-in-transition>
       </el-main>
 
@@ -23,66 +23,66 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import AppHeader from '@/components/Header.vue';
-  import { ComponentOptions } from 'vue';
+import { Component, Vue } from 'vue-property-decorator';
+import AppHeader from '@/components/Header.vue';
+import { ComponentOptions } from 'vue';
 
-  @Component({
-    components: { AppHeader },
-  })
-  export default class App extends Vue {
-    created() {
-      document.addEventListener('swUpdated', this.showRefreshUI as any, { once: true });
-    }
+@Component({
+  components: { AppHeader },
+})
+export default class App extends Vue {
+  created() {
+    document.addEventListener('swUpdated', this.showRefreshUI as any, { once: true });
+  }
 
-    refreshApp() {
-      document.dispatchEvent(new CustomEvent('refreshApp'));
-    }
+  refreshApp() {
+    document.dispatchEvent(new CustomEvent('refreshApp'));
+  }
 
-    showRefreshUI() {
-      const that = this;
+  showRefreshUI() {
+    const that = this;
 
-      const vnode = createDynamicVnode({
-        template: `<p>发现网站有新版本！<el-button type="primary" size="small" @click="refresh">立即更新</el-button></p>`,
-        methods: {
-          refresh() {
-            that.$message.info('正在更新网站..., 请稍等');
-            that.refreshApp();
-            note.close();
-          },
+    const vnode = createDynamicVnode({
+      template: `<p>发现网站有新版本！<el-button type="primary" size="small" @click="refresh">立即更新</el-button></p>`,
+      methods: {
+        refresh() {
+          that.$message.info('正在更新网站..., 请稍等');
+          that.refreshApp();
+          note.close();
         },
-      });
+      },
+    });
 
-      const note = this.$notify({
-        title: '版本更新',
-        message: vnode,
-        duration: 0,
-        customClass: 'new-version-update-notification',
-      });
-    }
+    const note = this.$notify({
+      title: '版本更新',
+      message: vnode,
+      duration: 0,
+      customClass: 'new-version-update-notification',
+    });
   }
+}
 
-  function createDynamicVnode(options: ComponentOptions<Vue>) {
-    const Comp = Vue.extend(options);
+function createDynamicVnode(options: ComponentOptions<Vue>) {
+  const Comp = Vue.extend(options);
 
-    const instance = new Comp().$mount();
+  const instance = new Comp().$mount();
 
-    return (instance as any)._vnode;
-  }
+  return (instance as any)._vnode;
+}
 </script>
 
 <style lang="scss" scoped>
-  @import 'styles/helper';
+@import 'styles/helper';
 
-  .el-main {
-    min-height: calc(100vh - #{$headerHeight + $footerHeight});
-  }
+.el-main {
+  min-height: calc(100vh - #{$headerHeight + $footerHeight});
+}
 
-  .el-footer {
-    color: white;
-  }
+.el-footer {
+  color: white;
+}
 
-  .footer-title {
-    font-size: $--font-size-title;
-  }
+.footer-title {
+  font-size: $--font-size-title;
+}
 </style>

@@ -9,9 +9,7 @@ async function tryToRegisterServiceWorker() {
       console.debug('Service Worker Installed');
 
       if (event.isUpdate || event.type === 'externalinstalled') {
-        document.dispatchEvent(
-          new CustomEvent('swUpdated'),
-        );
+        document.dispatchEvent(new CustomEvent('swUpdated'));
       }
     }
 
@@ -44,7 +42,7 @@ async function tryToRegisterServiceWorker() {
           return;
         }
 
-        registration.waiting.postMessage({type: 'SKIP_WAITING'});
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
       });
     });
   }

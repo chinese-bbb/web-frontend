@@ -6,7 +6,7 @@ export class CustomerService {
   }
 
   public queryComplaints(customerId: string) {
-    return axios.get('/complains', {params: {type: 0, id: customerId}});
+    return axios.get('/complains', { params: { type: 0, id: customerId } });
   }
 }
 

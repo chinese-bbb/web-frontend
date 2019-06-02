@@ -12,8 +12,12 @@
           <el-input class="captcha-input" placeholder="请输入验证码" ref="captchaInput" v-model="form1.captcha">
           </el-input>
 
-          <el-button :disabled="captchaDisabled" :loading="requestingSms" @click.prevent="requestCaptcha()"
-                     class="btn-captha-request ml-2">获取验证码
+          <el-button
+            :disabled="captchaDisabled"
+            :loading="requestingSms"
+            @click.prevent="requestCaptcha()"
+            class="btn-captha-request ml-2"
+            >获取验证码
             <span v-if="captchaDisabled">({{ counter }}s)</span>
           </el-button>
         </el-form-item>
@@ -26,7 +30,8 @@
         </el-form-item>
 
         <el-form-item class="inline-radios" prop="agreement">
-          <el-radio label="true" v-model="form1.agreement">我已阅读并同意
+          <el-radio label="true" v-model="form1.agreement"
+            >我已阅读并同意
             <a @click.prevent="dialogVisible = true" href="#">用户条款</a>
           </el-radio>
         </el-form-item>
@@ -53,176 +58,187 @@
       </el-form>
     </el-card>
 
-    <el-dialog
-      :before-close="handleClose"
-      :visible.sync="dialogVisible"
-      title="用户条款">
+    <el-dialog :before-close="handleClose" :visible.sync="dialogVisible" title="用户条款">
       <article><p>adlkfjdskfja;ldskf;kajlkdsfjlkadsjflkajdkslfjajkdsfjl</p></article>
     </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import { captchaPattern, phonePattern } from '@/constants';
-  import { ElForm } from 'element-ui/types/form';
-  import { ElInput } from 'element-ui/types/input';
+import { Component, Vue } from 'vue-property-decorator';
+import { captchaPattern, phonePattern } from '@/constants';
+import { ElForm } from 'element-ui/types/form';
+import { ElInput } from 'element-ui/types/input';
 
-  import {authService} from '../services';
+import { authService } from '../services';
 
-  @Component({
-    components: {},
-  })
-  export default class SignUp extends Vue {
-    counter = 0;
-    dialogVisible = false;
-    requestingSms = false;
-    submitting = false;
-    step = 1;
+@Component({
+  components: {},
+})
+export default class SignUp extends Vue {
+  counter = 0;
+  dialogVisible = false;
+  requestingSms = false;
+  submitting = false;
+  step = 1;
 
-    form1 = {
-      phone_num: '',
-      captcha: '',
-      agreement: '',
-      gender: '',
-    };
+  form1 = {
+    phone_num: '',
+    captcha: '',
+    agreement: '',
+    gender: '',
+  };
 
-    form2 = {
-      password: '',
-      confirmPassword: '',
-    };
+  form2 = {
+    password: '',
+    confirmPassword: '',
+  };
 
-    rules = {
-      phone_num: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
-      gender: [{ required: true, message: '请确定用户性别', trigger: 'blur' }],
-      captcha: [{ required: true, pattern: captchaPattern, message: '验证码格式有误', trigger: 'blur' }],
-      agreement: [{ required: true, message: '用户条款未同意', trigger: 'blur' }],
-    };
+  rules = {
+    phone_num: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
+    gender: [{ required: true, message: '请确定用户性别', trigger: 'blur' }],
+    captcha: [{ required: true, pattern: captchaPattern, message: '验证码格式有误', trigger: 'blur' }],
+    agreement: [{ required: true, message: '用户条款未同意', trigger: 'blur' }],
+  };
 
-    passRules = {
-      password: [
-        { required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 8, message: '密码须为8位以上', trigger: 'blur' },
-      ],
-      confirmPassword: [
-        { required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 8, message: '密码须为8位以上', trigger: 'blur' },
-        { validator: this.validateConfirmPass, trigger: 'blur' },
-      ],
-    };
+  passRules = {
+    password: [
+      { required: true, message: '请输入密码', trigger: 'blur' },
+      { min: 8, message: '密码须为8位以上', trigger: 'blur' },
+    ],
+    confirmPassword: [
+      { required: true, message: '请输入密码', trigger: 'blur' },
+      { min: 8, message: '密码须为8位以上', trigger: 'blur' },
+      { validator: this.validateConfirmPass, trigger: 'blur' },
+    ],
+  };
 
-    captchaDisabled = false;
+  captchaDisabled = false;
 
-    private countDownTimer: undefined | number;
+  private countDownTimer: undefined | number;
 
-    beforeDestroy() {
-      clearInterval(this.countDownTimer);
-    }
+  beforeDestroy() {
+    clearInterval(this.countDownTimer);
+  }
 
-    handleClose() {
-      this.dialogVisible = false;
-    }
+  handleClose() {
+    this.dialogVisible = false;
+  }
 
-    tryStep2() {
-      (this.$refs.form as ElForm).validate(valid => {
-        if (valid) {
-          this.submitting = true;
-          authService.validateSMS(this.form1.phone_num, this.form1.captcha)
-            .then(() => {
+  tryStep2() {
+    (this.$refs.form as ElForm).validate(valid => {
+      if (valid) {
+        this.submitting = true;
+        authService
+          .validateSMS(this.form1.phone_num, this.form1.captcha)
+          .then(
+            () => {
               this.step = 2;
               clearInterval(this.countDownTimer);
-            }, error => {
+            },
+            error => {
               this.$message.error(error.message);
-            })
-            .finally(() => this.submitting = false);
-        }
-      });
-    }
+            },
+          )
+          .finally(() => (this.submitting = false));
+      }
+    });
+  }
 
-    submitForm() {
-      (this.$refs.passForm as ElForm).validate(valid => {
-        if (valid) {
-          this.submitting = true;
-          authService.signup(this.form1.phone_num, this.form2.password, this.form1.gender)
-            .then(() => {
+  submitForm() {
+    (this.$refs.passForm as ElForm).validate(valid => {
+      if (valid) {
+        this.submitting = true;
+        authService
+          .signup(this.form1.phone_num, this.form2.password, this.form1.gender)
+          .then(
+            () => {
               this.$router.push({ name: 'cSignUpSuccess' });
-            }, error => {
+            },
+            error => {
               this.$message.error(error.message);
-            })
-            .finally(() => this.submitting = false);
-        }
-      });
-    }
+            },
+          )
+          .finally(() => (this.submitting = false));
+      }
+    });
+  }
 
-    requestCaptcha() {
-      (this.$refs.form as ElForm).validateField('phone_num', err => {
-        if (!err) {
-          this.requestingSms = true;
+  requestCaptcha() {
+    (this.$refs.form as ElForm).validateField('phone_num', err => {
+      if (!err) {
+        this.requestingSms = true;
 
-          authService.sendSMS(this.form1.phone_num).then(() => {
-            this.countDown();
-          }, error => {
-            this.$message.error(error.message);
-          }).finally(() => {
+        authService
+          .sendSMS(this.form1.phone_num)
+          .then(
+            () => {
+              this.countDown();
+            },
+            error => {
+              this.$message.error(error.message);
+            },
+          )
+          .finally(() => {
             this.requestingSms = false;
           });
-        }
-      });
-    }
-
-    private countDown() {
-      this.counter = 59;
-      this.captchaDisabled = true;
-      this.countDownTimer = setInterval(() => {
-        this.counter -= 1;
-        if (this.counter === 0) {
-          clearInterval(this.countDownTimer);
-          this.captchaDisabled = false;
-          (this.$refs.captchaInput as ElInput).focus();
-        }
-      }, 1000);
-    }
-
-    private validateConfirmPass(rule: any, value: string, callback: any) {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.form2.password) {
-        callback(new Error('两次输入密码不一致!'));
-      } else {
-        callback();
       }
+    });
+  }
+
+  private countDown() {
+    this.counter = 59;
+    this.captchaDisabled = true;
+    this.countDownTimer = setInterval(() => {
+      this.counter -= 1;
+      if (this.counter === 0) {
+        clearInterval(this.countDownTimer);
+        this.captchaDisabled = false;
+        (this.$refs.captchaInput as ElInput).focus();
+      }
+    }, 1000);
+  }
+
+  private validateConfirmPass(rule: any, value: string, callback: any) {
+    if (value === '') {
+      callback(new Error('请再次输入密码'));
+    } else if (value !== this.form2.password) {
+      callback(new Error('两次输入密码不一致!'));
+    } else {
+      callback();
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
-  .signup-form {
-    width: 360px;
-    margin-top: 5rem;
-  }
+.signup-form {
+  width: 360px;
+  margin-top: 5rem;
+}
 
-  .form-title {
-    line-height: 1;
-    font-weight: normal;
-  }
+.form-title {
+  line-height: 1;
+  font-weight: normal;
+}
+
+.captcha-input {
+  width: 50%;
+}
+
+.captcha-row /deep/ .el-form-item__content {
+  display: flex;
 
   .captcha-input {
-    width: 50%;
+    flex-grow: 1;
   }
+}
 
-  .captcha-row /deep/ .el-form-item__content {
-    display: flex;
+.inline-radios /deep/ .el-form-item__content {
+  line-height: 1;
 
-    .captcha-input {
-      flex-grow: 1;
-    }
+  .el-radio {
+    margin-bottom: 0;
   }
-
-  .inline-radios /deep/ .el-form-item__content {
-    line-height: 1;
-
-    .el-radio {
-      margin-bottom: 0;
-    }
-  }
+}
 </style>

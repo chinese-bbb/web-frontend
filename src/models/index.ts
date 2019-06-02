@@ -88,5 +88,4 @@ export interface RawComplaint {
    * 交易时间
    */
   purchaseDate: TimeString;
-
 }

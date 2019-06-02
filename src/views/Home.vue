@@ -36,84 +36,84 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
-  @Component({
-    components: {},
-  })
-  export default class Home extends Vue {
-    searchStr: string = '';
-    authDialogVisible = false;
+@Component({
+  components: {},
+})
+export default class Home extends Vue {
+  searchStr: string = '';
+  authDialogVisible = false;
 
-    mounted() {
-      this.$store.commit('visitHomePage');
-    }
+  mounted() {
+    this.$store.commit('visitHomePage');
+  }
 
-    beforeDestroy() {
-      this.$store.commit('leaveHomePage');
-    }
+  beforeDestroy() {
+    this.$store.commit('leaveHomePage');
+  }
 
-    search() {
-      if (this.$store.state.authenticated) {
-        this.$router.push({ name: 'search', query: { q: this.searchStr } });
-      } else {
-        this.authDialogVisible = true;
-      }
+  search() {
+    if (this.$store.state.authenticated) {
+      this.$router.push({ name: 'search', query: { q: this.searchStr } });
+    } else {
+      this.authDialogVisible = true;
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/helper';
+@import '../styles/helper';
 
-  .home {
-    margin: -$--main-padding;
+.home {
+  margin: -$--main-padding;
+}
+
+.top-sec {
+  height: calc(100vh - #{$headerHeight});
+  background-image: url('https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg');
+  background-size: cover;
+}
+
+.search-input {
+  width: 80vw;
+  margin-top: -5em;
+}
+
+.btn-file-complaint {
+  width: 20rem;
+  font-size: 1.5em;
+  text-decoration: none;
+}
+
+.news-img {
+  height: 150px;
+}
+
+.information {
+  height: 300px;
+  background-color: #eaeaea;
+}
+
+.auth-hint {
+  font-size: $--font-size-large;
+
+  a {
+    color: $--link-color;
   }
+}
 
-  .top-sec {
-    height: calc(100vh - #{$headerHeight});
-    background-image: url('https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg');
-    background-size: cover;
-  }
+.el-dialog__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
+@include media-breakpoint-up(lg) {
   .search-input {
-    width: 80vw;
+    width: 40vw;
     margin-top: -5em;
   }
-
-  .btn-file-complaint {
-    width: 20rem;
-    font-size: 1.5em;
-    text-decoration: none;
-  }
-
-  .news-img {
-    height: 150px;
-  }
-
-  .information {
-    height: 300px;
-    background-color: #eaeaea;
-  }
-
-  .auth-hint {
-    font-size: $--font-size-large;
-
-    a {
-      color: $--link-color;
-    }
-  }
-
-  .el-dialog__wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  @include media-breakpoint-up(lg) {
-    .search-input {
-      width: 40vw;
-      margin-top: -5em;
-    }
-  }
+}
 </style>

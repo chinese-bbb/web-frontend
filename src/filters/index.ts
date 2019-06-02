@@ -22,5 +22,7 @@ export function yearDuration(value: string, older: string, empty = '未知') {
   const newDate = new Date(value);
   const oldDate = new Date(older);
 
-  return Duration.fromMillis(newDate.getTime() - oldDate.getTime()).as('years').toFixed();
+  return Duration.fromMillis(newDate.getTime() - oldDate.getTime())
+    .as('years')
+    .toFixed();
 }

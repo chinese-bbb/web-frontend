@@ -12,10 +12,10 @@ module.exports = {
     },
     https: {
       key: fs.readFileSync(path.join(__dirname, './certs/server.key')),
-      cert: fs.readFileSync(path.join(__dirname, './certs/server.crt'))
+      cert: fs.readFileSync(path.join(__dirname, './certs/server.crt')),
     },
     sockHost: 'localhost',
-    sockPort: '8080'
+    sockPort: '8080',
   },
   configureWebpack: {
     resolve: {
@@ -53,7 +53,7 @@ module.exports = {
       },
     },
   },
-  chainWebpack: (config) => {
+  chainWebpack: config => {
     config.plugins.delete('prefetch');
   },
   pwa: {
@@ -66,5 +66,5 @@ module.exports = {
       importScripts: ['https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js'],
     },
   },
-  transpileDependencies: ['vue-clamp', 'resize-detector']
+  transpileDependencies: ['vue-clamp', 'resize-detector'],
 };

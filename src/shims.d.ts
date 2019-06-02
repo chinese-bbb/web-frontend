@@ -6,7 +6,7 @@ declare module '!!raw-loader!*' {
 declare module 'vue-clamp' {
   import { Vue } from 'vue/types/vue';
   import { VueClass } from 'vue-class-component/lib/declarations';
-  const contents: VueClass <Vue>;
+  const contents: VueClass<Vue>;
   export default contents;
 }
 
