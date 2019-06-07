@@ -73,7 +73,7 @@
                       <el-radio :label="7">物流问题</el-radio>
                       <el-radio :label="8">商业违规行为等问题</el-radio>
                       <el-radio :label="9"
-                        >其他
+                      >其他
                         <el-input
                           :disabled="complaintTypeForm.complaintType !== 9"
                           name="other"
@@ -234,43 +234,59 @@
             <el-card shadow="never">
               <el-form :model="uploadForm" :rules="rules" ref="uploadForm">
                 <el-form-item prop="uploadedInvoices">
-                  <h5>1. 购买发票信息</h5>
+                  <h5>1. 购买发票信息 <span class="header-hint">（最多一张图片）</span></h5>
 
                   <el-upload
+                    :action="invoiceUploadUrl"
+                    :before-upload="beforeUpload"
                     :file-list="uploadForm.invoiceImages"
+                    :limit="1"
+                    :on-exceed="handleExceed"
                     :on-preview="handlePictureCardPreview"
                     :on-remove="removeInvoice"
                     :on-success="handleInvoiceUploadSuccess"
                     :show-file-list="true"
-                    action="https://api.huxingongyi.com/api/complain/upload_id"
-                    class="el-upload"
+                    accept=".jpg,.jpeg,.png"
+                    class="evidence-upload"
                     list-type="picture-card"
+                    name="pic_file"
                     with-credentials
                   >
                     <i class="el-icon-plus"></i>
+                    <span>点击上传图片</span>
+
+                    <div class="el-upload__tip" slot="tip">只能上传 jpg/png 文件，且不超过 {{ fileSizeLimit }} MB</div>
                   </el-upload>
                 </el-form-item>
 
                 <el-form-item prop="uploadedOtherEvidences">
-                  <h5>2. 其他图片证据</h5>
+                  <h5>2. 其他图片证据 <span class="header-hint">（最多9张图片）</span></h5>
 
                   <el-upload
+                    :action="invoiceUploadUrl"
+                    :before-upload="beforeUpload"
                     :file-list="uploadForm.otherEvidenceImages"
+                    :limit="9"
+                    :on-exceed="handleExceed"
                     :on-preview="handlePictureCardPreview"
                     :on-remove="removeOtherEvidence"
                     :on-success="handleOtherEvidenceUploadSuccess"
                     :show-file-list="true"
-                    action="https://be9a16ff-96bd-4700-a113-f0692a20855b.mock.pstmn.io/upload"
-                    class="el-upload"
+                    accept=".jpg,.jpeg,.png"
+                    class="evidence-upload"
                     list-type="picture-card"
+                    name="pic_file"
                     with-credentials
                   >
                     <i class="el-icon-plus"></i>
+                    <span>点击上传图片</span>
+
+                    <div class="el-upload__tip" slot="tip">只能上传 jpg/png 文件，且不超过 {{ fileSizeLimit }} MB</div>
                   </el-upload>
                 </el-form-item>
 
                 <el-dialog :visible.sync="dialogVisible">
-                  <img :src="dialogImageUrl" alt="" width="100%" />
+                  <img :src="dialogImageUrl" alt="" width="100%"/>
                 </el-dialog>
 
                 <footer class="text-right">
@@ -306,7 +322,7 @@
                 <el-button @click.native="$refs.wizard.prevTab()">上一步</el-button>
 
                 <el-button @click.native="$refs.wizard.nextTab()" class="btn-confirm-finish" size="large" type="primary"
-                  >完成
+                >完成
                 </el-button>
               </footer>
             </el-card>
@@ -322,6 +338,7 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import FormWizard from '@/libs/vue-form-wizard/components/FormWizard.vue';
 import TabContent from '@/libs/vue-form-wizard/components/TabContent.vue';
@@ -341,6 +358,9 @@ export default class FileComplaint extends Vue {
   dialogImageUrl = '';
   dialogVisible = false;
   submitting = false;
+  // unit: MB
+  fileSizeLimit = 3;
+  invoiceUploadUrl = axios.defaults.baseURL + '/complaint/upload';
 
   complaintTypeForm: {
     negotiateDate: string | Date;
@@ -386,7 +406,7 @@ export default class FileComplaint extends Vue {
       { required: false, message: '请输入投诉内容', trigger: 'blur' },
       { min: 300, message: '内容长度不满足要求', trigger: 'blur' },
     ],
-    tradeDate: [{ required: true, message: '请输入有效时间', trigger: 'blur' }],
+    // tradeDate: [{ required: true, message: '请输入有效时间', trigger: 'blur' }],
     expectedSolution: [{ required: false, message: '请输入期望解决方案', trigger: 'blur' }, { min: 150 }],
     uploadedInvoices: [{ required: false, type: 'array', message: '至少上传一张发票图片', trigger: 'blur' }],
   };
@@ -452,6 +472,36 @@ export default class FileComplaint extends Vue {
     });
   }
 
+  handleExceed() {
+    this.$message({
+      message: `上传文件数量到达上限！`,
+      type: 'warning',
+    });
+  }
+
+  beforeUpload(file: File) {
+    const isIMAGE = file.type === 'image/jpeg' || 'image/png';
+
+    if (!isIMAGE) {
+      this.$message({
+        message: `上传图片格式不支持!`,
+        type: 'warning',
+      });
+
+      return false;
+    }
+
+    const isExceededLimit = file.size / 1024 / 1024 > this.fileSizeLimit;
+    if (isExceededLimit) {
+      this.$message({
+        message: `上传文件大小不能超过 ${this.fileSizeLimit} MB!`,
+        type: 'warning',
+      });
+
+      return false;
+    }
+  }
+
   handlePictureCardPreview(file: any) {
     this.dialogImageUrl = file.url;
     this.dialogVisible = true;
@@ -484,39 +534,59 @@ export default class FileComplaint extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.el-radio {
-  display: block;
-}
+  @import '../../styles/helper';
 
-.hint-card {
-  min-height: 300px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  font-size: 1.25rem;
-}
-
-.vue-form-wizard /deep/ {
-  .wizard-tab-content {
-    margin-top: 2em;
+  .el-radio {
+    display: block;
   }
-}
 
-.without-label /deep/ .el-form-item__content {
-  margin-left: 0 !important;
-}
-
-.complaint-type-questions {
-  li:not(:last-child) {
-    margin-bottom: 1rem;
+  .hint-card {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
   }
-}
 
-.el-upload /deep/ .el-upload-list__item-thumbnail {
-  object-fit: contain;
-}
+  .header-hint {
+    font-size: 14px;
+    color: $--color-danger;
+  }
 
-.btn-confirm-finish {
-  width: 10rem;
-}
+  .vue-form-wizard /deep/ {
+    .wizard-tab-content {
+      margin-top: 2em;
+    }
+  }
+
+  .without-label /deep/ .el-form-item__content {
+    margin-left: 0 !important;
+  }
+
+  .complaint-type-questions {
+    li:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .evidence-upload {
+    line-height: 1;
+  }
+
+  .evidence-upload /deep/ {
+    .el-upload--picture-card {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 2;
+    }
+
+    .el-upload-list__item-thumbnail {
+      object-fit: contain;
+    }
+  }
+
+  .btn-confirm-finish {
+    width: 10rem;
+  }
 </style>

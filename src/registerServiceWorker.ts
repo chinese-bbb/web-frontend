@@ -31,7 +31,7 @@ async function tryToRegisterServiceWorker() {
     wb.addEventListener('externalactivated', refreshHandler);
 
     wb.register().then(registration => {
-      console.debug('Service Worker Installed');
+      console.debug('Service Worker Registered');
 
       setInterval(() => {
         registration.update();

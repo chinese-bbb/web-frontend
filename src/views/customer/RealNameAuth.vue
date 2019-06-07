@@ -7,6 +7,8 @@
       :on-exceed="handleError"
       action="https://jsonplaceholder.typicode.com/posts/"
       class="upload-box"
+      name="pic_file"
+      :data="uploadExtraData"
       drag
       list-type="picture"
       ref="uploader"
@@ -31,6 +33,11 @@ import { ElUpload } from 'element-ui/types/upload';
 @Component
 export default class RealNameAuth extends Vue {
   fileSelected = false;
+
+  uploadExtraData = {
+    // 正面是1
+    sequence: 1,
+  };
 
   handleError() {
     this.$message.error('只需上传一个文件。可通过预览卡片去除已选择文件');
