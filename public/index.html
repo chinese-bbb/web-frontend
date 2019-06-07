@@ -14,6 +14,7 @@
         margin: 0;
         height: 100%;
       }
+
       #app.loading {
         background-color: #18515a;
         height: 100%;
@@ -22,15 +23,18 @@
         justify-content: center;
         align-items: center;
       }
+
       .loading-logo {
         width: 50vh;
         max-width: 75vw;
       }
+
       .initial-spinner {
         margin-bottom: 20vh;
         width: 50px;
         height: 40px;
-        text-align: center;
+        display: flex;
+        justify-content: space-between;
         font-size: 10px;
       }
 
@@ -38,7 +42,6 @@
         background-color: #fff;
         height: 100%;
         width: 6px;
-        display: inline-block;
 
         -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
         animation: sk-stretchdelay 1.2s infinite ease-in-out;
