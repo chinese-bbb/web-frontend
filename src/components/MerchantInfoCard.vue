@@ -2,7 +2,7 @@
   <div class="merchant-info-card">
     <div class="media d-flex">
       <div class="thumb">
-        <el-image :src="fisrtChar | charToImage" fluid alt="firm-logo"></el-image>
+        <el-image :src="fisrtChar | charToImage" alt="firm-logo" fluid></el-image>
       </div>
 
       <div class="media-content">
@@ -19,64 +19,75 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { SearchItem } from '@/models';
-import { generateBase64ImageFromText } from '@/utils';
+  import { Component, Prop, Vue } from 'vue-property-decorator';
+  import { SearchItem } from '@/models';
+  import { generateBase64ImageFromText } from '@/utils';
 
-@Component({
-  filters: {
-    charToImage(val: string) {
-      return generateBase64ImageFromText(val, 300, 300);
+  @Component({
+    filters: {
+      charToImage(val: string) {
+        return generateBase64ImageFromText(val, 300, 300);
+      },
     },
-  },
-})
-export default class MerchantInfoCard extends Vue {
-  @Prop(Object) data: SearchItem;
+  })
+  export default class MerchantInfoCard extends Vue {
+    @Prop(Object) data: SearchItem;
 
-  get fisrtChar() {
-    if (this.data && this.data.Name) {
-      return this.data.Name[0];
-    } else {
-      return '@';
+    get fisrtChar() {
+      if (this.data && this.data.Name) {
+        return this.data.Name[0];
+      } else {
+        return '@';
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/helper';
+  @import '../styles/helper';
 
-$card-height: 142px;
+  $card-height: 60px;
+  $md-card-height: 142px;
 
-.merchant-info-card:hover {
-  box-shadow: $--box-shadow-dark;
-}
+  .merchant-info-card:hover {
+    box-shadow: $--box-shadow-dark;
+  }
 
-.media {
-  background-color: #fafafa;
-}
+  .media {
+    background-color: #fafafa;
+  }
 
-.thumb {
-  width: $card-height;
-  height: $card-height;
-  background-color: #cccccc;
-}
+  .thumb {
+    width: $card-height;
+    height: $card-height;
+    background-color: #cccccc;
+    align-self: center;
+    flex-shrink: 0;
+  }
 
-.title {
-  //font-size: ;
-}
+  .title {
+    //font-size: ;
+  }
 
-.media-content {
-  text-align: left;
-  padding: $grid-gutter-width / 2;
-}
+  .media-content {
+    text-align: left;
+    padding: $grid-gutter-width / 2;
+  }
 
-.media-main-content p {
-  line-height: 20px;
-}
+  .media-main-content p {
+    line-height: 20px;
+  }
 
-.company-name {
-  font-size: 1.5rem;
-  line-height: 1;
-}
+  .company-name {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  @include media-breakpoint-up(md) {
+    .thumb {
+      width: $md-card-height;
+      height: $md-card-height;
+      background-color: #cccccc;
+    }
+  }
 </style>
