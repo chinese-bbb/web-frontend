@@ -22,7 +22,7 @@ export class AuthenticationService {
   }
 
   public resetPwd(phoneNum: string, password: string) {
-    return axios.post('/resetpwd', { phone_num: phoneNum, password });
+    return axios.post('/resetpw', { phone_num: phoneNum, new_password: password });
   }
 }
 
