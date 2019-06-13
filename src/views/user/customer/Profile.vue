@@ -5,9 +5,9 @@
         <el-tabs :value="activeTab" @tab-click="tabChanged" type="card">
           <el-tab-pane label="最近投诉消息" name="recent">
             <ul class="complaints-list list-unstyled">
-              <li :key="item" class="mb-3" v-for="item in recentComplaints">
-                <router-link class="route-link-view" to="/merchant/complaint-details">
-                  <complaint-card> </complaint-card>
+              <li :key="item.complaint_id" class="mb-3" v-for="item in recentComplaints">
+                <router-link class="route-link-view" to="/merchant/complaint-details" tag="div">
+                  <complaint-card :complaint="item"/>
                 </router-link>
               </li>
             </ul>
@@ -103,13 +103,13 @@ export default class Profile extends Vue {
     customerService
       .getCurrentUserInfo()
       .then(
-        response => {
-          this.user.if_verified = response.data.if_verified || false;
-          this.user.sex = response.data.sex;
-          this.user.registered_date = new Date(response.data.registered_date);
-          this.user.real_name = response.data.real_name;
+        user => {
+          this.user.if_verified = user.data.if_verified || false;
+          this.user.sex = user.data.sex;
+          this.user.registered_date = new Date(user.data.registered_date);
+          this.user.real_name = user.data.real_name;
           complaintService
-            .getUserComplaint(response.data.username)
+            .getUserComplaint(user.data.username)
             .then(
               complaint => {
                 this.recentComplaints = complaint.data;
