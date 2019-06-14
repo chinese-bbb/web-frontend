@@ -47,7 +47,7 @@ export default new Vuex.Store<RootState>({
   },
   actions: {
     signout({ commit }) {
-      authService.signout().then(() => {
+      authService.signout().finally(() => {
         commit('deAuthenticate');
 
         router.push({ name: 'home' });

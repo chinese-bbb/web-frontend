@@ -24,6 +24,10 @@ export class AuthenticationService {
   public resetPwd(phoneNum: string, password: string) {
     return axios.post('/resetpw', { phone_num: phoneNum, new_password: password });
   }
+
+  public identifyUser(path: string) {
+    return axios.post('/identify', {id_path: path});
+  }
 }
 
 export default new AuthenticationService();
