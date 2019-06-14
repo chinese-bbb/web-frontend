@@ -237,14 +237,16 @@
                   <h5>1. 购买发票信息 <span class="header-hint">（最多一张图片）</span></h5>
 
                   <el-upload
-                    :action="invoiceUploadUrl"
+                    :action="uploadUrl"
                     :before-upload="beforeUpload"
+                    :data="{upload_type: 'invoice'}"
                     :file-list="uploadForm.invoiceImages"
                     :limit="1"
                     :on-exceed="handleExceed"
                     :on-preview="handlePictureCardPreview"
                     :on-remove="removeInvoice"
                     :on-success="handleInvoiceUploadSuccess"
+                    :on-error="handleUploadError"
                     :show-file-list="true"
                     accept=".jpg,.jpeg,.png"
                     class="evidence-upload"
@@ -263,14 +265,16 @@
                   <h5>2. 其他图片证据 <span class="header-hint">（最多9张图片）</span></h5>
 
                   <el-upload
-                    :action="invoiceUploadUrl"
+                    :action="uploadUrl"
                     :before-upload="beforeUpload"
+                    :data="{upload_type: 'evidence'}"
                     :file-list="uploadForm.otherEvidenceImages"
                     :limit="9"
                     :on-exceed="handleExceed"
                     :on-preview="handlePictureCardPreview"
                     :on-remove="removeOtherEvidence"
                     :on-success="handleOtherEvidenceUploadSuccess"
+                    :on-error="handleUploadError"
                     :show-file-list="true"
                     accept=".jpg,.jpeg,.png"
                     class="evidence-upload"
@@ -321,7 +325,8 @@
               <footer class="text-right">
                 <el-button @click.native="$refs.wizard.prevTab()">上一步</el-button>
 
-                <el-button @click.native="$refs.wizard.nextTab()" class="btn-confirm-finish" size="large" type="primary"
+                <el-button :loading="submitting" @click.native="$refs.wizard.nextTab()" class="btn-confirm-finish"
+                           size="large" type="primary"
                 >完成
                 </el-button>
               </footer>
@@ -345,6 +350,7 @@ import TabContent from '@/libs/vue-form-wizard/components/TabContent.vue';
 import { ElForm } from 'element-ui/types/form';
 
 import { complaintService } from '../../services';
+import { ElUploadInternalFileDetail } from 'element-ui/types/upload';
 
 @Component({
   components: {
@@ -360,7 +366,7 @@ export default class FileComplaint extends Vue {
   submitting = false;
   // unit: MB
   fileSizeLimit = 3;
-  invoiceUploadUrl = axios.defaults.baseURL + '/complaint/upload';
+  uploadUrl = axios.defaults.baseURL + 'upload_file';
 
   complaintTypeForm: {
     negotiateDate: string | Date;
@@ -440,6 +446,8 @@ export default class FileComplaint extends Vue {
         totalConsumption: this.complaintDetailForm.totalConsumption,
         involvedProducts: this.complaintDetailForm.relatedProducts,
         tradeInfo: this.complaintDetailForm.tradeInfo,
+        uploadedInvoices: this.uploadForm.uploadedInvoices,
+        uploadedEvidences: this.uploadForm.uploadedOtherEvidences,
         purchaseDate:
           typeof this.complaintDetailForm.tradeDate === 'string'
             ? this.complaintDetailForm.tradeDate
@@ -461,7 +469,10 @@ export default class FileComplaint extends Vue {
           // do something
         },
       )
-      .finally(() => (this.submitting = false));
+      .finally(() => {
+        this.submitting = false;
+        (this.$refs.wizard as any).setLoading(false);
+      });
   }
 
   validateFormAndJump(form: any, wizard: any) {
@@ -502,30 +513,34 @@ export default class FileComplaint extends Vue {
     }
   }
 
-  handlePictureCardPreview(file: any) {
-    this.dialogImageUrl = file.url;
+  handlePictureCardPreview(file: ElUploadInternalFileDetail) {
+    this.dialogImageUrl = file.url!;
     this.dialogVisible = true;
   }
 
-  handleInvoiceUploadSuccess(response: any, file: any, filelist: any[]) {
+  handleInvoiceUploadSuccess(response: any, file: ElUploadInternalFileDetail, filelist: ElUploadInternalFileDetail[]) {
     this.uploadForm.invoiceImages = filelist;
-    this.uploadForm.uploadedInvoices.push('a');
+    this.uploadForm.uploadedInvoices.push(response.path);
     (this.$refs.uploadForm as ElForm).validateField('uploadedInvoices', () => void 0);
   }
 
-  handleOtherEvidenceUploadSuccess(response: any, file: any, filelist: any[]) {
+  handleUploadError(response: any, file: ElUploadInternalFileDetail, filelist: ElUploadInternalFileDetail[]) {
+    this.$message.error('文件上传出错');
+  }
+
+  handleOtherEvidenceUploadSuccess(response: any, file: ElUploadInternalFileDetail, filelist: ElUploadInternalFileDetail[]) {
     this.uploadForm.otherEvidenceImages = filelist;
     this.uploadForm.uploadedOtherEvidences.push('a');
     (this.$refs.uploadForm as ElForm).validateField('uploadedOtherEvidences', () => void 0);
   }
 
-  removeOtherEvidence(file: any, filelist: any[]) {
+  removeOtherEvidence(file: ElUploadInternalFileDetail, filelist: ElUploadInternalFileDetail[]) {
     const index = this.uploadForm.otherEvidenceImages.findIndex(img => img === file);
     this.uploadForm.uploadedOtherEvidences.splice(index, 1);
     this.uploadForm.otherEvidenceImages = filelist;
   }
 
-  removeInvoice(file: any, filelist: any[]) {
+  removeInvoice(file: ElUploadInternalFileDetail, filelist: ElUploadInternalFileDetail[]) {
     const index = this.uploadForm.invoiceImages.findIndex(img => img === file);
     this.uploadForm.uploadedInvoices.splice(index, 1);
     this.uploadForm.invoiceImages = filelist;
@@ -545,6 +560,7 @@ export default class FileComplaint extends Vue {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     font-size: 1.25rem;
   }
 
