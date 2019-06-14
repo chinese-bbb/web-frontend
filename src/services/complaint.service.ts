@@ -21,8 +21,23 @@ export class ComplaintService {
     });
   }
 
+  public getComplaint(id: string) {
+    return axios.get('/complaint', { params: { complaint_id: id } });
+  }
+
   public getComplaintByMerchant(id: string) {
     return axios.get('/complaintByMerchant', { params: { merchant_id: id } });
+  }
+
+  public getCommentsByComplaint(id: string) {
+    return axios.get(`/commentsByComplaint/${id}`);
+  }
+
+  public addComment(id: string, text: string) {
+    return axios.post(`/comment`, {
+      text,
+      complaint_id: id,
+    });
   }
 }
 

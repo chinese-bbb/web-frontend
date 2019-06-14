@@ -171,9 +171,10 @@ const routes: RouteConfig[] = [
         },
       },
       {
-        path: 'complaint-details',
+        path: 'complaint/:id',
         name: 'complaintDetails',
         component: () => import('./views/merchant/ComplaintDetails.vue'),
+        props: route => ({ id: route.params.id }),
         meta: {
           title: '投诉详情',
         },

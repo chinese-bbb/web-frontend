@@ -14,7 +14,7 @@
           <p class="address">地址 ：{{ merchantInfo.Address }}</p>
           <p class="registered-capital">注册资本 ：{{ merchantInfo.RegistCapi }}</p>
           <p class="former-names">曾用名 ：{{ merchantInfo.OriginalName | serializeArray }}</p>
-          <v-clamp :max-lines="3" autoresize tag="p">经营范围 ：{{ merchantInfo.Scope }}</v-clamp>
+          <v-clamp :max-lines="3" autoresize tag="p" :title="merchantInfo.Scope">经营范围 ：{{ merchantInfo.Scope }}</v-clamp>
           <p class="corporation-status">经营状态 ：{{ merchantInfo.Status }}</p>
         </div>
 
@@ -32,7 +32,7 @@
       </div>
     </el-card>
 
-    <div class="complaints-history mt-5">
+    <div class="complaints-history my-5">
       <h3>历史投诉信息</h3>
 
       <el-divider></el-divider>
@@ -75,7 +75,7 @@
 
         <ul class="complaint-list list-unstyled">
           <li :key="item" class="complaint-info__item mb-3" v-for="item in viewResults">
-            <router-link class="route-link-view d-flex flex-column" to="/merchant/complaint-details">
+            <router-link class="route-link-view d-flex flex-column" :to="{name: 'complaintDetails'}">
               <div class="header row mb-2">
                 <span class="complaint-type col-6">投诉类型：xxx</span>
                 <span class="complaint-status col-3">状态：xxx</span>
