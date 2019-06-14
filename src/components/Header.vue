@@ -144,7 +144,9 @@ $--header-font-size: 18px;
   }
 
   .nav-logo {
-    width: 60px;
+    width: $headerHeight;
+     font-size: 0;
+     line-height: 0;
     transition: 0.3s linear;
 
     /deep/ svg {

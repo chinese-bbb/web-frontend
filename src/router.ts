@@ -30,6 +30,10 @@ const routes: RouteConfig[] = [
     path: '/',
     name: 'home',
     component: Home,
+    beforeEnter(to, from, next) {
+      store.commit('visitHomePage');
+      next();
+    },
     meta: {
       title: '主页',
     },
@@ -237,6 +241,10 @@ router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {
     document.title = '互信公益 - ' + to.meta.title;
+  }
+
+  if (to.name !== 'home') {
+    store.commit('leaveHomePage');
   }
 
   NProgress.start();

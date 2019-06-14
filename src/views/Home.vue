@@ -45,14 +45,6 @@ export default class Home extends Vue {
   searchStr: string = '';
   authDialogVisible = false;
 
-  mounted() {
-    this.$store.commit('visitHomePage');
-  }
-
-  beforeDestroy() {
-    this.$store.commit('leaveHomePage');
-  }
-
   search() {
     if (this.$store.state.authenticated) {
       this.$router.push({ name: 'search', query: { q: this.searchStr } });
