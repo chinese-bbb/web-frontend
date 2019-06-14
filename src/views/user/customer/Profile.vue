@@ -12,7 +12,7 @@
               </li>
             </ul>
 
-            <div class="block">
+            <div>
               <div v-if="!recentComplaints.length"><p>没有数据哦</p></div>
 
               <el-pagination
@@ -24,6 +24,10 @@
               </el-pagination>
             </div>
           </el-tab-pane>
+
+          <el-tab-pane label="历史投诉消息" name="history">
+            即将推出，敬请期待!
+          </el-tab-pane>
         </el-tabs>
       </el-col>
 
@@ -34,31 +38,21 @@
         </div>
 
         <el-card class="user-info-card mt-4" shadow="hover">
-          <div class="d-flex justify-content-start">
+          <div class="d-flex align-items-center justify-content-start">
             <div class="portrait-wrapper mr-3">
               <fa-icon class="portrait" icon="user-circle" size="6x"></fa-icon>
             </div>
 
-            <div class="merchant-info">
-              <h3 class="merchant-name">xxx</h3>
-
-              <p class="merchant-keywords">关键词 / 关键词 / 关键词</p>
-            </div>
+            <h3 class="username"><span class="family-name">王</span>&nbsp;<span class="gender">先生</span></h3>
           </div>
 
           <el-divider></el-divider>
 
-          <p>综合评分：<span class="total-score">7.9</span></p>
-          <p>投诉数量（3年）：xxx</p>
-          <p>投诉数量（12月）：xxx</p>
-          <p>解决率（12月）：xxx%</p>
-          <p>回复速度（12月）：xxx%</p>
-
-          <!--          <el-divider></el-divider>-->
-
-          <!--          <p>商户个体信息</p>-->
-          <!--          <p>联系我们</p>-->
-          <!--          <p>设置</p>-->
+          <p>注册时间：2019年3月4日</p>
+          <p class="d-flex justify-content-between">
+            <span>是否实名：否</span>
+            <router-link class="primary-router-link" :to="{ name: 'realnameAuth'}">立即实名</router-link>
+          </p>
         </el-card>
       </el-col>
     </el-row>
@@ -78,7 +72,7 @@ import ComplaintCard from '@/components/ComplaintCard.vue';
     tab: String,
   },
 })
-export default class MerchantDashboard extends Vue {
+export default class Profile extends Vue {
   activeTab = 'recent';
   tab: string;
   timeoutId: number | undefined;
@@ -101,7 +95,7 @@ export default class MerchantDashboard extends Vue {
     this.activeTab = this.tab || this.activeTab;
   }
 
-  tabChanged(tab: ElTabPane, event: MouseEvent) {
+  tabChanged(tab: ElTabPane) {
     if (this.activeTab !== tab.name) {
       // do something
     }
@@ -116,7 +110,7 @@ export default class MerchantDashboard extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '../../styles/helper';
+@import '../../../styles/helper';
 
 .main-col {
   //background-color: #666666;
@@ -153,7 +147,7 @@ export default class MerchantDashboard extends Vue {
 .complaints-list {
 }
 
-.merchant-name {
+.username {
   font-size: 2em;
 }
 </style>

@@ -349,7 +349,7 @@ import FormWizard from '@/libs/vue-form-wizard/components/FormWizard.vue';
 import TabContent from '@/libs/vue-form-wizard/components/TabContent.vue';
 import { ElForm } from 'element-ui/types/form';
 
-import { complaintService } from '../../services';
+import { complaintService } from '../services';
 import { ElUploadInternalFileDetail } from 'element-ui/types/upload';
 
 @Component({
@@ -549,7 +549,7 @@ export default class FileComplaint extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../styles/helper';
+  @import '../styles/helper';
 
   .el-radio {
     display: block;

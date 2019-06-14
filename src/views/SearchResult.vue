@@ -29,7 +29,7 @@
 
         <ul class="results list-unstyled mt-4">
           <li :key="item.No" class="mb-3" v-for="item in viewResults">
-            <router-link :to="{ name: 'merchantInfo', params: { id: item.KeyNo } }" class="text-decoration-none">
+            <router-link :to="{ name: 'merchantInfo', params: { merchantId: item.KeyNo } }" class="text-decoration-none">
               <merchant-info-card :data="item"></merchant-info-card>
             </router-link>
           </li>

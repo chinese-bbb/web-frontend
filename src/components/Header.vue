@@ -29,7 +29,7 @@
 
         <!-- 登录入口 -->
         <li class="nav-item entrance-item" v-if="!isLoggedIn">
-          <router-link class="nav-item--view" to="/customer/signin">
+          <router-link class="nav-item--view" :to="{ name: 'cSignIn' }">
             <span class="label">登录</span>
           </router-link>
         </li>
@@ -41,7 +41,7 @@
 
         <!-- 注册入口 -->
         <li class="nav-item entrance-item" v-if="!isLoggedIn">
-          <router-link class="nav-item--view" to="/customer/signup">
+          <router-link class="nav-item--view" :to="{ name: 'cSignUp' }">
             <span class="label">注册</span>
           </router-link>
         </li>
@@ -83,7 +83,7 @@ export default class AppHeader extends Vue {
   handleCommand(item: string) {
     if (item === 'profile' && this.userRole) {
       this.$router.push({
-        path: this.userRole === UserRole.Customer ? '/customer/profile' : '/merchant/dashboard',
+        name: this.userRole === UserRole.Customer ? 'profile' : 'dashboard',
       });
     }
 

@@ -7,15 +7,16 @@ import * as NProgress from 'nprogress';
 
 Vue.use(Router);
 
-const commandAuthGuard: NavigationGuard = (to, from, next) => {
-  if (to.meta.skipAuthCheck) {
-    if (store.state.authenticated) {
-      Vue.prototype.$message.warning('用户已登录');
-      return next({ name: 'home' });
-    } else {
-      return next();
-    }
+const forbidAuthedUserGuard: NavigationGuard = (to, from, next) => {
+  if (store.state.authenticated) {
+    Vue.prototype.$message.warning('用户已登录');
+    return next({ name: 'home' });
+  } else {
+    return next();
   }
+};
+
+const commonAuthGuard: NavigationGuard = (to, from, next) => {
 
   if (!store.state.authenticated) {
     Vue.prototype.$message.error('非法访问');
@@ -39,177 +40,200 @@ const routes: RouteConfig[] = [
     },
   },
   {
+    path: '/auth',
+    name: 'authPortal',
+    beforeEnter: forbidAuthedUserGuard,
+    component: () => import('./views/EmptyPortal.vue'),
+    children: [
+      {
+        path: 'customer',
+        component: () => import('./views/FadeInPortal.vue'),
+        children: [
+          {
+            path: 'signin',
+            name: 'cSignIn',
+            component: () => import('./views/SignIn.vue'),
+            props: () => ({ from: SignInType.Customer }),
+            meta: {
+              title: '消费者登录',
+            },
+          },
+          {
+            path: 'signup',
+            name: 'cSignUp',
+            component: () => import('./views/SignUp.vue'),
+            props: () => ({ from: SignInType.Customer }),
+            meta: {
+              title: '消费者注册',
+            },
+          },
+          {
+            path: 'signup-success',
+            name: 'cSignUpSuccess',
+            component: () => import('./views/SignUpSuccess.vue'),
+            props: () => ({ from: SignInType.Customer }),
+            meta: {
+              title: '注册完成',
+            },
+          },
+          {
+            path: 'resetpwd',
+            name: 'resetPwd',
+            component: () => import('./views/resetPassword.vue'),
+            meta: {
+              title: '重置密码',
+            },
+          },
+        ],
+      },
+      {
+        path: 'merchant',
+        component: () => import('./views/FadeInPortal.vue'),
+        children: [
+          {
+            path: 'signin',
+            name: 'mSignIn',
+            component: () => import('./views/SignIn.vue'),
+            props: () => ({ from: SignInType.Merchant }),
+            meta: {
+              title: '商家登录',
+            },
+          },
+          {
+            path: 'signup',
+            name: 'mSignUp',
+            component: () => import('./views/SignUp.vue'),
+            props: () => ({ from: SignInType.Merchant }),
+            meta: {
+              title: '商家注册',
+            },
+          },
+          {
+            path: 'signup-success',
+            name: 'mSignUpSuccess',
+            component: () => import('./views/SignUpSuccess.vue'),
+            props: () => ({ from: SignInType.Merchant }),
+            meta: {
+              title: '注册完成',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
     path: '/search',
     name: 'search',
     component: () => import('./views/SearchResult.vue'),
-    beforeEnter: commandAuthGuard,
+    beforeEnter: commonAuthGuard,
     props: route => ({ queryKey: route.query.q }),
     meta: {
       title: '商家搜索',
     },
   },
   {
-    path: '/merchant-info/:id',
-    name: 'merchantInfo',
-    component: () => import('./views/MerchantInfo.vue'),
-    beforeEnter: commandAuthGuard,
-    props: route => ({ id: route.params.id }),
-  },
-  {
-    path: '/customer',
-    component: () => import('./views/customer/CustomerPortal.vue'),
-    beforeEnter: commandAuthGuard,
+    path: '/user',
+    name: 'userPortal',
+    component: () => import('./views/EmptyPortal.vue'),
+    beforeEnter: commonAuthGuard,
     children: [
       {
-        path: '',
-        name: 'customer',
-        redirect: '/',
+        path: 'customer',
+        component: () => import('./views/FadeInPortal.vue'),
+        children: [
+          {
+            path: 'profile',
+            name: 'profile',
+            component: () => import('./views/user/customer/Profile.vue'),
+            meta: {
+              title: '个人主页',
+            },
+          },
+          {
+            path: 'current-complaints',
+            name: 'currentComplaints',
+            component: () => import('./views/user/customer/CurrentComplaints.vue'),
+            meta: {
+              title: '当前投诉',
+            },
+          },
+          {
+            path: 'complaints-history',
+            name: 'complaintsHistory',
+            component: () => import('./views/user/customer/ComplaintsHistory.vue'),
+            meta: {
+              title: '历史投诉',
+            },
+          },
+          {
+            path: 'settings',
+            name: 'settings',
+            component: () => import('./views/user/customer/UserSettings.vue'),
+            meta: {
+              title: '用户设置',
+            },
+          },
+          {
+            path: 'realname-auth',
+            name: 'realnameAuth',
+            component: () => import('./views/user/customer/RealNameAuth.vue'),
+            meta: {
+              title: '实名认证',
+            },
+          },
+        ],
       },
       {
-        path: 'profile',
-        name: 'profile',
-        component: () => import('./views/customer/Profile.vue'),
-        meta: {
-          title: '个人主页',
-        },
-      },
-      {
-        path: 'file-complaint',
-        name: 'fileComplaint',
-        component: () => import('./views/customer/FileComplaint.vue'),
-        props: route => ({ merchantId: route.query.id }),
-        meta: {
-          title: '商家搜索',
-        },
-      },
-      {
-        path: 'current-complaints',
-        name: 'currentComplaints',
-        component: () => import('./views/customer/CurrentComplaints.vue'),
-        meta: {
-          title: '当前投诉',
-        },
-      },
-      {
-        path: 'complaints-history',
-        name: 'complaintsHistory',
-        component: () => import('./views/customer/ComplaintsHistory.vue'),
-        meta: {
-          title: '历史投诉',
-        },
-      },
-      {
-        path: 'settings',
-        name: 'settings',
-        component: () => import('./views/customer/UserSettings.vue'),
-      },
-      {
-        path: 'signin',
-        name: 'cSignIn',
-        component: () => import('./views/SignIn.vue'),
-        props: () => ({ from: SignInType.Customer }),
-        meta: {
-          title: '消费者登录',
-          skipAuthCheck: true,
-        },
-      },
-      {
-        path: 'signup',
-        name: 'cSignUp',
-        component: () => import('./views/SignUp.vue'),
-        props: () => ({ from: SignInType.Customer }),
-        meta: {
-          title: '消费者注册',
-          skipAuthCheck: true,
-        },
-      },
-      {
-        path: 'signup-success',
-        name: 'cSignUpSuccess',
-        component: () => import('./views/SignUpSuccess.vue'),
-        props: () => ({ from: SignInType.Customer }),
-        meta: {
-          title: '注册成功',
-          skipAuthCheck: true,
-        },
-      },
-      {
-        path: 'realname-auth',
-        name: 'realnameAuth',
-        component: () => import('./views/customer/RealNameAuth.vue'),
-        meta: {
-          title: '实名认证',
-        },
-      },
-      {
-        path: 'resetpwd',
-        name: 'resetPwd',
-        component: () => import('./views/resetPassword.vue'),
-        meta: {
-          title: '重置密码',
-          skipAuthCheck: true,
-        },
+        path: 'merchant',
+        component: () => import('./views/FadeInPortal.vue'),
+        children: [
+          {
+            path: 'dashboard',
+            name: 'dashboard',
+            component: () => import('./views/user/merchant/Dashboard.vue'),
+            meta: {
+              title: '商家主页',
+            },
+          },
+        ],
       },
     ],
   },
   {
-    path: '/merchant',
-    beforeEnter: commandAuthGuard,
-    component: () => import('./views/merchant/MerchantPortal.vue'),
+    path: '/merchant/:merchantId',
+    name: 'merchantPortal',
+    beforeEnter: commonAuthGuard,
+    component: () => import('./views/FadeInPortal.vue'),
     children: [
       {
         path: '',
-        name: 'merchant',
-        redirect: 'dashboard',
-      },
-      {
-        path: 'dashboard',
-        name: 'dashboard',
-        component: () => import('./views/merchant/Dashboard.vue'),
+        name: 'merchantInfo',
+        component: () => import('./views/merchant/MerchantInfo.vue'),
+        props: route => ({ id: route.params.merchantId }),
         meta: {
-          title: '商家主页',
+          title: '商家详情',
         },
       },
       {
-        path: 'complaint/:id',
+        path: 'complaint/:complaintId',
         name: 'complaintDetails',
         component: () => import('./views/merchant/ComplaintDetails.vue'),
-        props: route => ({ id: route.params.id }),
+        props: route => ({ id: route.params.complaintId }),
         meta: {
           title: '投诉详情',
-        },
-      },
-      {
-        path: 'signin',
-        name: 'mSignIn',
-        component: () => import('./views/SignIn.vue'),
-        props: () => ({ from: SignInType.Merchant }),
-        meta: {
-          title: '投诉详情',
-          skipAuthCheck: true,
-        },
-      },
-      {
-        path: 'signup',
-        name: 'mSignUp',
-        component: () => import('./views/SignUp.vue'),
-        props: () => ({ from: SignInType.Merchant }),
-        meta: {
-          title: '商家注册',
-          skipAuthCheck: true,
-        },
-      },
-      {
-        path: 'signup-success',
-        name: 'mSignUpSuccess',
-        component: () => import('./views/SignUpSuccess.vue'),
-        props: () => ({ from: SignInType.Merchant }),
-        meta: {
-          title: '投诉详情',
-          skipAuthCheck: true,
         },
       },
     ],
+  },
+  {
+    path: '/file-complaint',
+    name: 'fileComplaint',
+    component: () => import('./views/FileComplaint.vue'),
+    beforeEnter: commonAuthGuard,
+    props: route => ({ merchantId: route.query.id }),
+    meta: {
+      title: '发起投诉',
+    },
   },
   {
     path: '/about',

@@ -91,7 +91,7 @@
         }, () => {
           this.$message.error('发送回复失败，请重试');
         })
-        .finally(() => this.replying = true);
+        .finally(() => this.replying = false);
     }
 
     mounted() {

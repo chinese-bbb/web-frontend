@@ -112,7 +112,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import VClamp from 'vue-clamp';
 
-import { complaintService, searchService } from '../services';
+import { complaintService, searchService } from '../../services';
 import { MerchantDetail } from '@/models';
 import { yearDuration } from '@/filters';
 
@@ -174,7 +174,7 @@ export default class MerchantInfoView extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/helper';
+  @import '../../styles/helper';
 
   .info-card {
     background-color: #eaeaea;

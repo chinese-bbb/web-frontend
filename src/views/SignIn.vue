@@ -21,11 +21,11 @@
         </el-form-item>
 
         <el-form-item>
-          <router-link to="/customer/signup">
+          <router-link :to="{ name: 'cSignUp' }">
             <span class="label">立即注册</span>
           </router-link>
 
-          <router-link to="/customer/resetpwd">
+          <router-link :to="{ name: 'resetPwd' }">
             <span class="label">忘记密码</span>
           </router-link>
         </el-form-item>
