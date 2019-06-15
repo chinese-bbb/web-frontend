@@ -15,9 +15,9 @@
       <el-dialog :show-close="false" :visible.sync="authDialogVisible" center title="" top="0" width="30%">
         <p class="auth-hint text-center">
           请先
-          <router-link to="/customer/signup">注册</router-link>
+          <router-link :to="{ name: 'cSignUp' }">注册</router-link>
           或
-          <router-link to="/customer/signin">登陆</router-link>
+          <router-link :to="{ name: 'cSignIn' }">登陆</router-link>
           后再进行搜索
         </p>
       </el-dialog>
