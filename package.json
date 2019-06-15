@@ -17,7 +17,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/vue-fontawesome": "^0.1.6",
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "core-js": "^3.0.0",
     "element-ui": "^2.8.2",
@@ -36,9 +36,9 @@
     "workbox-window": "^4.3.1"
   },
   "devDependencies": {
-    "@types/jest": "^23.1.4",
+    "@types/jest": "^24.0.0",
     "@types/luxon": "^1.13.0",
-    "@types/nprogress": "^0.0.29",
+    "@types/nprogress": "^0.2.0",
     "@types/workbox-sw": "^4.0.0",
     "@types/workbox-window": "^4.3.0",
     "@vue/cli-plugin-babel": "^4.0.0-alpha.1",
@@ -52,9 +52,9 @@
     "lint-staged": "^8.1.5",
     "node-sass": "^4.9.2",
     "prettier": "^1.17.0",
-    "raw-loader": "^2.0.0",
+    "raw-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
-    "ts-jest": "^23.0.0",
+    "ts-jest": "^24.0.0",
     "typescript": "^3.4.3",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.5.21"
