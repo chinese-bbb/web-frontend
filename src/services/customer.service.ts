@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { UserModel } from '@/models';
 
 export class CustomerService {
   public getCurrentUserInfo() {
-    return axios.get('/user_me');
+    return axios.get<UserModel>('/user_me');
   }
 
   public queryComplaints(customerId: string) {

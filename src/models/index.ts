@@ -122,3 +122,11 @@ export interface SignUpMeta {
   firstName: string;
   lastName: string;
 }
+
+export interface UserModel {
+  if_verified: boolean;
+  sex: string;
+  registered_date: string;
+  real_name: string;
+  username: string;
+}

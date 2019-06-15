@@ -203,6 +203,10 @@ export default class MerchantInfoView extends Vue {
     width: 12em;
   }
 
+  .result-wrapper {
+    position: relative;
+  }
+
   .complaint-info__item {
     background-color: #fafafa;
     padding: 15px;

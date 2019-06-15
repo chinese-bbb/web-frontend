@@ -5,7 +5,10 @@
       <div class="content">
         <div class="title-box">
           <h3 class="title">{{complaint.complain_type}}</h3>
-          <el-tag class="tag" size="small" :type="(complaint.if_negotiated_by_merchant ? 'success' : 'danger')">{{ complaint.if_negotiated_by_merchant ? '已解决' : '未解决' }}</el-tag>
+          <el-tag :type="(complaint.if_negotiated_by_merchant ? 'success' : 'danger')"
+                  class="tag"
+                  size="small">{{ complaint.complaint_status }}
+          </el-tag>
         </div>
         <p class="issue-time">投诉时间：{{ new Date(complaint.complain_timestamp).toLocaleDateString('zh-CN') }}</p>
         <p class="brief-summary">简要内容：{{ complaint.complaint_body }}</p>
@@ -14,43 +17,42 @@
   </div>
 </template>
 
-<script>
-import { Component, Vue } from 'vue-property-decorator';
+<script lang="ts">
+  import { Component, Prop, Vue } from 'vue-property-decorator';
+  import { ServerComplaintModel } from '@/models';
 
-@Component({
-  props: {
-    complaint: Object,
-  },
-})
-export default class ComplaintCard extends Vue {}
+  @Component
+  export default class ComplaintCard extends Vue {
+    @Prop(Object) complaint: ServerComplaintModel;
+  }
 </script>
 
 <style lang="scss" scoped>
-.media {
-  background-color: #fafafa;
-  align-items: center;
-}
+  .media {
+    background-color: #fafafa;
+    align-items: center;
+  }
 
-.thumb {
-  width: 140px;
-  height: 140px;
-  background-color: #cccccc;
-}
+  .thumb {
+    width: 140px;
+    height: 140px;
+    background-color: #cccccc;
+  }
 
-.title-box {
-  display: flex;
-  text-decoration: none;
-  align-items: center;
-  justify-content: space-between;
-}
+  .title-box {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.tag{
-  margin-left: 1rem;
-}
+  .tag {
+    margin-left: 1rem;
+  }
 
-.content {
-  text-align: left;
-  width: 100%;
-  padding: .5rem 1rem;
-}
+  .content {
+    text-align: left;
+    flex-grow: 1;
+    padding: .5rem 1rem;
+  }
 </style>

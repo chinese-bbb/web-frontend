@@ -3,16 +3,17 @@
     <el-row :gutter="30">
       <el-col :span="16" class="main-col">
         <el-tabs :value="activeTab" @tab-click="tabChanged" type="card">
-          <el-tab-pane label="最近投诉消息" name="recent">
+          <el-tab-pane :class="{ loading: loading }" label="最近投诉消息" name="recent" v-loading="loading">
             <ul class="complaints-list list-unstyled">
               <li :key="item.complaint_id" class="mb-3" v-for="item in recentComplaints">
-                <router-link class="route-link-view" to="/merchant/complaint-details" tag="div">
+                <router-link :to="{ name: 'complaintDetails', params: { complaintId: item.complaint_id } }"
+                             class="route-link-view">
                   <complaint-card :complaint="item"/>
                 </router-link>
               </li>
             </ul>
 
-            <div>
+            <div v-if="!loading">
               <div v-if="!recentComplaints.length"><p>没有数据哦</p></div>
 
               <el-pagination
@@ -43,15 +44,16 @@
               <fa-icon class="portrait" icon="user-circle" size="6x"></fa-icon>
             </div>
 
-            <h3 class="username"><span class="family-name">{{ user.real_name }}</span>&nbsp;<span class="gender">{{ user.sex == 'female' ? '女士' : '先生' }}</span></h3>
+            <h3 class="username"><span class="family-name">{{ user.real_name }}</span>&nbsp;<span class="gender">{{ user.sex == 'female' ? '女士' : '先生' }}</span>
+            </h3>
           </div>
 
           <el-divider></el-divider>
 
-          <p>注册时间：{{ user.registered_date.getFullYear() }}年{{ user.registered_date.getMonth() + 1 }}月{{ user.registered_date.getDate() }}日</p>
+          <p>注册时间：{{ user.registered_date | date('yyyy 年 MM 月 dd 日') }}</p>
           <p class="d-flex justify-content-between">
             <span>是否实名：{{ user.if_verified ? '是' : '否' }}</span>
-            <router-link class="primary-router-link" :to="{ name: 'realnameAuth'}">立即实名</router-link>
+            <router-link :to="{ name: 'realnameAuth'}" class="primary-router-link">立即实名</router-link>
           </p>
         </el-card>
       </el-col>
@@ -63,7 +65,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ElTabPane } from 'element-ui/types/tab-pane';
 import ComplaintCard from '@/components/ComplaintCard.vue';
-import { customerService, complaintService } from '../../../services';
+import { complaintService, customerService } from '../../../services';
+import { ServerComplaintModel, UserModel } from '@/models';
 
 @Component({
   components: {
@@ -78,13 +81,9 @@ export default class Profile extends Vue {
   tab: string;
   timeoutId: number | undefined;
   searchStr = '';
-  recentComplaints: any[] = [];
-  user = {
-    if_verified: null,
-    sex: '',
-    registered_date: new Date(),
-    real_name: '',
-  };
+  recentComplaints: ServerComplaintModel[] = [];
+  user: UserModel = {} as any;
+  loading = true;
 
   search(value: string) {
     this.searchStr = value;
@@ -100,29 +99,39 @@ export default class Profile extends Vue {
 
   created() {
     this.activeTab = this.tab || this.activeTab;
+
+    this.getUserInfo();
+  }
+
+  getUserInfo() {
     customerService
       .getCurrentUserInfo()
       .then(
         user => {
-          this.user.if_verified = user.data.if_verified || false;
-          this.user.sex = user.data.sex;
-          this.user.registered_date = new Date(user.data.registered_date);
-          this.user.real_name = user.data.real_name;
-          complaintService
-            .getUserComplaint(user.data.username)
-            .then(
-              complaint => {
-                this.recentComplaints = complaint.data;
-              },
-              error => {
-                this.$message.error(error.message);
-              },
-            );
+          this.user = user.data;
+
+          this.getComplaints();
         },
         error => {
           this.$message.error(error.message);
         },
       );
+  }
+
+  getComplaints() {
+    this.loading = true;
+
+    complaintService
+      .getUserComplaint(this.user.username)
+      .then(
+        complaint => {
+          this.recentComplaints = complaint.data;
+        },
+        error => {
+          this.$message.error(error.message);
+        },
+      )
+      .finally(() => this.loading = false);
   }
 
   tabChanged(tab: ElTabPane) {
@@ -140,44 +149,48 @@ export default class Profile extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../styles/helper';
+  @import '../../../styles/helper';
 
-.main-col {
-  //background-color: #666666;
-}
-
-.side-col {
-  //background-color: #CCCCCC;
-}
-
-.el-tabs /deep/ {
-  .el-tabs__nav-wrap {
-    margin-bottom: 0;
+  .main-col {
+    //background-color: #666666;
   }
 
-  .el-tabs__header {
-    border-bottom-width: 2px;
+  .side-col {
+    //background-color: #CCCCCC;
   }
 
-  .el-tabs__nav {
-    border-radius: 0;
+  .el-tabs /deep/ {
+    .el-tab-pane.loading {
+      height: 150px;
+    }
+
+    .el-tabs__nav-wrap {
+      margin-bottom: 0;
+    }
+
+    .el-tabs__header {
+      border-bottom-width: 2px;
+    }
+
+    .el-tabs__nav {
+      border-radius: 0;
+    }
+
+    .el-tabs__nav,
+    .el-tabs__item {
+      border: 0 !important;
+    }
+
+    .el-tabs__item.is-active {
+      background-color: $--color-primary;
+      color: $--color-primary-inverse;
+    }
   }
 
-  .el-tabs__nav,
-  .el-tabs__item {
-    border: 0 !important;
+  .complaints-list {
   }
 
-  .el-tabs__item.is-active {
-    background-color: $--color-primary;
-    color: $--color-primary-inverse;
+  .username {
+    font-size: 2em;
   }
-}
-
-.complaints-list {
-}
-
-.username {
-  font-size: 2em;
-}
 </style>
