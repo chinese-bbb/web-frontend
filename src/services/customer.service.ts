@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export class CustomerService {
   public getCurrentUserInfo() {
-    return axios.get('/users/me');
+    return axios.get('/user_me');
   }
 
   public queryComplaints(customerId: string) {

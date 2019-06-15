@@ -5,9 +5,9 @@
         <el-tabs :value="activeTab" @tab-click="tabChanged" type="card">
           <el-tab-pane label="最近投诉消息" name="recent">
             <ul class="complaints-list list-unstyled">
-              <li :key="item" class="mb-3" v-for="item in recentComplaints">
-                <router-link class="route-link-view" to="/merchant/complaint-details">
-                  <complaint-card> </complaint-card>
+              <li :key="item.complaint_id" class="mb-3" v-for="item in recentComplaints">
+                <router-link class="route-link-view" to="/merchant/complaint-details" tag="div">
+                  <complaint-card :complaint="item"/>
                 </router-link>
               </li>
             </ul>
@@ -43,14 +43,14 @@
               <fa-icon class="portrait" icon="user-circle" size="6x"></fa-icon>
             </div>
 
-            <h3 class="username"><span class="family-name">王</span>&nbsp;<span class="gender">先生</span></h3>
+            <h3 class="username"><span class="family-name">{{ user.real_name }}</span>&nbsp;<span class="gender">{{ user.sex == 'female' ? '女士' : '先生' }}</span></h3>
           </div>
 
           <el-divider></el-divider>
 
-          <p>注册时间：2019年3月4日</p>
+          <p>注册时间：{{ user.registered_date.getFullYear() }}年{{ user.registered_date.getMonth() + 1 }}月{{ user.registered_date.getDate() }}日</p>
           <p class="d-flex justify-content-between">
-            <span>是否实名：否</span>
+            <span>是否实名：{{ user.if_verified ? '是' : '否' }}</span>
             <router-link class="primary-router-link" :to="{ name: 'realnameAuth'}">立即实名</router-link>
           </p>
         </el-card>
@@ -63,6 +63,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ElTabPane } from 'element-ui/types/tab-pane';
 import ComplaintCard from '@/components/ComplaintCard.vue';
+import { customerService, complaintService } from '../../../services';
 
 @Component({
   components: {
@@ -77,7 +78,13 @@ export default class Profile extends Vue {
   tab: string;
   timeoutId: number | undefined;
   searchStr = '';
-  recentComplaints: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  recentComplaints: any[] = [];
+  user = {
+    if_verified: null,
+    sex: '',
+    registered_date: new Date(),
+    real_name: '',
+  };
 
   search(value: string) {
     this.searchStr = value;
@@ -93,6 +100,29 @@ export default class Profile extends Vue {
 
   created() {
     this.activeTab = this.tab || this.activeTab;
+    customerService
+      .getCurrentUserInfo()
+      .then(
+        user => {
+          this.user.if_verified = user.data.if_verified || false;
+          this.user.sex = user.data.sex;
+          this.user.registered_date = new Date(user.data.registered_date);
+          this.user.real_name = user.data.real_name;
+          complaintService
+            .getUserComplaint(user.data.username)
+            .then(
+              complaint => {
+                this.recentComplaints = complaint.data;
+              },
+              error => {
+                this.$message.error(error.message);
+              },
+            );
+        },
+        error => {
+          this.$message.error(error.message);
+        },
+      );
   }
 
   tabChanged(tab: ElTabPane) {

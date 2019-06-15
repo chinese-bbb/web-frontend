@@ -39,6 +39,10 @@ export class ComplaintService {
       complaint_id: id,
     });
   }
+
+  public getUserComplaint(phoneNumber: string) {
+    return axios.get('/complaintByUser', { params: { phone_num: phoneNumber } });
+  }
 }
 
 export default new ComplaintService();
