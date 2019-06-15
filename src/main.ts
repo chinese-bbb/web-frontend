@@ -35,8 +35,8 @@ function defineInterceptors($message: ElMessage) {
     if (status === 400) {
       $message.error('发送请求有误，请反馈给网站管理员');
     } else if (status === 401) {
-      $message.error('用户未认证或认证失效');
-      store.dispatch('signout');
+      $message.error('用户未认证或认证失效，请重新登录');
+      // store.dispatch('signout');
     } else if (status === 403) {
       $message.error('用户未授权');
     } else if (status === 404) {

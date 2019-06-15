@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { SignUpMeta } from '@/models';
 
 export class AuthenticationService {
   public signin(username: string, pwd: string) {
@@ -9,8 +10,8 @@ export class AuthenticationService {
     return axios.post('/logout');
   }
 
-  public signup(phoneNum: string, password: string, sex: string) {
-    return axios.post('/register', { phone_num: phoneNum, password, sex });
+  public signup(info: SignUpMeta) {
+    return axios.post('/register', { phone_num: info.phoneNum, password: info.password, sex: info.sex, lastName: info.lastName, firstName: info.firstName });
   }
 
   public sendSMS(phoneNum: string) {

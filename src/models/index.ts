@@ -36,6 +36,7 @@ export interface MerchantDetail {
   TeamEnd: TimeString;
   TermStart: TimeString;
   UpdatedDate: TimeString;
+  merchant_id?: string;
 }
 
 export interface RawComplaint {
@@ -90,4 +91,34 @@ export interface RawComplaint {
   purchaseDate: TimeString;
   uploadedInvoices: string[];
   uploadedEvidences: string[];
+}
+
+export interface ServerComplaintModel {
+  allow_contact_by_merchant: boolean;
+  allow_press: boolean;
+  allow_public: boolean;
+  complain_timestamp: string;
+  complain_type: string;
+  complaint_body: string;
+  complaint_id: string;
+  complaint_status: string;
+  expected_solution_body: string;
+  id_files: string[];
+  if_negotiated_by_merchant: boolean;
+  invoice_files: string[];
+  item_model: string;
+  item_price: string;
+  merchant_id: number;
+  negotiate_timestamp: string;
+  purchase_timestamp: string;
+  relatedProducts: string;
+  trade_info: string;
+}
+
+export interface SignUpMeta {
+  phoneNum: string;
+  password: string;
+  sex: string;
+  firstName: string;
+  lastName: string;
 }
