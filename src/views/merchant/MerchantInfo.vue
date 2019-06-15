@@ -74,17 +74,17 @@
         </div>
 
         <ul class="complaint-list list-unstyled">
-          <li :key="item" class="complaint-info__item mb-3" v-for="item in viewResults">
-            <router-link class="route-link-view d-flex flex-column" :to="{name: 'complaintDetails'}">
+          <li :key="item.complaint_id" class="complaint-info__item mb-3" v-for="item in viewResults">
+            <router-link class="route-link-view d-flex flex-column" :to="{name: 'complaintDetails', params: { complaintId: item.complaint_id }}">
               <div class="header row mb-2">
-                <span class="complaint-type col-6">投诉类型：xxx</span>
-                <span class="complaint-status col-3">状态：xxx</span>
-                <span class="complaint-owner col-3">投诉人：xxx</span>
+                <span class="complaint-type col-6">投诉类型：{{ item.complain_type }}</span>
+                <span class="complaint-status col-3">状态：{{ item.complaint_status }}</span>
+                <span class="complaint-owner col-3">投诉人：{{ item.issuer }}</span>
               </div>
 
               <div class="content">
                 <p class="brief-summary">
-                  300字雷克雅未克大教堂位于市中心，全名叫哈尔格林姆斯教堂（Hallgrimskirkja），以冰岛著名文学家哈尔格林姆斯的名字而命名，纪念他对冰岛文学的巨大贡献。该教堂于1940年开始奠基，于六十年代末基本完工。由于经费靠教会筹集和信徒捐助。雷克雅未克大教堂位于市中心，全名叫哈尔格林姆斯教堂（Hallgrimskirkja），以冰岛著名文学家哈尔格林姆斯的名字而命名，纪念他对冰岛文学的巨大贡献。该教堂于1940年开始奠基，于六十年代末基本完工。由于经费靠教会筹集和信徒捐助。雷克雅未克大教堂位于市中心，全名叫哈尔格林姆斯教堂（Hallgrimskirkja），以冰岛著名文学家哈尔格林姆斯的名字而命名，纪念他对冰岛文学的巨大贡献。该教堂于1940年开始奠基，于六十年代末基本完工。由于经费靠教会筹集和信徒捐助。
+                  {{ item.complaint_body }}
                 </p>
 
                 <div class="text-right">
@@ -113,7 +113,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import VClamp from 'vue-clamp';
 
 import { complaintService, searchService } from '../../services';
-import { MerchantDetail } from '@/models';
+import { MerchantDetail, ServerComplaintModel } from '@/models';
 import { yearDuration } from '@/filters';
 
 @Component({
@@ -143,7 +143,7 @@ export default class MerchantInfoView extends Vue {
 
   merchantInfo: MerchantDetail = {} as any;
 
-  viewResults: any[] = [];
+  viewResults: ServerComplaintModel[] = [];
 
   mounted() {
     this.loading = true;
@@ -152,19 +152,19 @@ export default class MerchantInfoView extends Vue {
       .then(resp => {
         this.merchantInfo = resp.data.return;
 
-        this.getComplaints();
+        this.getComplaints(resp.data.merchant_id);
       })
       .finally(() => (this.loading = false));
   }
 
-  getComplaints() {
+  getComplaints(id: string) {
     this.loadingList = true;
 
     this.viewResults = [];
 
-    complaintService.getComplaintByMerchant(this.id)
+    complaintService.getComplaintByMerchant(id)
       .then(resp => {
-        this.viewResults = resp.data.return;
+        this.viewResults = resp.data;
       })
       .finally(() => {
         this.loadingList = false;

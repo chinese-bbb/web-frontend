@@ -22,7 +22,7 @@ export class ComplaintService {
   }
 
   public getComplaint(id: string) {
-    return axios.get('/complaint', { params: { complaint_id: id } });
+    return axios.get(`/complaint/${id}`);
   }
 
   public getComplaintByMerchant(id: string) {

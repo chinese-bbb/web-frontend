@@ -9,8 +9,8 @@
 
           <div class="content">
             <div class="complaint-meta row mb-2">
-              <span class="complaint-type col-6">投诉类型：{{ complaintInfo.complaint_type }}</span>
-              <span class="complaint-status col-3">状态：{{ complaintInfo.status }}</span>
+              <span class="complaint-type col-6">投诉类型：{{ complaintInfo.complain_type }}</span>
+              <span class="complaint-status col-3">状态：{{ complaintInfo.complaint_status }}</span>
               <span class="complaint-owner col-3">投诉人：{{ complaintInfo.issuer }}</span>
             </div>
 
@@ -117,7 +117,7 @@
       complaintService
         .getCommentsByComplaint(this.id)
         .then(resp => {
-          this.comments = resp.data.return;
+          this.comments = resp.data;
         })
         .finally(() => (this.loadingComments = false));
     }
