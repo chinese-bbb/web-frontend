@@ -19,8 +19,12 @@
         </div>
 
         <div class="analysis d-flex col-8">
-          <div class="chart-wrapper flex-grow-1">
-            chart
+          <div class="chart-wrapper flex-grow-1 mb-3">
+            <el-image class="chart-image">
+              <div slot="error" class="image-error-slot">
+                历史数据分享图表，即将发布
+              </div>
+            </el-image>
           </div>
 
           <router-link
@@ -232,5 +236,19 @@ export default class MerchantInfoView extends Vue {
     &:not(:last-child) {
       margin-right: 1.5rem;
     }
+  }
+
+  .chart-image {
+    height: 100%;
+    width: 100%;
+  }
+
+  .el-image /deep/ .image-error-slot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: #f5f7fa;
   }
 </style>
