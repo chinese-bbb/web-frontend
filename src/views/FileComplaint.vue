@@ -10,7 +10,7 @@
     >
       <tab-content title="投诉说明">
         <div class="row">
-          <div class="col-8">
+          <div class="col">
             <el-card shadow="never">
               <h4>我们处理什么投诉？</h4>
 
@@ -46,17 +46,17 @@
             </el-card>
           </div>
 
-          <div class="col-4">
-            <el-card class="hint-card" shadow="hover">
-              请仔细阅读左列信息，如同意请点击下一步
-            </el-card>
-          </div>
+<!--          <div class="col-4">-->
+<!--            <el-card class="hint-card" shadow="hover">-->
+<!--              请仔细阅读左列信息，如同意请点击下一步-->
+<!--            </el-card>-->
+<!--          </div>-->
         </div>
       </tab-content>
 
       <tab-content title="投诉类型">
         <div class="row">
-          <div class="col-8">
+          <div class="col">
             <el-card shadow="never">
               <el-form :model="complaintTypeForm" ref="complaintTypeForm">
                 <ol class="complaint-type-questions">
@@ -74,11 +74,11 @@
                       <el-radio :label="8">商业违规行为等问题</el-radio>
                       <el-radio :label="9"
                       >其他
-                        <el-input
-                          :disabled="complaintTypeForm.complaintType !== 9"
-                          name="other"
-                          v-model="complaintTypeForm.otherComplaintType"
-                        ></el-input>
+<!--                        <el-input-->
+<!--                          :disabled="complaintTypeForm.complaintType !== 9"-->
+<!--                          name="other"-->
+<!--                          v-model="complaintTypeForm.otherComplaintType"-->
+<!--                        ></el-input>-->
                       </el-radio>
                     </el-radio-group>
                   </li>
@@ -137,17 +137,17 @@
             </el-card>
           </div>
 
-          <div class="col-4">
-            <el-card class="hint-card" shadow="hover">
-              请选择投诉原因以及其他相关信息
-            </el-card>
-          </div>
+<!--          <div class="col-4">-->
+<!--            <el-card class="hint-card" shadow="hover">-->
+<!--              请选择投诉原因以及其他相关信息-->
+<!--            </el-card>-->
+<!--          </div>-->
         </div>
       </tab-content>
 
       <tab-content title="投诉内容">
         <div class="row">
-          <div class="col-8">
+          <div class="col">
             <el-card shadow="never">
               <el-form
                 :model="complaintDetailForm"
@@ -222,15 +222,15 @@
             </el-card>
           </div>
 
-          <div class="col-4">
-            <el-card class="hint-card" shadow="hover"></el-card>
-          </div>
+<!--          <div class="col-4">-->
+<!--            <el-card class="hint-card" shadow="hover"></el-card>-->
+<!--          </div>-->
         </div>
       </tab-content>
 
       <tab-content title="图片证据">
         <div class="row">
-          <div class="col-8">
+          <div class="col">
             <el-card shadow="never">
               <el-form :model="uploadForm" :rules="rules" ref="uploadForm">
                 <el-form-item prop="uploadedInvoices">
@@ -304,17 +304,17 @@
             </el-card>
           </div>
 
-          <div class="col-4">
-            <el-card class="hint-card" shadow="hover">
-              请提交发票信息及图片证据
-            </el-card>
-          </div>
+<!--          <div class="col-4">-->
+<!--            <el-card class="hint-card" shadow="hover">-->
+<!--              请提交发票信息及图片证据-->
+<!--            </el-card>-->
+<!--          </div>-->
         </div>
       </tab-content>
 
       <tab-content title="完成投诉">
         <div class="row">
-          <div class="col-8">
+          <div class="col">
             <el-card shadow="never">
               <h4>投诉清单</h4>
 
@@ -333,9 +333,9 @@
             </el-card>
           </div>
 
-          <div class="col-4">
-            <el-card class="hint-card" shadow="hover"></el-card>
-          </div>
+<!--          <div class="col-4">-->
+<!--            <el-card class="hint-card" shadow="hover"></el-card>-->
+<!--          </div>-->
         </div>
       </tab-content>
     </form-wizard>

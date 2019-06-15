@@ -201,7 +201,6 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/merchant/:merchantId',
-    name: 'merchantPortal',
     beforeEnter: commonAuthGuard,
     component: () => import('./views/FadeInPortal.vue'),
     children: [
