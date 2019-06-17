@@ -11,7 +11,13 @@ export class AuthenticationService {
   }
 
   public signup(info: SignUpMeta) {
-    return axios.post('/register', { phone_num: info.phoneNum, password: info.password, sex: info.sex, lastName: info.lastName, firstName: info.firstName });
+    return axios.post('/register', {
+      phone_num: info.phoneNum,
+      password: info.password,
+      sex: info.sex,
+      last_name: info.lastName,
+      first_name: info.firstName,
+    });
   }
 
   public sendSMS(phoneNum: string) {
@@ -27,7 +33,7 @@ export class AuthenticationService {
   }
 
   public identifyUser(path: string) {
-    return axios.post('/identify', {id_path: path});
+    return axios.post('/identify', { id_path: path });
   }
 }
 
