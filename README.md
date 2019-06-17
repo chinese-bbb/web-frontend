@@ -9,6 +9,10 @@ yarn install
 
 run the `gen.sh` in `./certs` to generate require ssl certificate.
 
+Add `rootca.pem` as root ca, and `server.cert` as local cert, restart browser.
+
+see https://www.cnblogs.com/guogangj/p/4118605.html & https://juejin.im/post/5a6db896518825732d7fd8e0
+
 ### Compiles and hot-reloads for development
 ```
 yarn run serve
