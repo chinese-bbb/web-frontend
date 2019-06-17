@@ -43,9 +43,9 @@
 
       <div :class="{'complaints-history--loading': joinedLoading}" class="result-wrapper" v-loading="joinedLoading">
 
-        <div class="filters mb-4" v-if="viewResults.length">
+        <!--<div class="filters mb-4" v-if="viewResults.length">
           <el-dropdown trigger="click">
-            <span class="el-dropdown-link"> 投诉类型<i class="el-icon-arrow-down el-icon--right"></i> </span>
+            <span class="el-dropdown-link"> 投诉类型<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i> </span>
 
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>黄金糕</el-dropdown-item>
@@ -57,7 +57,7 @@
           </el-dropdown>
 
           <el-dropdown trigger="click">
-            <span class="el-dropdown-link"> 投诉阶段<i class="el-icon-arrow-down el-icon--right"></i> </span>
+            <span class="el-dropdown-link"> 投诉阶段<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i> </span>
 
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>黄金糕</el-dropdown-item>
@@ -75,15 +75,15 @@
               <el-dropdown-item>蚵仔煎</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        </div>
+        </div>-->
 
         <ul class="complaint-list list-unstyled">
           <li :key="item.complaint_id" class="complaint-info__item mb-3" v-for="item in viewResults">
             <router-link class="route-link-view d-flex flex-column" :to="{name: 'complaintDetails', params: { complaintId: item.complaint_id }}">
               <div class="header row mb-2">
-                <span class="complaint-type col-6">投诉类型：{{ item.complain_type }}</span>
-                <span class="complaint-status col-3">状态：{{ item.complaint_status }}</span>
-                <span class="complaint-owner col-3">投诉人：{{ item.issuer }}</span>
+                <span class="complaint-type col-6">投诉类型：{{ item.complain_type | complaintType }}</span>
+                <span class="complaint-status col-3">状态：{{ item.complaint_state | complaintState }}</span>
+                <span class="complaint-owner col-3">投诉人：{{ item.user | userName }}</span>
               </div>
 
               <div class="content">

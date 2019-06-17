@@ -3,7 +3,7 @@
     <el-row :gutter="30">
       <el-col :span="16" class="main-col">
         <el-tabs :value="activeTab" @tab-click="tabChanged" type="card">
-          <el-tab-pane :class="{ loading: loading }" label="最近投诉消息" name="recent" v-loading="loading">
+          <el-tab-pane :class="{ loading: loadingComplaints }" label="最近投诉消息" name="recent" v-loading="loadingComplaints">
             <ul class="complaints-list list-unstyled">
               <li :key="item.complaint_id" class="mb-3" v-for="item in recentComplaints">
                 <router-link :to="{ name: 'complaintDetails', params: { complaintId: item.complaint_id } }"
@@ -13,7 +13,7 @@
               </li>
             </ul>
 
-            <div v-if="!loading">
+            <div v-if="!loadingComplaints">
               <div v-if="!recentComplaints.length"><p>没有数据哦</p></div>
 
               <el-pagination
@@ -38,13 +38,13 @@
           </el-input>
         </div>
 
-        <el-card class="user-info-card mt-4" shadow="hover">
+        <el-card class="user-info-card mt-4" shadow="hover" v-loading="loadingUserInfo">
           <div class="d-flex align-items-center justify-content-start">
             <div class="portrait-wrapper mr-3">
               <fa-icon class="portrait" icon="user-circle" size="6x"></fa-icon>
             </div>
 
-            <h3 class="username"><span class="family-name">{{ user.real_name }}</span>&nbsp;<span class="gender">{{ user.sex == 'female' ? '女士' : '先生' }}</span>
+            <h3 class="username"><span class="family-name">{{ user.last_name }}</span>&nbsp;<span class="gender">{{ user.sex | gender }}</span>
             </h3>
           </div>
 
@@ -83,7 +83,8 @@ export default class Profile extends Vue {
   searchStr = '';
   recentComplaints: ServerComplaintModel[] = [];
   user: UserModel = {} as any;
-  loading = true;
+  loadingUserInfo = true;
+  loadingComplaints = true;
 
   search(value: string) {
     this.searchStr = value;
@@ -104,6 +105,7 @@ export default class Profile extends Vue {
   }
 
   getUserInfo() {
+    this.loadingUserInfo = true;
     customerService
       .getCurrentUserInfo()
       .then(
@@ -115,14 +117,15 @@ export default class Profile extends Vue {
         error => {
           this.$message.error(error.message);
         },
-      );
+      )
+      .finally(() => this.loadingUserInfo = false);
   }
 
   getComplaints() {
-    this.loading = true;
+    this.loadingComplaints = true;
 
     complaintService
-      .getUserComplaint(this.user.username)
+      .getUserComplaints(this.user.username)
       .then(
         complaint => {
           this.recentComplaints = complaint.data;
@@ -131,7 +134,7 @@ export default class Profile extends Vue {
           this.$message.error(error.message);
         },
       )
-      .finally(() => this.loading = false);
+      .finally(() => this.loadingComplaints = false);
   }
 
   tabChanged(tab: ElTabPane) {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RawComplaint } from '@/models';
+import { CommentModel, RawComplaint, ServerComplaintModel } from '@/models';
 
 export class ComplaintService {
   public createComplaint(rawComplaint: RawComplaint) {
@@ -22,7 +22,7 @@ export class ComplaintService {
   }
 
   public getComplaint(id: string) {
-    return axios.get(`/complaint/${id}`);
+    return axios.get<ServerComplaintModel>(`/complaint/${id}`);
   }
 
   public getComplaintByMerchant(id: string) {
@@ -30,7 +30,7 @@ export class ComplaintService {
   }
 
   public getCommentsByComplaint(id: string) {
-    return axios.get(`/commentsByComplaint/${id}`);
+    return axios.get<CommentModel[]>(`/commentsByComplaint/${id}`);
   }
 
   public addComment(id: string, text: string) {
@@ -40,7 +40,7 @@ export class ComplaintService {
     });
   }
 
-  public getUserComplaint(phoneNumber: string) {
+  public getUserComplaints(phoneNumber: string) {
     return axios.get('/complaintByUser', { params: { phone_num: phoneNumber } });
   }
 }

@@ -98,10 +98,10 @@ export interface ServerComplaintModel {
   allow_press: boolean;
   allow_public: boolean;
   complain_timestamp: string;
-  complain_type: string;
+  complain_type: ComplaintType;
   complaint_body: string;
   complaint_id: string;
-  complaint_status: string;
+  complaint_state: ComplaintState;
   expected_solution_body: string;
   id_files: string[];
   if_negotiated_by_merchant: boolean;
@@ -113,6 +113,7 @@ export interface ServerComplaintModel {
   purchase_timestamp: string;
   relatedProducts: string;
   trade_info: string;
+  user: UserModel;
 }
 
 export interface SignUpMeta {
@@ -127,6 +128,27 @@ export interface UserModel {
   if_verified: boolean;
   sex: string;
   registered_date: string;
-  real_name: string;
   username: string;
+  first_name: string;
+  last_name: string;
+}
+
+export type ComplaintType =
+  'product_issue'
+  | 'fake_add'
+  | 'customer_service'
+  | 'exchange_return'
+  | 'warranty'
+  | 'contract'
+  | 'shipping'
+  | 'infraction'
+  | 'other';
+
+export type ComplaintState = 'initialized' | 'in_progress' | 'resolved';
+
+export interface CommentModel {
+  complaint_id: string;
+  text: string;
+  timestamp: string;
+  user: UserModel;
 }

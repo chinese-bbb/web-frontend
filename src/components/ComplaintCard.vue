@@ -4,10 +4,10 @@
       <div class="thumb"></div>
       <div class="content">
         <div class="title-box">
-          <h3 class="title">{{complaint.complain_type}}</h3>
-          <el-tag :type="(complaint.if_negotiated_by_merchant ? 'success' : 'danger')"
+          <h3 class="title">{{ complaint.complain_type | complaintType }}</h3>
+          <el-tag :type="complaint.complaint_state | complaintStateClass"
                   class="tag"
-                  size="small">{{ complaint.complaint_status }}
+                  size="small">{{ complaint.complaint_state | complaintState }}
           </el-tag>
         </div>
         <p class="issue-time">投诉时间：{{ new Date(complaint.complain_timestamp).toLocaleDateString('zh-CN') }}</p>
