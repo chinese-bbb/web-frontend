@@ -1,12 +1,12 @@
 import { shallowMount } from '@vue/test-utils';
-import HelloWorld from '@/components/HelloWorld.vue';
+import Logo from '@/components/logo.vue';
 
-describe('HelloWorld.vue', () => {
+describe('Logo.vue', () => {
   it('renders props.msg when passed', () => {
-    const msg = 'new message';
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg },
+    const svgSrc = 'new message';
+    const wrapper = shallowMount(Logo, {
+      propsData: { svgSrc },
     });
-    expect(wrapper.text()).toMatch(msg);
+    expect(wrapper.text()).toMatch(svgSrc);
   });
 });

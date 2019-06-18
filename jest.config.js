@@ -1,9 +1,13 @@
+process.env.VUE_CLI_BABEL_TARGET_NODE = true;
+process.env.VUE_CLI_BABEL_TRANSPILE_MODULES = true;
+
 module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'json', 'vue', 'ts', 'tsx'],
   transform: {
     '^.+\\.vue$': 'vue-jest',
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
     '^.+\\.tsx?$': 'ts-jest',
+    "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
   },
   transformIgnorePatterns: ['/node_modules/'],
   moduleNameMapper: {
