@@ -102,9 +102,9 @@
         <div v-if="!joinedLoading">
           <div v-if="!viewResults.length"><p class="text-center">没有数据哦</p></div>
 
-          <el-button class="btn-block align-self-end" v-if="viewResults.length"
+          <!--<el-button class="btn-block align-self-end" v-if="viewResults.length"
           >点击显示更多<i class="el-icon-arrow-down"></i>
-          </el-button>
+          </el-button>-->
         </div>
       </div>
 
@@ -154,7 +154,7 @@ export default class MerchantInfoView extends Vue {
     searchService
       .queryMerchant(this.id)
       .then(resp => {
-        this.merchantInfo = resp.data.return;
+        this.merchantInfo = resp.data.storage;
 
         this.getComplaints(resp.data.merchant_id);
       })

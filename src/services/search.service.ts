@@ -2,11 +2,11 @@ import axios from 'axios';
 
 export class SearchService {
   public search(keyword: string) {
-    return axios.post('/fuzzy_query', { keyword });
+    return axios.get('/fuzzy_query', { params: { keyword } });
   }
 
   public queryMerchant(id: string) {
-    return axios.post('/merchant_query', { keyword: id });
+    return axios.get('/merchant_query', { params: { keyword: id } });
   }
 }
 
