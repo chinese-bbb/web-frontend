@@ -2,7 +2,7 @@
   <div class="merchant-info-view container">
     <el-card class="info-card" shadow="never" v-loading="loading">
       <div class="row">
-        <div class="company-info col-4">
+        <div class="company-info col-12 col-md-4">
           <el-image :src="merchantInfo.ImageUrl" class="merchant-logo mb-3"></el-image>
 
           <h3 class="company-name">{{ merchantInfo.Name }}</h3>
@@ -18,7 +18,7 @@
           <p class="corporation-status">经营状态 ：{{ merchantInfo.Status }}</p>
         </div>
 
-        <div class="analysis d-flex col-8">
+        <div class="analysis d-flex col-12 col-md-8">
           <div class="chart-wrapper flex-grow-1 mb-3">
             <el-image class="chart-image">
               <div slot="error" class="image-error-slot">

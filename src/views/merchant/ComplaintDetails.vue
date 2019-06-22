@@ -1,17 +1,17 @@
 <template>
   <div class="complaint-details container">
     <div class="row">
-      <div class="col-8">
-        <el-card class="complaint-main-info" shadow="hover" v-loading="loadingDetails">
+      <div class="col-12 col-md-8">
+        <el-card class="complaint-main-info mb-3" shadow="hover" v-loading="loadingDetails">
           <div class="header">
             <h3>投诉详情</h3>
           </div>
 
           <div class="content">
             <div class="complaint-meta row mb-2">
-              <span class="complaint-type col-5">投诉类型：{{ complaintInfo.complain_type | complaintType }}</span>
-              <span class="complaint-status col-3">状态：{{ complaintInfo.complaint_state | complaintState }}</span>
-              <span class="complaint-owner col-4">投诉人：{{ complaintInfo.user | userName }}</span>
+              <span class="complaint-type col-6 col-md-5">投诉类型：{{ complaintInfo.complain_type | complaintType }}</span>
+              <span class="complaint-status col-6 col-md-3">状态：{{ complaintInfo.complaint_state | complaintState }}</span>
+              <span class="complaint-owner col-12 col-md-4">投诉人：{{ complaintInfo.user | userName }}</span>
             </div>
 
             <p class="brief-summary">
@@ -20,7 +20,15 @@
           </div>
         </el-card>
 
-        <el-card class="complaint-comments mt-3" shadow="hover" v-if="comments.length">
+        <el-card class="invoice-info mb-3 d-block d-md-none" shadow="hover">
+          <h3>发票信息</h3>
+
+          <div>
+
+          </div>
+        </el-card>
+
+        <el-card class="complaint-comments" shadow="hover" v-if="comments.length">
           <ol class="comments list-unstyled mb-0">
             <li class="comment media d-flex" v-for="item in comments">
               <div class="thumb mr-2">
@@ -53,7 +61,7 @@
         </div>
       </div>
 
-      <el-card class="invoice-info col-4" shadow="hover">
+      <el-card class="invoice-info col-md-4 d-none d-md-block" shadow="hover">
         <h3>发票信息</h3>
 
         <div>

@@ -48,7 +48,7 @@ export default class RealNameAuth extends Vue {
   };
 
   handleExceedError() {
-    this.$message.error('只需上传一个文件。可通过预览卡片去除已选择文件');
+    this.$message.error({ duration: 0, message: '只需上传一个文件。可通过预览卡片去除已选择文件' });
   }
 
   handleOnChange(file: File, filelist: FileList) {
@@ -84,7 +84,6 @@ export default class RealNameAuth extends Vue {
           .then(() => {
             this.$router.push({ name: 'profile' });
           });
-
       }, () => {
         this.$message.error('实名认证失败，请重试');
       }).finally(() => this.verifying = false);
@@ -119,6 +118,10 @@ export default class RealNameAuth extends Vue {
       .el-upload-list__item-thumbnail {
         object-fit: contain;
       }
+    }
+
+    &, & /deep/ .el-upload, & /deep/ .el-upload-dragger {
+      max-width: 100%;
     }
   }
 </style>

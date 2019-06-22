@@ -1,0 +1,6 @@
+.el-main .container {
+  @include media-breakpoint-down(md) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

@@ -1,44 +1,42 @@
 <template>
   <div class="user-info-view container mt-3">
-    <el-row :gutter="30">
-      <el-col :span="16" class="main-col">
-        <el-tabs :value="activeTab" @tab-click="tabChanged" type="card">
-          <el-tab-pane :class="{ loading: loadingComplaints }" label="最近投诉消息" name="recent" v-loading="loadingComplaints">
-            <ul class="complaints-list list-unstyled">
-              <li :key="item.complaint_id" class="mb-3" v-for="item in recentComplaints">
-                <router-link :to="{ name: 'complaintDetails', params: { complaintId: item.complaint_id } }"
-                             class="route-link-view">
-                  <complaint-card :complaint="item"/>
-                </router-link>
-              </li>
-            </ul>
+    <div class="row">
+      <el-tabs class="col-12 col-md-8 order-md-first order-last" :value="activeTab" @tab-click="tabChanged" type="card">
+        <el-tab-pane :class="{ loading: loadingComplaints }" label="最近投诉消息" name="recent" v-loading="loadingComplaints">
+          <ul class="complaints-list list-unstyled">
+            <li :key="item.complaint_id" class="mb-3" v-for="item in recentComplaints">
+              <router-link :to="{ name: 'complaintDetails', params: { complaintId: item.complaint_id } }"
+                           class="route-link-view">
+                <complaint-card :complaint="item"/>
+              </router-link>
+            </li>
+          </ul>
 
-            <div v-if="!loadingComplaints">
-              <div v-if="!recentComplaints.length"><p>没有数据哦</p></div>
+          <div v-if="!loadingComplaints">
+            <div v-if="!recentComplaints.length"><p>没有数据哦</p></div>
 
-              <el-pagination
-                :page-size="10"
-                :total="recentComplaints.length"
-                hide-on-single-page
-                layout="prev, pager, next"
-              >
-              </el-pagination>
-            </div>
-          </el-tab-pane>
+            <el-pagination
+              :page-size="10"
+              :total="recentComplaints.length"
+              hide-on-single-page
+              layout="prev, pager, next"
+            >
+            </el-pagination>
+          </div>
+        </el-tab-pane>
 
-          <el-tab-pane label="历史投诉消息" name="history">
-            即将推出，敬请期待!
-          </el-tab-pane>
-        </el-tabs>
-      </el-col>
+        <el-tab-pane label="历史投诉消息" name="history">
+          即将推出，敬请期待!
+        </el-tab-pane>
+      </el-tabs>
 
-      <el-col :span="8" class="side-col">
+      <div class="side-col col-12 col-md-4">
         <div class="search-wrapper">
           <el-input :value="searchStr" @input="search" placeholder="请输入投诉消息关键词" suffix-icon="el-icon-search">
           </el-input>
         </div>
 
-        <el-card class="user-info-card mt-4" shadow="hover" v-loading="loadingUserInfo">
+        <el-card class="user-info-card my-4" shadow="hover" v-loading="loadingUserInfo">
           <div class="d-flex align-items-center justify-content-start">
             <div class="portrait-wrapper mr-3">
               <fa-icon class="portrait" icon="user-circle" size="6x"></fa-icon>
@@ -56,8 +54,8 @@
             <router-link :to="{ name: 'realnameAuth'}" class="primary-router-link">立即实名</router-link>
           </p>
         </el-card>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -153,14 +151,6 @@ export default class Profile extends Vue {
 
 <style lang="scss" scoped>
   @import '../../../styles/helper';
-
-  .main-col {
-    //background-color: #666666;
-  }
-
-  .side-col {
-    //background-color: #CCCCCC;
-  }
 
   .el-tabs /deep/ {
     .el-tab-pane.loading {
