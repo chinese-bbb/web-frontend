@@ -16,7 +16,7 @@
           slot="append"
           type="primary"
           v-if="searchStr"
-        >搜索
+          >搜索
         </el-button>
       </el-input>
     </header>
@@ -38,11 +38,13 @@
         <div>
           <div class="text-center" v-if="!viewResults.length && !loading"><p>找不到相关数据哦</p></div>
 
-          <el-pagination :page-size="pageSize"
-                         :total="pageCount"
-                         @current-change="handlePageChange"
-                         hide-on-single-page
-                         layout="prev, pager, next">
+          <el-pagination
+            :page-size="pageSize"
+            :total="pageCount"
+            @current-change="handlePageChange"
+            hide-on-single-page
+            layout="prev, pager, next"
+          >
           </el-pagination>
         </div>
       </main>
@@ -124,24 +126,24 @@ export default class SearchResult extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import "../styles/helper";
+@import '../styles/helper';
 
-  .filters {
-    background-color: #eaeaea;
-    height: 100px;
-  }
+.filters {
+  background-color: #eaeaea;
+  height: 100px;
+}
 
+.search-input {
+  width: 100%;
+}
+
+.results {
+  min-height: 50vh;
+}
+
+@include media-breakpoint-up(md) {
   .search-input {
-    width: 100%;
+    width: 75%;
   }
-
-  .results {
-    min-height: 50vh;
-  }
-
-  @include media-breakpoint-up(md) {
-    .search-input {
-      width: 75%;
-    }
-  }
+}
 </style>

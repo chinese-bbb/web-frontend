@@ -46,11 +46,11 @@
             </el-card>
           </div>
 
-<!--          <div class="col-4">-->
-<!--            <el-card class="hint-card" shadow="hover">-->
-<!--              请仔细阅读左列信息，如同意请点击下一步-->
-<!--            </el-card>-->
-<!--          </div>-->
+          <!--          <div class="col-4">-->
+          <!--            <el-card class="hint-card" shadow="hover">-->
+          <!--              请仔细阅读左列信息，如同意请点击下一步-->
+          <!--            </el-card>-->
+          <!--          </div>-->
         </div>
       </tab-content>
 
@@ -73,12 +73,12 @@
                       <el-radio :label="7">物流问题</el-radio>
                       <el-radio :label="8">商业违规行为等问题</el-radio>
                       <el-radio :label="9"
-                      >其他
-<!--                        <el-input-->
-<!--                          :disabled="complaintTypeForm.complaintType !== 9"-->
-<!--                          name="other"-->
-<!--                          v-model="complaintTypeForm.otherComplaintType"-->
-<!--                        ></el-input>-->
+                        >其他
+                        <!--                        <el-input-->
+                        <!--                          :disabled="complaintTypeForm.complaintType !== 9"-->
+                        <!--                          name="other"-->
+                        <!--                          v-model="complaintTypeForm.otherComplaintType"-->
+                        <!--                        ></el-input>-->
                       </el-radio>
                     </el-radio-group>
                   </li>
@@ -137,11 +137,11 @@
             </el-card>
           </div>
 
-<!--          <div class="col-4">-->
-<!--            <el-card class="hint-card" shadow="hover">-->
-<!--              请选择投诉原因以及其他相关信息-->
-<!--            </el-card>-->
-<!--          </div>-->
+          <!--          <div class="col-4">-->
+          <!--            <el-card class="hint-card" shadow="hover">-->
+          <!--              请选择投诉原因以及其他相关信息-->
+          <!--            </el-card>-->
+          <!--          </div>-->
         </div>
       </tab-content>
 
@@ -222,9 +222,9 @@
             </el-card>
           </div>
 
-<!--          <div class="col-4">-->
-<!--            <el-card class="hint-card" shadow="hover"></el-card>-->
-<!--          </div>-->
+          <!--          <div class="col-4">-->
+          <!--            <el-card class="hint-card" shadow="hover"></el-card>-->
+          <!--          </div>-->
         </div>
       </tab-content>
 
@@ -239,7 +239,7 @@
                   <el-upload
                     :action="uploadUrl"
                     :before-upload="beforeUpload"
-                    :data="{upload_type: 'invoice'}"
+                    :data="{ upload_type: 'invoice' }"
                     :file-list="uploadForm.invoiceImages"
                     :limit="1"
                     :on-exceed="handleExceed"
@@ -267,7 +267,7 @@
                   <el-upload
                     :action="uploadUrl"
                     :before-upload="beforeUpload"
-                    :data="{upload_type: 'evidence'}"
+                    :data="{ upload_type: 'evidence' }"
                     :file-list="uploadForm.otherEvidenceImages"
                     :limit="9"
                     :on-exceed="handleExceed"
@@ -290,7 +290,7 @@
                 </el-form-item>
 
                 <el-dialog :visible.sync="dialogVisible">
-                  <img :src="dialogImageUrl" alt="" width="100%"/>
+                  <img :src="dialogImageUrl" alt="" width="100%" />
                 </el-dialog>
 
                 <footer class="text-right">
@@ -304,11 +304,11 @@
             </el-card>
           </div>
 
-<!--          <div class="col-4">-->
-<!--            <el-card class="hint-card" shadow="hover">-->
-<!--              请提交发票信息及图片证据-->
-<!--            </el-card>-->
-<!--          </div>-->
+          <!--          <div class="col-4">-->
+          <!--            <el-card class="hint-card" shadow="hover">-->
+          <!--              请提交发票信息及图片证据-->
+          <!--            </el-card>-->
+          <!--          </div>-->
         </div>
       </tab-content>
 
@@ -325,17 +325,21 @@
               <footer class="text-right">
                 <el-button @click.native="$refs.wizard.prevTab()">上一步</el-button>
 
-                <el-button :loading="submitting" @click.native="$refs.wizard.nextTab()" class="btn-confirm-finish"
-                           size="large" type="primary"
-                >完成
+                <el-button
+                  :loading="submitting"
+                  @click.native="$refs.wizard.nextTab()"
+                  class="btn-confirm-finish"
+                  size="large"
+                  type="primary"
+                  >完成
                 </el-button>
               </footer>
             </el-card>
           </div>
 
-<!--          <div class="col-4">-->
-<!--            <el-card class="hint-card" shadow="hover"></el-card>-->
-<!--          </div>-->
+          <!--          <div class="col-4">-->
+          <!--            <el-card class="hint-card" shadow="hover"></el-card>-->
+          <!--          </div>-->
         </div>
       </tab-content>
     </form-wizard>
@@ -528,7 +532,11 @@ export default class FileComplaint extends Vue {
     this.$message.error('文件上传出错');
   }
 
-  handleOtherEvidenceUploadSuccess(response: any, file: ElUploadInternalFileDetail, filelist: ElUploadInternalFileDetail[]) {
+  handleOtherEvidenceUploadSuccess(
+    response: any,
+    file: ElUploadInternalFileDetail,
+    filelist: ElUploadInternalFileDetail[],
+  ) {
     this.uploadForm.otherEvidenceImages = filelist;
     this.uploadForm.uploadedOtherEvidences.push('a');
     (this.$refs.uploadForm as ElForm).validateField('uploadedOtherEvidences', () => void 0);
@@ -549,60 +557,60 @@ export default class FileComplaint extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/helper';
+@import '../styles/helper';
 
-  .el-radio {
-    display: block;
+.el-radio {
+  display: block;
+}
+
+.hint-card {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.header-hint {
+  font-size: 14px;
+  color: $--color-danger;
+}
+
+.vue-form-wizard /deep/ {
+  .wizard-tab-content {
+    margin-top: 2em;
   }
+}
 
-  .hint-card {
-    min-height: 300px;
-    display: flex;
-    align-items: center;
+.without-label /deep/ .el-form-item__content {
+  margin-left: 0 !important;
+}
+
+.complaint-type-questions {
+  li:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+.evidence-upload {
+  line-height: 1;
+}
+
+.evidence-upload /deep/ {
+  .el-upload--picture-card {
+    display: inline-flex;
+    flex-direction: column;
     justify-content: center;
-    text-align: center;
-    font-size: 1.25rem;
+    line-height: 2;
   }
 
-  .header-hint {
-    font-size: 14px;
-    color: $--color-danger;
+  .el-upload-list__item-thumbnail {
+    object-fit: contain;
   }
+}
 
-  .vue-form-wizard /deep/ {
-    .wizard-tab-content {
-      margin-top: 2em;
-    }
-  }
-
-  .without-label /deep/ .el-form-item__content {
-    margin-left: 0 !important;
-  }
-
-  .complaint-type-questions {
-    li:not(:last-child) {
-      margin-bottom: 1rem;
-    }
-  }
-
-  .evidence-upload {
-    line-height: 1;
-  }
-
-  .evidence-upload /deep/ {
-    .el-upload--picture-card {
-      display: inline-flex;
-      flex-direction: column;
-      justify-content: center;
-      line-height: 2;
-    }
-
-    .el-upload-list__item-thumbnail {
-      object-fit: contain;
-    }
-  }
-
-  .btn-confirm-finish {
-    width: 10rem;
-  }
+.btn-confirm-finish {
+  width: 10rem;
+}
 </style>

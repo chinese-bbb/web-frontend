@@ -14,7 +14,9 @@
           <p class="address">地址 ：{{ merchantInfo.Address }}</p>
           <p class="registered-capital">注册资本 ：{{ merchantInfo.RegistCapi }}</p>
           <p class="former-names">曾用名 ：{{ merchantInfo.OriginalName | serializeArray }}</p>
-          <v-clamp :max-lines="3" autoresize tag="p" :title="merchantInfo.Scope">经营范围 ：{{ merchantInfo.Scope }}</v-clamp>
+          <v-clamp :max-lines="3" autoresize tag="p" :title="merchantInfo.Scope"
+            >经营范围 ：{{ merchantInfo.Scope }}</v-clamp
+          >
           <p class="corporation-status">经营状态 ：{{ merchantInfo.Status }}</p>
         </div>
 
@@ -30,7 +32,7 @@
           <router-link
             :to="{ name: 'fileComplaint', query: { id: merchantInfo.No } }"
             class="btn-file-complaint el-button el-button--primary"
-          >我要投诉
+            >我要投诉
           </router-link>
         </div>
       </div>
@@ -41,8 +43,7 @@
 
       <el-divider></el-divider>
 
-      <div :class="{'complaints-history--loading': joinedLoading}" class="result-wrapper" v-loading="joinedLoading">
-
+      <div :class="{ 'complaints-history--loading': joinedLoading }" class="result-wrapper" v-loading="joinedLoading">
         <!--<div class="filters mb-4" v-if="viewResults.length">
           <el-dropdown trigger="click">
             <span class="el-dropdown-link"> 投诉类型<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i> </span>
@@ -79,7 +80,10 @@
 
         <ul class="complaint-list list-unstyled">
           <li :key="item.complaint_id" class="complaint-info__item mb-3" v-for="item in viewResults">
-            <router-link class="route-link-view d-flex flex-column" :to="{name: 'complaintDetails', params: { complaintId: item.complaint_id }}">
+            <router-link
+              class="route-link-view d-flex flex-column"
+              :to="{ name: 'complaintDetails', params: { complaintId: item.complaint_id } }"
+            >
               <div class="header row mb-2">
                 <span class="complaint-type col-6">投诉类型：{{ item.complain_type | complaintType }}</span>
                 <span class="complaint-status col-3">状态：{{ item.complaint_state | complaintState }}</span>
@@ -107,7 +111,6 @@
           </el-button>-->
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -166,7 +169,8 @@ export default class MerchantInfoView extends Vue {
 
     this.viewResults = [];
 
-    complaintService.getComplaintByMerchant(id)
+    complaintService
+      .getComplaintByMerchant(id)
       .then(resp => {
         this.viewResults = resp.data;
       })
@@ -178,77 +182,77 @@ export default class MerchantInfoView extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../styles/helper';
+@import '../../styles/helper';
 
-  .info-card {
-    background-color: #eaeaea;
+.info-card {
+  background-color: #eaeaea;
+}
+
+.merchant-logo {
+  width: 150px;
+  height: 150px;
+}
+
+.company-info {
+  p {
+    margin-bottom: 0.25rem;
   }
+}
 
-  .merchant-logo {
-    width: 150px;
-    height: 150px;
+.analysis {
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-file-complaint {
+  align-self: flex-end;
+  text-decoration: none;
+  width: 12em;
+}
+
+.result-wrapper {
+  position: relative;
+}
+
+.complaint-info__item {
+  background-color: #fafafa;
+  padding: 15px;
+
+  .header {
+    font-size: $--font-size-primary;
   }
+}
 
-  .company-info {
-    p {
-      margin-bottom: 0.25rem;
-    }
+.complaints-history--loading {
+  height: 15rem;
+}
+
+.complaint-img {
+  height: 150px;
+  width: 150px;
+  background-color: #e4e4e4;
+}
+
+.filters .el-dropdown {
+  cursor: pointer;
+
+  &:not(:last-child) {
+    margin-right: 1.5rem;
   }
+}
 
-  .analysis {
-    height: 480px;
-    display: flex;
-    flex-direction: column;
-  }
+.chart-image {
+  height: 100%;
+  width: 100%;
+}
 
-  .btn-file-complaint {
-    align-self: flex-end;
-    text-decoration: none;
-    width: 12em;
-  }
-
-  .result-wrapper {
-    position: relative;
-  }
-
-  .complaint-info__item {
-    background-color: #fafafa;
-    padding: 15px;
-
-    .header {
-      font-size: $--font-size-primary;
-    }
-  }
-
-  .complaints-history--loading {
-    height: 15rem;
-  }
-
-  .complaint-img {
-    height: 150px;
-    width: 150px;
-    background-color: #e4e4e4;
-  }
-
-  .filters .el-dropdown {
-    cursor: pointer;
-
-    &:not(:last-child) {
-      margin-right: 1.5rem;
-    }
-  }
-
-  .chart-image {
-    height: 100%;
-    width: 100%;
-  }
-
-  .el-image /deep/ .image-error-slot {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background: #f5f7fa;
-  }
+.el-image /deep/ .image-error-slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #f5f7fa;
+}
 </style>

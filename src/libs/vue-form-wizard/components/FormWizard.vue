@@ -463,9 +463,7 @@ export default {
         this.activateTabAndCheckStep(this.startIndex);
       } else {
         window.console.warn(
-          `Prop startIndex set to ${this.startIndex} is greater than the number of tabs - ${
-            this.tabs.length
-          }. Make sure that the starting index is less than the number of tabs registered`,
+          `Prop startIndex set to ${this.startIndex} is greater than the number of tabs - ${this.tabs.length}. Make sure that the starting index is less than the number of tabs registered`,
         );
       }
     },

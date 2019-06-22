@@ -17,7 +17,6 @@ const forbidAuthedUserGuard: NavigationGuard = (to, from, next) => {
 };
 
 const commonAuthGuard: NavigationGuard = (to, from, next) => {
-
   if (!store.state.authenticated) {
     Vue.prototype.$message.error('非法访问');
     next({ name: 'home' });

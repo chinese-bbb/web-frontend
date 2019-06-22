@@ -9,8 +9,12 @@
 
           <div class="content">
             <div class="complaint-meta row mb-2">
-              <span class="complaint-type col-6 col-md-5">投诉类型：{{ complaintInfo.complain_type | complaintType }}</span>
-              <span class="complaint-status col-6 col-md-3">状态：{{ complaintInfo.complaint_state | complaintState }}</span>
+              <span class="complaint-type col-6 col-md-5"
+                >投诉类型：{{ complaintInfo.complain_type | complaintType }}</span
+              >
+              <span class="complaint-status col-6 col-md-3"
+                >状态：{{ complaintInfo.complaint_state | complaintState }}</span
+              >
               <span class="complaint-owner col-12 col-md-4">投诉人：{{ complaintInfo.user | userName }}</span>
             </div>
 
@@ -23,9 +27,7 @@
         <el-card class="invoice-info mb-3 d-block d-md-none" shadow="hover">
           <h3>发票信息</h3>
 
-          <div>
-
-          </div>
+          <div></div>
         </el-card>
 
         <el-card class="complaint-comments" shadow="hover" v-if="comments.length">
@@ -50,12 +52,22 @@
         <div class="mt-5">
           <h3>回复</h3>
 
-          <el-input :autosize="{ minRows: 4 }" :disabled="loadingComments || replying" placeholder="请输入内容" type="textarea"
-                    v-model="replyText"></el-input>
+          <el-input
+            :autosize="{ minRows: 4 }"
+            :disabled="loadingComments || replying"
+            placeholder="请输入内容"
+            type="textarea"
+            v-model="replyText"
+          ></el-input>
 
           <div class="text-right mt-2">
-            <el-button :disabled="!replyText.length" :loading="replying" @click="reply()" class="btn-submit"
-                       type="primary">提交
+            <el-button
+              :disabled="!replyText.length"
+              :loading="replying"
+              @click="reply()"
+              class="btn-submit"
+              type="primary"
+              >提交
             </el-button>
           </div>
         </div>
@@ -64,9 +76,7 @@
       <el-card class="invoice-info col-md-4 d-none d-md-block" shadow="hover">
         <h3>发票信息</h3>
 
-        <div>
-
-        </div>
+        <div></div>
       </el-card>
     </div>
   </div>
@@ -94,13 +104,17 @@ export default class ComplaintDetails extends Vue {
   reply() {
     this.replying = true;
 
-    complaintService.addComment(this.id, this.replyText)
-      .then(() => {
-        this.loadComments();
-      }, () => {
-        this.$message.error('发送回复失败，请重试');
-      })
-      .finally(() => this.replying = false);
+    complaintService
+      .addComment(this.id, this.replyText)
+      .then(
+        () => {
+          this.loadComments();
+        },
+        () => {
+          this.$message.error('发送回复失败，请重试');
+        },
+      )
+      .finally(() => (this.replying = false));
   }
 
   mounted() {
@@ -134,32 +148,31 @@ export default class ComplaintDetails extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../styles/helper';
+@import '../../styles/helper';
 
-  .complaint-main-info {
-    //height: 450px;
-  }
+.complaint-main-info {
+  //height: 450px;
+}
 
-  .thumb {
-    font-size: 64px;
-    line-height: 1;
-  }
+.thumb {
+  font-size: 64px;
+  line-height: 1;
+}
 
-  .invoice-info {
-    height: 250px;
-  }
+.invoice-info {
+  height: 250px;
+}
 
-  .btn-submit {
-    width: 10em;
-  }
+.btn-submit {
+  width: 10em;
+}
 
-  .comment:not(:last-child) {
-    margin-bottom: 1rem;
-    border-bottom: 1px solid $--border-color-light;
-  }
+.comment:not(:last-child) {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid $--border-color-light;
+}
 
-  .comment-meta {
-    color: $--color-text-secondary;
-  }
-
+.comment-meta {
+  color: $--color-text-secondary;
+}
 </style>

@@ -19,9 +19,9 @@
     >
       <div class="text-center">
         请点此上传您的身份证照片正面
-        <br/>
+        <br />
         或
-        <br/>
+        <br />
         将身份证照片正面拖至此框
       </div>
     </el-upload>
@@ -64,29 +64,34 @@ export default class RealNameAuth extends Vue {
     this.uploading = false;
     this.verifying = true;
 
-    authService.identifyUser(response.path)
-      .then(resp => {
-        if (resp.data.error) {
-          if (resp.data.error.includes('Please upload clear ID')) {
-            this.$message.error('请提供清晰的身份证照片（人脸那一面）');
-          } else {
-            this.$message.error('请提供有效的身份证照片（人脸那一面）');
+    authService
+      .identifyUser(response.path)
+      .then(
+        resp => {
+          if (resp.data.error) {
+            if (resp.data.error.includes('Please upload clear ID')) {
+              this.$message.error('请提供清晰的身份证照片（人脸那一面）');
+            } else {
+              this.$message.error('请提供有效的身份证照片（人脸那一面）');
+            }
+            return;
           }
-          return;
-        }
 
-        this.$msgbox
-          .alert('实名认证完成', {
-            showConfirmButton: true,
-            showClose: false,
-            center: true,
-          })
-          .then(() => {
-            this.$router.push({ name: 'profile' });
-          });
-      }, () => {
-        this.$message.error('实名认证失败，请重试');
-      }).finally(() => this.verifying = false);
+          this.$msgbox
+            .alert('实名认证完成', {
+              showConfirmButton: true,
+              showClose: false,
+              center: true,
+            })
+            .then(() => {
+              this.$router.push({ name: 'profile' });
+            });
+        },
+        () => {
+          this.$message.error('实名认证失败，请重试');
+        },
+      )
+      .finally(() => (this.verifying = false));
   }
 
   handleUploadError() {
@@ -97,31 +102,33 @@ export default class RealNameAuth extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  .realname-verification {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.realname-verification {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .upload-box {
-    line-height: 40px;
-    margin-top: 10vh;
-    margin-bottom: 1rem;
+.upload-box {
+  line-height: 40px;
+  margin-top: 10vh;
+  margin-bottom: 1rem;
 
-    /deep/ {
-      .el-upload-dragger {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .el-upload-list__item-thumbnail {
-        object-fit: contain;
-      }
+  /deep/ {
+    .el-upload-dragger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    &, & /deep/ .el-upload, & /deep/ .el-upload-dragger {
-      max-width: 100%;
+    .el-upload-list__item-thumbnail {
+      object-fit: contain;
     }
   }
+
+  &,
+  & /deep/ .el-upload,
+  & /deep/ .el-upload-dragger {
+    max-width: 100%;
+  }
+}
 </style>

@@ -4,7 +4,8 @@ import {
   complaintStateMapping,
   complaintTypeMapping,
   DateFilter,
-  calcUserName, sexMapping,
+  calcUserName,
+  sexMapping,
 } from '@/filters';
 
 Vue.filter('date', DateFilter);

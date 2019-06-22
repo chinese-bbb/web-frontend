@@ -1,4 +1,3 @@
-
 <template>
   <div class="main-content">
     <fade-in-transition>

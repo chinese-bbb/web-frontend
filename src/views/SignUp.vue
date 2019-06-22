@@ -17,14 +17,15 @@
             :loading="requestingSms"
             @click.prevent="requestCaptcha()"
             class="btn-captha-request ml-2"
-          >获取验证码
+            >获取验证码
             <span v-if="captchaDisabled">({{ counter }}s)</span>
           </el-button>
         </el-form-item>
 
         <el-form-item class="inline-radios" prop="agreement">
           <el-radio-group v-model="form1.agreement">
-            <el-radio :label="true">我已阅读并同意
+            <el-radio :label="true"
+              >我已阅读并同意
               <a @click.prevent="dialogVisible = true" href="#">用户条款</a>
             </el-radio>
           </el-radio-group>
@@ -55,7 +56,6 @@
         <h2 class="form-title text-center mb-3">设置基本信息</h2>
 
         <div class="row">
-
           <el-form-item class="col" label="姓" prop="lastName">
             <el-input v-model="form3.lastName"></el-input>
           </el-form-item>
@@ -84,199 +84,200 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import { captchaPattern, phonePattern } from '@/constants';
-  import { ElForm } from 'element-ui/types/form';
-  import { ElInput } from 'element-ui/types/input';
+import { Component, Vue } from 'vue-property-decorator';
+import { captchaPattern, phonePattern } from '@/constants';
+import { ElForm } from 'element-ui/types/form';
+import { ElInput } from 'element-ui/types/input';
 
-  import { authService } from '../services';
+import { authService } from '../services';
 
-  @Component({
-    components: {},
-  })
-  export default class SignUp extends Vue {
-    counter = 0;
-    dialogVisible = false;
-    requestingSms = false;
-    submitting = false;
-    step = 1;
+@Component({
+  components: {},
+})
+export default class SignUp extends Vue {
+  counter = 0;
+  dialogVisible = false;
+  requestingSms = false;
+  submitting = false;
+  step = 1;
 
-    form1 = {
-      phone_num: '',
-      captcha: '',
-      agreement: null,
-    };
+  form1 = {
+    phone_num: '',
+    captcha: '',
+    agreement: null,
+  };
 
-    form2 = {
-      password: '',
-      confirmPassword: '',
-    };
+  form2 = {
+    password: '',
+    confirmPassword: '',
+  };
 
-    form3 = {
-      firstName: '',
-      gender: '',
-      lastName: '',
-    };
+  form3 = {
+    firstName: '',
+    gender: '',
+    lastName: '',
+  };
 
-    rules = {
-      phone_num: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
-      gender: [{ required: true, message: '请确定用户性别', trigger: 'change' }],
-      captcha: [{ required: true, pattern: captchaPattern, message: '验证码格式有误', trigger: 'blur' }],
-      agreement: [{ required: true, message: '用户条款未同意', trigger: 'change' }],
-      password: [
-        { required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 8, message: '密码须为8位以上', trigger: 'blur' },
-      ],
-      confirmPassword: [
-        { required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 8, message: '密码须为8位以上', trigger: 'blur' },
-        { validator: this.validateConfirmPass, trigger: 'blur' },
-      ],
-      lastName: [{ required: true, message: '请输入您的姓氏', trigger: 'blur' }],
-    };
+  rules = {
+    phone_num: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
+    gender: [{ required: true, message: '请确定用户性别', trigger: 'change' }],
+    captcha: [{ required: true, pattern: captchaPattern, message: '验证码格式有误', trigger: 'blur' }],
+    agreement: [{ required: true, message: '用户条款未同意', trigger: 'change' }],
+    password: [
+      { required: true, message: '请输入密码', trigger: 'blur' },
+      { min: 8, message: '密码须为8位以上', trigger: 'blur' },
+    ],
+    confirmPassword: [
+      { required: true, message: '请输入密码', trigger: 'blur' },
+      { min: 8, message: '密码须为8位以上', trigger: 'blur' },
+      { validator: this.validateConfirmPass, trigger: 'blur' },
+    ],
+    lastName: [{ required: true, message: '请输入您的姓氏', trigger: 'blur' }],
+  };
 
-    captchaDisabled = false;
+  captchaDisabled = false;
 
-    private countDownTimer: undefined | number;
+  private countDownTimer: undefined | number;
 
-    beforeDestroy() {
-      clearInterval(this.countDownTimer);
-    }
+  beforeDestroy() {
+    clearInterval(this.countDownTimer);
+  }
 
-    handleClose() {
-      this.dialogVisible = false;
-    }
+  handleClose() {
+    this.dialogVisible = false;
+  }
 
-    tryStep2() {
-      (this.$refs.form as ElForm).validate(valid => {
-        if (valid) {
-          this.submitting = true;
-          authService
-            .validateSMS(this.form1.phone_num, this.form1.captcha)
-            .then(
-              () => {
-                this.step = 2;
-                clearInterval(this.countDownTimer);
-              },
-              error => {
-                this.$message.error(error.message);
-              },
-            )
-            .finally(() => (this.submitting = false));
-        }
-      });
-    }
-
-    tryStep3() {
-      (this.$refs.passForm as ElForm).validate(valid => {
-        if (valid) {
-          this.step = 3;
-        }
-      });
-    }
-
-    submitForm() {
-      (this.$refs.infoForm as ElForm).validate(valid => {
-        if (valid) {
-          this.submitting = true;
-          authService
-            .signup({
-              phoneNum: this.form1.phone_num,
-              password: this.form2.password,
-              sex: this.form3.gender,
-              firstName: this.form3.firstName,
-              lastName: this.form3.lastName,
-            })
-            .then(
-              () => {
-                this.$router.push({ name: 'cSignUpSuccess' });
-              },
-              error => {
-                this.$message.error(error.message);
-              },
-            )
-            .finally(() => (this.submitting = false));
-        }
-      });
-    }
-
-    requestCaptcha() {
-      (this.$refs.form as ElForm).validateField('phone_num', err => {
-        if (!err) {
-          this.requestingSms = true;
-
-          authService
-            .sendSMS(this.form1.phone_num)
-            .then(
-              () => {
-                this.countDown();
-              },
-              error => {
-                this.$message.error(error.message);
-              },
-            )
-            .finally(() => {
-              this.requestingSms = false;
-            });
-        }
-      });
-    }
-
-    private countDown() {
-      this.counter = 59;
-      this.captchaDisabled = true;
-      this.countDownTimer = setInterval(() => {
-        this.counter -= 1;
-        if (this.counter === 0) {
-          clearInterval(this.countDownTimer);
-          this.captchaDisabled = false;
-          (this.$refs.captchaInput as ElInput).focus();
-        }
-      }, 1000);
-    }
-
-    private validateConfirmPass(rule: any, value: string, callback: any) {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.form2.password) {
-        callback(new Error('两次输入密码不一致!'));
-      } else {
-        callback();
+  tryStep2() {
+    (this.$refs.form as ElForm).validate(valid => {
+      if (valid) {
+        this.submitting = true;
+        authService
+          .validateSMS(this.form1.phone_num, this.form1.captcha)
+          .then(
+            () => {
+              this.step = 2;
+              clearInterval(this.countDownTimer);
+            },
+            error => {
+              this.$message.error(error.message);
+            },
+          )
+          .finally(() => (this.submitting = false));
       }
+    });
+  }
+
+  tryStep3() {
+    (this.$refs.passForm as ElForm).validate(valid => {
+      if (valid) {
+        this.step = 3;
+      }
+    });
+  }
+
+  submitForm() {
+    (this.$refs.infoForm as ElForm).validate(valid => {
+      if (valid) {
+        this.submitting = true;
+        authService
+          .signup({
+            phoneNum: this.form1.phone_num,
+            password: this.form2.password,
+            sex: this.form3.gender,
+            firstName: this.form3.firstName,
+            lastName: this.form3.lastName,
+          })
+          .then(
+            () => {
+              this.$router.push({ name: 'cSignUpSuccess' });
+            },
+            error => {
+              this.$message.error(error.message);
+            },
+          )
+          .finally(() => (this.submitting = false));
+      }
+    });
+  }
+
+  requestCaptcha() {
+    (this.$refs.form as ElForm).validateField('phone_num', err => {
+      if (!err) {
+        this.requestingSms = true;
+
+        authService
+          .sendSMS(this.form1.phone_num)
+          .then(
+            () => {
+              this.countDown();
+            },
+            error => {
+              this.$message.error(error.message);
+            },
+          )
+          .finally(() => {
+            this.requestingSms = false;
+          });
+      }
+    });
+  }
+
+  private countDown() {
+    this.counter = 59;
+    this.captchaDisabled = true;
+    this.countDownTimer = setInterval(() => {
+      this.counter -= 1;
+      if (this.counter === 0) {
+        clearInterval(this.countDownTimer);
+        this.captchaDisabled = false;
+        (this.$refs.captchaInput as ElInput).focus();
+      }
+    }, 1000);
+  }
+
+  private validateConfirmPass(rule: any, value: string, callback: any) {
+    if (value === '') {
+      callback(new Error('请再次输入密码'));
+    } else if (value !== this.form2.password) {
+      callback(new Error('两次输入密码不一致!'));
+    } else {
+      callback();
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
-  .signup-form {
-    width: 360px;
-    margin-top: 5rem;
-  }
+.signup-form {
+  width: 360px;
+  margin-top: 5rem;
+}
 
-  .form-title {
-    line-height: 1;
-    font-weight: normal;
-  }
+.form-title {
+  line-height: 1;
+  font-weight: normal;
+}
+
+.captcha-input {
+  width: 50%;
+}
+
+.captcha-row /deep/ .el-form-item__content {
+  display: flex;
 
   .captcha-input {
-    width: 50%;
+    flex-grow: 1;
   }
+}
 
-  .captcha-row /deep/ .el-form-item__content {
-    display: flex;
-
-    .captcha-input {
-      flex-grow: 1;
-    }
+.inline-radios /deep/ {
+  .el-form-item__label,
+  .el-form-item__content {
+    line-height: 28px;
   }
+}
 
-  .inline-radios /deep/ {
-    .el-form-item__label, .el-form-item__content {
-      line-height: 28px;
-    }
-  }
-
-  .info-form /deep/ .el-input {
-    width: 100px;
-  }
+.info-form /deep/ .el-input {
+  width: 100px;
+}
 </style>

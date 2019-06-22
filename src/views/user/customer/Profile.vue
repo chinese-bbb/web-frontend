@@ -2,12 +2,19 @@
   <div class="user-info-view container mt-3">
     <div class="row">
       <el-tabs class="col-12 col-md-8 order-md-first order-last" :value="activeTab" @tab-click="tabChanged" type="card">
-        <el-tab-pane :class="{ loading: loadingComplaints }" label="最近投诉消息" name="recent" v-loading="loadingComplaints">
+        <el-tab-pane
+          :class="{ loading: loadingComplaints }"
+          label="最近投诉消息"
+          name="recent"
+          v-loading="loadingComplaints"
+        >
           <ul class="complaints-list list-unstyled">
             <li :key="item.complaint_id" class="mb-3" v-for="item in recentComplaints">
-              <router-link :to="{ name: 'complaintDetails', params: { complaintId: item.complaint_id } }"
-                           class="route-link-view">
-                <complaint-card :complaint="item"/>
+              <router-link
+                :to="{ name: 'complaintDetails', params: { complaintId: item.complaint_id } }"
+                class="route-link-view"
+              >
+                <complaint-card :complaint="item" />
               </router-link>
             </li>
           </ul>
@@ -42,7 +49,9 @@
               <fa-icon class="portrait" icon="user-circle" size="6x"></fa-icon>
             </div>
 
-            <h3 class="username"><span class="family-name">{{ user.last_name }}</span>&nbsp;<span class="gender">{{ user.sex | gender }}</span>
+            <h3 class="username">
+              <span class="family-name">{{ user.last_name }}</span
+              >&nbsp;<span class="gender">{{ user.sex | gender }}</span>
             </h3>
           </div>
 
@@ -51,7 +60,7 @@
           <p>注册时间：{{ user.registered_date | date('yyyy 年 MM 月 dd 日') }}</p>
           <p class="d-flex justify-content-between">
             <span>是否实名：{{ user.if_verified ? '是' : '否' }}</span>
-            <router-link :to="{ name: 'realnameAuth'}" class="primary-router-link">立即实名</router-link>
+            <router-link :to="{ name: 'realnameAuth' }" class="primary-router-link">立即实名</router-link>
           </p>
         </el-card>
       </div>
@@ -116,7 +125,7 @@ export default class Profile extends Vue {
           this.$message.error(error.message);
         },
       )
-      .finally(() => this.loadingUserInfo = false);
+      .finally(() => (this.loadingUserInfo = false));
   }
 
   getComplaints() {
@@ -132,7 +141,7 @@ export default class Profile extends Vue {
           this.$message.error(error.message);
         },
       )
-      .finally(() => this.loadingComplaints = false);
+      .finally(() => (this.loadingComplaints = false));
   }
 
   tabChanged(tab: ElTabPane) {
@@ -150,40 +159,40 @@ export default class Profile extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../../styles/helper';
+@import '../../../styles/helper';
 
-  .el-tabs /deep/ {
-    .el-tab-pane.loading {
-      height: 150px;
-    }
-
-    .el-tabs__nav-wrap {
-      margin-bottom: 0;
-    }
-
-    .el-tabs__header {
-      border-bottom-width: 2px;
-    }
-
-    .el-tabs__nav {
-      border-radius: 0;
-    }
-
-    .el-tabs__nav,
-    .el-tabs__item {
-      border: 0 !important;
-    }
-
-    .el-tabs__item.is-active {
-      background-color: $--color-primary;
-      color: $--color-primary-inverse;
-    }
+.el-tabs /deep/ {
+  .el-tab-pane.loading {
+    height: 150px;
   }
 
-  .complaints-list {
+  .el-tabs__nav-wrap {
+    margin-bottom: 0;
   }
 
-  .username {
-    font-size: 2em;
+  .el-tabs__header {
+    border-bottom-width: 2px;
   }
+
+  .el-tabs__nav {
+    border-radius: 0;
+  }
+
+  .el-tabs__nav,
+  .el-tabs__item {
+    border: 0 !important;
+  }
+
+  .el-tabs__item.is-active {
+    background-color: $--color-primary;
+    color: $--color-primary-inverse;
+  }
+}
+
+.complaints-list {
+}
+
+.username {
+  font-size: 2em;
+}
 </style>
