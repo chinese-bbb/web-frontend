@@ -66,17 +66,17 @@
   },
   "lint-staged": {
     "*.ts": [
-      "prettier",
+      "npm run prettier",
       "vue-cli-service lint",
       "git add"
     ],
     "*.vue": [
-      "prettier",
+      "npm run prettier",
       "vue-cli-service lint",
       "git add"
     ],
     "*.scss": [
-      "prettier",
+      "npm run prettier",
       "git add"
     ]
   }
