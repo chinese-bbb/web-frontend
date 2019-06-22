@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export class SearchService {
-  public search(keyword: string) {
-    return axios.get('/fuzzy_query', { params: { keyword } });
+  public search(keyword: string, page = 0) {
+    return axios.get('/merchant_search', { params: { keyword, pageIndex: page } });
   }
 
   public queryMerchant(id: string) {
