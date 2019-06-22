@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import axios, { AxiosError } from 'axios';
+import Component from 'vue-class-component';
 
 import App from './App.vue';
 import router from './router';
@@ -10,6 +11,14 @@ import './registerServiceWorker';
 
 import './styles.scss';
 import { ElMessage } from 'element-ui/types/message';
+
+Vue.config.productionTip = false;
+
+Component.registerHooks([
+  'beforeRouteEnter',
+  'beforeRouteLeave',
+  'beforeRouteUpdate',
+]);
 
 Vue.config.productionTip = false;
 

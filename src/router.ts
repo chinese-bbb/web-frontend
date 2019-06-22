@@ -279,4 +279,8 @@ router.afterEach(() => {
   NProgress.done();
 });
 
+router.onError(() => {
+  NProgress.done();
+});
+
 export default router;
