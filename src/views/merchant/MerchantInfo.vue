@@ -86,8 +86,8 @@
             >
               <div class="header row mb-2">
                 <span class="complaint-type col-6">投诉类型：{{ item.complain_type | complaintType }}</span>
-                <span class="complaint-status col-3">状态：{{ item.complaint_state | complaintState }}</span>
-                <span class="complaint-owner col-3">投诉人：{{ item.user | userName }}</span>
+                <span class="complaint-status col-6 col-md-3">状态：{{ item.complaint_state | complaintState }}</span>
+                <span class="complaint-owner col-12 col-md-3">投诉人：{{ item.user | userName }}</span>
               </div>
 
               <div class="content">

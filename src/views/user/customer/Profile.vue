@@ -22,13 +22,13 @@
           <div v-if="!loadingComplaints">
             <div v-if="!recentComplaints.length"><p>没有数据哦</p></div>
 
-            <el-pagination
+            <!--<el-pagination
               :page-size="10"
               :total="recentComplaints.length"
               hide-on-single-page
               layout="prev, pager, next"
             >
-            </el-pagination>
+            </el-pagination>-->
           </div>
         </el-tab-pane>
 
