@@ -70,7 +70,7 @@ export default class SignIn extends Vue {
           .signin(this.form.username, this.form.password)
           .then(
             () => {
-              this.$store.commit('authenticate', { phone: this.form.username, type: this.from });
+              this.$store.dispatch('signIn', { username: this.form.username, type: this.from });
               this.$router.push({ name: this.from === SignInType.Customer ? 'profile' : 'dashboard' });
             },
             error => {

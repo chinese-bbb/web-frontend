@@ -118,6 +118,7 @@ export default class Profile extends Vue {
       .then(
         user => {
           this.user = user.data;
+          this.$store.commit('updateUserInfo', user.data);
 
           this.getComplaints();
         },
