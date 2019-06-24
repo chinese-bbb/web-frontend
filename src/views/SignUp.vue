@@ -85,7 +85,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { captchaPattern, phonePattern } from '@/constants';
+import { captchaPattern, phonePattern, SignInType } from '@/constants';
 import { ElForm } from 'element-ui/types/form';
 import { ElInput } from 'element-ui/types/input';
 
@@ -189,6 +189,7 @@ export default class SignUp extends Vue {
           })
           .then(
             () => {
+              this.$store.dispatch('signIn', { username: this.form1.phone_num, type: SignInType.Customer });
               this.$router.push({ name: 'cSignUpSuccess' });
             },
             error => {
