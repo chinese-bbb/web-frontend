@@ -13,9 +13,9 @@
         <h3 class="footer-title">联系我们</h3>
 
         <div class="row justify-content-around" style="line-height: 1.5">
-          <div>微信公众号</div>
-          <div>微博</div>
-          <div>邮箱</div>
+          <div>微信公众号：互信公益</div>
+          <div>微博：（即将推出）</div>
+          <div>邮箱：<a href="mailto:info@huxingongyi.com">info@huxingongyi.com</a></div>
         </div>
       </el-footer>
     </el-container>

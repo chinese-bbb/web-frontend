@@ -1,5 +1,5 @@
 <template>
-  <div class="home mb-5">
+  <div class="home">
     <section class="top-sec d-flex align-items-center justify-content-center">
       <el-input
         :suffix-icon="searchStr ? '' : 'el-icon-search'"
@@ -23,7 +23,7 @@
       </el-dialog>
     </section>
 
-    <section class="news container mt-5">
+    <!-- <section class="news container mt-5">
       <div class="information my-4">
         <h3>information</h3>
       </div>
@@ -31,7 +31,7 @@
       <div class="information my-4">
         <h3>information</h3>
       </div>
-    </section>
+    </section> -->
   </div>
 </template>
 
