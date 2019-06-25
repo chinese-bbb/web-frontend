@@ -31,11 +31,21 @@
         </el-form-item>
 
         <el-form-item class="captcha-row" prop="smsCaptcha">
-          <el-input class="captcha-input" placeholder="请输入验证码" ref="captchaInput" v-model="form2.smsCaptcha">
-          </el-input>
+          <el-input
+            class="captcha-input"
+            placeholder="请输入验证码"
+            ref="captchaInput"
+            v-model="form2.smsCaptcha"
+          ></el-input>
 
-          <el-button :disabled="captchaDisabled" @click.prevent="requestCaptcha()" class="btn-captha-request ml-2"
-            >获取验证码<span v-if="captchaDisabled">({{ counter }}s)</span>
+          <el-button
+            :loading="requestingSms"
+            :disabled="captchaDisabled"
+            @click.prevent="requestCaptcha()"
+            class="btn-captha-request ml-2"
+          >
+            获取验证码
+            <span v-if="captchaDisabled">({{ counter }}s)</span>
           </el-button>
         </el-form-item>
 
@@ -132,6 +142,7 @@ export default class ResetPassword extends Vue {
   captchaDisabled = false;
   validating = false;
   resetting = false;
+  requestingSms = false;
   picCaptchaMeta: CodeMeta = { code: '', dataURL: '' };
   private countDownTimer: undefined | number;
 
@@ -155,6 +166,8 @@ export default class ResetPassword extends Vue {
       if (valid) {
         this.form2.username = this.form1.username;
         this.step = 2;
+
+        this.requestCaptcha();
       }
     });
   }
@@ -203,7 +216,20 @@ export default class ResetPassword extends Vue {
   }
 
   requestCaptcha() {
-    this.countDown();
+    this.requestingSms = true;
+    authService
+      .sendSMS(this.form1.username)
+      .then(
+        () => {
+          this.countDown();
+        },
+        error => {
+          this.$message.error(error.message);
+        },
+      )
+      .finally(() => {
+        this.requestingSms = false;
+      });
   }
 
   private countDown() {
