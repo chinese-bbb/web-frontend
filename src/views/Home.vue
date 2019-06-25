@@ -12,7 +12,7 @@
         <el-button @click="search" icon="el-icon-search" slot="append" type="primary" v-if="searchStr">搜索</el-button>
       </el-input>
 
-      <el-dialog :show-close="false" :visible.sync="authDialogVisible" center title="" top="0" width="30%">
+      <el-dialog class="precheck-dialog" :show-close="false" :visible.sync="authDialogVisible" center title="" top="0">
         <p class="auth-hint text-center">
           请先
           <router-link :to="{ name: 'cSignUp' }">注册</router-link>
@@ -70,6 +70,7 @@ export default class Home extends Vue {
 
 .search-input {
   width: 80vw;
+  transition: width 0.3s ease-in;
   margin-top: -5em;
 }
 
@@ -105,7 +106,26 @@ export default class Home extends Vue {
 @include media-breakpoint-up(lg) {
   .search-input {
     width: 40vw;
-    margin-top: -5em;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .search-input {
+    width: 60vw;
+  }
+}
+
+.precheck-dialog /deep/ {
+  @include media-breakpoint-up(sm) {
+    .el-dialog {
+      width: 30%;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .el-dialog {
+      width: 80vw;
+    }
   }
 }
 </style>
