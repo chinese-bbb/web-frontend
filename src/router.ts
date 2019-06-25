@@ -257,6 +257,17 @@ const routes: RouteConfig[] = [
 
 const router = new Router({
   mode: 'history',
+  scrollBehavior(to, from, savedPosition) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (savedPosition) {
+          resolve(savedPosition);
+        } else {
+          resolve({ x: 0, y: 0 });
+        }
+      }, 200);
+    });
+  },
   routes,
 });
 
