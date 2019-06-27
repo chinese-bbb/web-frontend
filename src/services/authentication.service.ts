@@ -35,6 +35,10 @@ export class AuthenticationService {
   public identifyUser(path: string) {
     return axios.post('/identify', { id_path: path });
   }
+
+  public isPhoneExisted(phone: string) {
+    return axios.get(`/phone_exist/${phone}`);
+  }
 }
 
 export default new AuthenticationService();

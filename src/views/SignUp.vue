@@ -5,27 +5,32 @@
         <h2 class="form-title text-center mb-3">注册</h2>
 
         <el-form-item prop="phone_num" ref="phoneInput">
-          <el-input placeholder="请输入手机号" v-model="form1.phone_num"></el-input>
+          <el-input placeholder="请输入手机号" v-model="form1.phone_num" ref="phoneInput"></el-input>
         </el-form-item>
 
         <el-form-item class="captcha-row" prop="captcha">
-          <el-input class="captcha-input" placeholder="请输入验证码" ref="captchaInput" v-model="form1.captcha">
-          </el-input>
+          <el-input
+            class="captcha-input"
+            placeholder="请输入验证码"
+            ref="captchaInput"
+            v-model="form1.captcha"
+          ></el-input>
 
           <el-button
             :disabled="captchaDisabled"
             :loading="requestingSms"
             @click.prevent="requestCaptcha()"
             class="btn-captha-request ml-2"
-            >获取验证码
+          >
+            获取验证码
             <span v-if="captchaDisabled">({{ counter }}s)</span>
           </el-button>
         </el-form-item>
 
         <el-form-item class="inline-radios" prop="agreement">
           <el-radio-group v-model="form1.agreement">
-            <el-radio :label="true"
-              >我已阅读并同意
+            <el-radio :label="true">
+              我已阅读并同意
               <a @click.prevent="dialogVisible = true" href="#">用户条款</a>
             </el-radio>
           </el-radio-group>
@@ -78,7 +83,9 @@
     </el-card>
 
     <el-dialog :before-close="handleClose" :visible.sync="dialogVisible" title="用户条款">
-      <article><p>adlkfjdskfja;ldskf;kajlkdsfjlkadsjflkajdkslfjajkdsfjl</p></article>
+      <article>
+        <p>adlkfjdskfja;ldskf;kajlkdsfjlkadsjflkajdkslfjajkdsfjl</p>
+      </article>
     </el-dialog>
   </div>
 </template>
@@ -207,15 +214,24 @@ export default class SignUp extends Vue {
         this.requestingSms = true;
 
         authService
-          .sendSMS(this.form1.phone_num)
+          .isPhoneExisted(this.form1.phone_num)
           .then(
             () => {
-              this.countDown();
+              throw new Error('手机号码已注册');
             },
-            error => {
-              this.$message.error(error.message);
-            },
+            () => true,
           )
+          .then(() =>
+            authService.sendSMS(this.form1.phone_num).then(
+              () => {
+                this.countDown();
+              },
+              error => {
+                this.$message.error(error.message);
+              },
+            ),
+          )
+          .catch(error => this.$message.error(error.message))
           .finally(() => {
             this.requestingSms = false;
           });

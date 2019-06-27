@@ -6,7 +6,7 @@
 
         <el-form-item prop="username">
           <el-input placeholder="" v-model="form.username">
-            <span class="" slot="prefix">用户名</span>
+            <span class="" slot="prefix">手机号</span>
           </el-input>
         </el-form-item>
 
