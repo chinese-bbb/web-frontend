@@ -26,7 +26,9 @@
       </div>
     </el-upload>
 
-    <el-button :loading="uploading" @click="submitUpload" type="primary" v-if="fileSelected">上传文件</el-button>
+    <el-button :loading="uploading || verifying" @click="submitUpload" type="primary" v-if="fileSelected"
+      >上传文件</el-button
+    >
   </div>
 </template>
 
@@ -69,6 +71,7 @@ export default class RealNameAuth extends Vue {
       .then(
         resp => {
           if (resp.data.error) {
+            (this.$refs.uploader as ElUpload).clearFiles();
             if (resp.data.error.includes('Please upload clear ID')) {
               this.$message.error('请提供清晰的身份证照片（人脸那一面）');
             } else {
