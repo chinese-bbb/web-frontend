@@ -166,7 +166,7 @@ export default class SignUp extends Vue {
               clearInterval(this.countDownTimer);
             },
             error => {
-              this.$message.error(error.message);
+              this.$message.error('短信验证码错误');
             },
           )
           .finally(() => (this.submitting = false));
@@ -200,7 +200,7 @@ export default class SignUp extends Vue {
               this.$router.push({ name: 'cSignUpSuccess' });
             },
             error => {
-              this.$message.error(error.message);
+              this.$message.error('注册失败，请重试');
             },
           )
           .finally(() => (this.submitting = false));
@@ -227,7 +227,7 @@ export default class SignUp extends Vue {
                 this.countDown();
               },
               error => {
-                this.$message.error(error.message);
+                this.$message.error('发送验证码失败，请重试');
               },
             ),
           )

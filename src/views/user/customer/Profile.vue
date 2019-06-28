@@ -123,7 +123,7 @@ export default class Profile extends Vue {
           this.getComplaints();
         },
         error => {
-          this.$message.error(error.message);
+          this.$message.error('获取用户信息失败，请刷新');
         },
       )
       .finally(() => (this.loadingUserInfo = false));
@@ -139,7 +139,7 @@ export default class Profile extends Vue {
           this.recentComplaints = complaint.data;
         },
         error => {
-          this.$message.error(error.message);
+          this.$message.error('获取投诉列表失败，请刷新');
         },
       )
       .finally(() => (this.loadingComplaints = false));

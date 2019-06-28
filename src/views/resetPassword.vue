@@ -224,7 +224,7 @@ export default class ResetPassword extends Vue {
           this.countDown();
         },
         error => {
-          this.$message.error(error.message);
+          this.$message.error('发送验证码失败，请重试');
         },
       )
       .finally(() => {

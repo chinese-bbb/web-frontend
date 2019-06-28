@@ -74,7 +74,9 @@ export default class SignIn extends Vue {
               this.$router.push({ name: this.from === SignInType.Customer ? 'profile' : 'dashboard' });
             },
             error => {
-              this.$message.error(error.message);
+              if (error.response.status < 500) {
+                this.$message.error('用户名或密码错误，请重试');
+              }
             },
           )
           .finally(() => (this.submitting = false));
