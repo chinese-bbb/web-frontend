@@ -128,7 +128,7 @@ export default class ResetPassword extends Vue {
       {
         validator: (rule: any, value: string, callback: any) => {
           const code = this.picCaptchaMeta.code;
-          if (value === code) {
+          if (value.toLowerCase() === code.toLowerCase()) {
             callback();
           } else {
             callback('验证码输入错误');
