@@ -320,6 +320,43 @@
 
               <el-divider></el-divider>
 
+              <div class="checklist">
+                <p>投诉企业： {{ merchantInfo.Name }}</p>
+                <p>投诉类型： {{ complaintTypeForm.complaintType | complaintType }}</p>
+
+                <div>
+                  <p>投诉内容：</p>
+                  <v-clamp class="clamped-text" :max-lines="3" autoresize tag="p"
+                    >{{ complaintDetailForm.content }}
+                    <el-button
+                      size="small"
+                      v-if="expanded || clamped"
+                      slot="after"
+                      slot-scope="{ toggle, expanded, clamped }"
+                      class="ml-2"
+                      @click="toggle"
+                      >{{ expanded ? '收起' : '显示更多' }}</el-button
+                    >
+                  </v-clamp>
+                </div>
+
+                <div>
+                  <p>期望解决方案：</p>
+                  <v-clamp class="clamped-text" :max-lines="3" autoresize tag="p"
+                    >{{ complaintDetailForm.expectedSolution }}
+                    <el-button
+                      size="small"
+                      v-if="expanded || clamped"
+                      slot="after"
+                      slot-scope="{ toggle, expanded, clamped }"
+                      class="ml-2"
+                      @click="toggle"
+                      >{{ expanded ? '收起' : '显示更多' }}</el-button
+                    >
+                  </v-clamp>
+                </div>
+              </div>
+
               <p class="text-right">请检查以上投诉信息，确认无误请点击完成</p>
 
               <footer class="text-right">
@@ -352,18 +389,24 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import FormWizard from '@/libs/vue-form-wizard/components/FormWizard.vue';
 import TabContent from '@/libs/vue-form-wizard/components/TabContent.vue';
 import { ElForm } from 'element-ui/types/form';
+import VClamp from 'vue-clamp';
 
 import { complaintService } from '../services';
 import { ElUploadInternalFileDetail } from 'element-ui/types/upload';
+import { State } from 'vuex-class';
+import { MerchantDetail } from '../models';
 
 @Component({
   components: {
     FormWizard,
     TabContent,
+    VClamp,
   },
 })
 export default class FileComplaint extends Vue {
   @Prop(String) merchantId: string;
+
+  @State('currentMerchant') merchantInfo: MerchantDetail;
 
   dialogImageUrl = '';
   dialogVisible = false;
@@ -608,6 +651,13 @@ export default class FileComplaint extends Vue {
   .el-upload-list__item-thumbnail {
     object-fit: contain;
   }
+}
+
+.clamped-text {
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-all;
+  word-break: break-word;
 }
 
 .btn-confirm-finish {
