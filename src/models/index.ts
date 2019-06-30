@@ -135,7 +135,7 @@ export interface UserModel {
 
 export type ComplaintType =
   | 'product_issue'
-  | 'fake_add'
+  | 'fake_ad'
   | 'customer_service'
   | 'exchange_return'
   | 'warranty'

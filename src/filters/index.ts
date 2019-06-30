@@ -36,7 +36,7 @@ export function complaintTypeMapping(value: ComplaintType) {
       return '客服问题';
     case 'exchange_return':
       return '退换货问题';
-    case 'fake_add':
+    case 'fake_ad':
       return '虚假广告等相关问题';
     case 'infraction':
       return '商业违规行为等问题';

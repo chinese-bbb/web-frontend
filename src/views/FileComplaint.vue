@@ -64,16 +64,16 @@
                     <h5>投诉类型</h5>
 
                     <el-radio-group v-model="complaintTypeForm.complaintType">
-                      <el-radio :label="1">产品或者服务质量问题</el-radio>
-                      <el-radio :label="2">虚假广告等相关问题</el-radio>
-                      <el-radio :label="3">客服问题</el-radio>
-                      <el-radio :label="4">退换货问题</el-radio>
-                      <el-radio :label="5">保修问题</el-radio>
-                      <el-radio :label="6">合同或者账单问题</el-radio>
-                      <el-radio :label="7">物流问题</el-radio>
-                      <el-radio :label="8">商业违规行为等问题</el-radio>
-                      <el-radio :label="9"
-                        >其他
+                      <el-radio label="product_issue">产品或者服务质量问题</el-radio>
+                      <el-radio label="fake_ad">虚假广告等相关问题</el-radio>
+                      <el-radio label="customer_service">客服问题</el-radio>
+                      <el-radio label="exchange_return">退换货问题</el-radio>
+                      <el-radio label="warranty">保修问题</el-radio>
+                      <el-radio label="contract">合同或者账单问题</el-radio>
+                      <el-radio label="shipping">物流问题</el-radio>
+                      <el-radio label="infraction">商业违规行为等问题</el-radio>
+                      <el-radio label="other">
+                        其他
                         <!--                        <el-input-->
                         <!--                          :disabled="complaintTypeForm.complaintType !== 9"-->
                         <!--                          name="other"-->
@@ -102,8 +102,7 @@
                         placeholder="选择日期时间"
                         type="datetime"
                         v-model="complaintTypeForm.negotiateDate"
-                      >
-                      </el-date-picker>
+                      ></el-date-picker>
                     </div>
                   </li>
 
@@ -129,9 +128,9 @@
                 <footer class="text-right">
                   <el-button @click.native="$refs.wizard.prevTab()">上一步</el-button>
 
-                  <el-button @click.native="validateFormAndJump($refs.complaintTypeForm, $refs.wizard)" type="primary">
-                    下一步
-                  </el-button>
+                  <el-button @click.native="validateFormAndJump($refs.complaintTypeForm, $refs.wizard)" type="primary"
+                    >下一步</el-button
+                  >
                 </footer>
               </el-form>
             </el-card>
@@ -174,8 +173,7 @@
                     placeholder="选择日期时间"
                     type="datetime"
                     v-model="complaintDetailForm.tradeDate"
-                  >
-                  </el-date-picker>
+                  ></el-date-picker>
                 </el-form-item>
 
                 <el-form-item class="without-label" prop="content">
@@ -189,8 +187,7 @@
                     show-word-limit
                     type="textarea"
                     v-model="complaintDetailForm.content"
-                  >
-                  </el-input>
+                  ></el-input>
                 </el-form-item>
 
                 <el-form-item class="without-label" prop="expectedSolution">
@@ -204,19 +201,15 @@
                     show-word-limit
                     type="textarea"
                     v-model="complaintDetailForm.expectedSolution"
-                  >
-                  </el-input>
+                  ></el-input>
                 </el-form-item>
 
                 <footer class="text-right">
                   <el-button @click.native="$refs.wizard.prevTab()">上一步</el-button>
 
-                  <el-button
-                    @click.native="validateFormAndJump($refs.complaintDetailForm, $refs.wizard)"
-                    type="primary"
+                  <el-button @click.native="validateFormAndJump($refs.complaintDetailForm, $refs.wizard)" type="primary"
+                    >下一步</el-button
                   >
-                    下一步
-                  </el-button>
                 </footer>
               </el-form>
             </el-card>
@@ -234,7 +227,10 @@
             <el-card shadow="never">
               <el-form :model="uploadForm" :rules="rules" ref="uploadForm">
                 <el-form-item prop="uploadedInvoices">
-                  <h5>1. 购买发票信息 <span class="header-hint">（最多一张图片）</span></h5>
+                  <h5>
+                    1. 购买发票信息
+                    <span class="header-hint">（最多一张图片）</span>
+                  </h5>
 
                   <el-upload
                     :action="uploadUrl"
@@ -248,7 +244,7 @@
                     :on-success="handleInvoiceUploadSuccess"
                     :on-error="handleUploadError"
                     :show-file-list="true"
-                    accept=".jpg,.jpeg,.png"
+                    accept=".jpg, .jpeg, .png"
                     class="evidence-upload"
                     list-type="picture-card"
                     name="pic_file"
@@ -262,7 +258,10 @@
                 </el-form-item>
 
                 <el-form-item prop="uploadedOtherEvidences">
-                  <h5>2. 其他图片证据 <span class="header-hint">（最多9张图片）</span></h5>
+                  <h5>
+                    2. 其他图片证据
+                    <span class="header-hint">（最多9张图片）</span>
+                  </h5>
 
                   <el-upload
                     :action="uploadUrl"
@@ -276,7 +275,7 @@
                     :on-success="handleOtherEvidenceUploadSuccess"
                     :on-error="handleUploadError"
                     :show-file-list="true"
-                    accept=".jpg,.jpeg,.png"
+                    accept=".jpg, .jpeg, .png"
                     class="evidence-upload"
                     list-type="picture-card"
                     name="pic_file"
@@ -290,15 +289,15 @@
                 </el-form-item>
 
                 <el-dialog :visible.sync="dialogVisible">
-                  <img :src="dialogImageUrl" alt="" width="100%" />
+                  <img :src="dialogImageUrl" alt width="100%" />
                 </el-dialog>
 
                 <footer class="text-right">
                   <el-button @click.native="$refs.wizard.prevTab()">上一步</el-button>
 
-                  <el-button @click.native="validateFormAndJump($refs.uploadForm, $refs.wizard)" type="primary">
-                    下一步
-                  </el-button>
+                  <el-button @click.native="validateFormAndJump($refs.uploadForm, $refs.wizard)" type="primary"
+                    >下一步</el-button
+                  >
                 </footer>
               </el-form>
             </el-card>
@@ -368,8 +367,8 @@
                   class="btn-confirm-finish"
                   size="large"
                   type="primary"
-                  >完成
-                </el-button>
+                  >完成</el-button
+                >
               </footer>
             </el-card>
           </div>
@@ -418,14 +417,14 @@ export default class FileComplaint extends Vue {
   complaintTypeForm: {
     negotiateDate: string | Date;
     otherComplaintType: string;
-    complaintType: number;
+    complaintType: string;
     negotiated: boolean;
     allowPublicView: boolean;
     allowPress: boolean;
   } = {
     negotiateDate: '',
     otherComplaintType: '',
-    complaintType: 1,
+    complaintType: 'product_issue',
     negotiated: false,
     allowPublicView: false,
     allowPress: false,
@@ -456,11 +455,11 @@ export default class FileComplaint extends Vue {
 
   rules = {
     content: [
-      { required: false, message: '请输入投诉内容', trigger: 'blur' },
+      { required: true, message: '请输入投诉内容', trigger: 'blur' },
       { min: 300, message: '内容长度不满足要求', trigger: 'blur' },
     ],
-    // tradeDate: [{ required: true, message: '请输入有效时间', trigger: 'blur' }],
-    expectedSolution: [{ required: false, message: '请输入期望解决方案', trigger: 'blur' }, { min: 150 }],
+    tradeDate: [{ required: true, message: '请输入有效时间', trigger: 'blur' }],
+    expectedSolution: [{ required: true, message: '请输入期望解决方案', trigger: 'blur' }, { min: 150 }],
     uploadedInvoices: [{ required: false, type: 'array', message: '至少上传一张发票图片', trigger: 'blur' }],
   };
 
