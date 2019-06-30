@@ -5,7 +5,7 @@ import { SignInType } from '@/constants';
 
 import router from './router';
 import authService from './services/authentication.service';
-import { UserModel } from './models';
+import { UserModel, MerchantDetail } from './models';
 import { customerService } from './services';
 import { cookieUtil } from './utils';
 
@@ -17,6 +17,7 @@ export interface RootState {
   userRole: UserRole | null;
   userPhone: string | null;
   userInfo: null | UserModel;
+  currentMerchant: MerchantDetail | null;
 }
 
 export enum UserRole {
@@ -31,6 +32,7 @@ export default new Vuex.Store<RootState>({
     userRole: null,
     userPhone: null,
     userInfo: null,
+    currentMerchant: null,
   },
   mutations: {
     visitHomePage(state) {
@@ -52,6 +54,9 @@ export default new Vuex.Store<RootState>({
     updateUserInfo(state, payload) {
       state.userInfo = { ...payload };
       state.userPhone = state.userInfo!.username;
+    },
+    cacheCurrentMerchant(state, payload) {
+      state.currentMerchant = { ...payload };
     },
   },
   actions: {
