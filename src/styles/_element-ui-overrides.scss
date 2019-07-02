@@ -35,3 +35,31 @@
     }
   }
 }
+
+.el-dialog {
+  transition: width 0.3s;
+}
+
+@include media-breakpoint-down(sm) {
+  .el-dialog {
+    width: 80vw;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .el-dialog {
+    width: 60%;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .el-dialog {
+    width: 50%;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .el-dialog {
+    width: 40%;
+  }
+}
