@@ -12,13 +12,11 @@
         <el-button @click="search" icon="el-icon-search" slot="append" type="primary" v-if="searchStr">搜索</el-button>
       </el-input>
 
-      <el-dialog class="precheck-dialog" :show-close="false" :visible.sync="authDialogVisible" center title="" top="0">
+      <el-dialog class="precheck-dialog" :show-close="false" :visible.sync="authDialogVisible" center title top="0">
         <p class="auth-hint text-center">
           请先
-          <router-link :to="{ name: 'cSignUp' }">注册</router-link>
-          或
-          <router-link :to="{ name: 'cSignIn' }">登陆</router-link>
-          后再进行搜索
+          <router-link :to="{ name: 'cSignUp' }">注册</router-link>或
+          <router-link :to="{ name: 'cSignIn' }">登陆</router-link>后再进行搜索
         </p>
       </el-dialog>
     </section>
@@ -31,7 +29,7 @@
       <div class="information my-4">
         <h3>information</h3>
       </div>
-    </section> -->
+    </section>-->
   </div>
 </template>
 
@@ -66,6 +64,12 @@ export default class Home extends Vue {
   height: calc(100vh - #{$headerHeight});
   background-image: url('https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg');
   background-size: cover;
+}
+
+@include media-breakpoint-down(sm) {
+  .top-sec {
+    height: calc(100vh - #{$mobileHeaderHeight});
+  }
 }
 
 .search-input {
@@ -112,20 +116,6 @@ export default class Home extends Vue {
 @include media-breakpoint-up(md) {
   .search-input {
     width: 60vw;
-  }
-}
-
-.precheck-dialog /deep/ {
-  @include media-breakpoint-up(sm) {
-    .el-dialog {
-      width: 30%;
-    }
-  }
-
-  @include media-breakpoint-down(sm) {
-    .el-dialog {
-      width: 80vw;
-    }
   }
 }
 </style>
