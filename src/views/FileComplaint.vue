@@ -459,7 +459,10 @@ export default class FileComplaint extends Vue {
       { min: 300, message: '内容长度不满足要求', trigger: 'blur' },
     ],
     tradeDate: [{ required: true, message: '请输入有效时间', trigger: 'blur' }],
-    expectedSolution: [{ required: true, message: '请输入期望解决方案', trigger: 'blur' }, { min: 150 }],
+    expectedSolution: [
+      { required: true, message: '请输入期望解决方案', trigger: 'blur' },
+      { min: 150, message: '内容长度不满足要求' },
+    ],
     uploadedInvoices: [{ required: false, type: 'array', message: '至少上传一张发票图片', trigger: 'blur' }],
   };
 

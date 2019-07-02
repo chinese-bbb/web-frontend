@@ -78,7 +78,7 @@ const routes: RouteConfig[] = [
           {
             path: 'resetpwd',
             name: 'resetPwd',
-            component: () => import('./views/resetPassword.vue'),
+            component: () => import('./views/ResetPassword.vue'),
             meta: {
               title: '重置密码',
             },

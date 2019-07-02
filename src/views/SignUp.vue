@@ -37,7 +37,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button @click="tryStep2()" class="btn-block" type="primary">注册</el-button>
+          <el-button :loading="submitting" @click="tryStep2()" class="btn-block" type="primary">注册</el-button>
         </el-form-item>
       </el-form>
 
@@ -77,24 +77,29 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button @click="submitForm()" class="btn-block" type="primary">完成</el-button>
+          <el-button :loading="submitting" @click="submitForm()" class="btn-block" type="primary">完成</el-button>
         </el-form-item>
       </el-form>
     </el-card>
 
-    <el-dialog :before-close="handleClose" :visible.sync="dialogVisible" title="用户条款">
+    <el-dialog :before-close="handleClose" :visible.sync="dialogVisible" :close-on-click-modal="false" title="用户条款">
       <article>
         <p>adlkfjdskfja;ldskf;kajlkdsfjlkadsjflkajdkslfjajkdsfjl</p>
       </article>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { captchaPattern, phonePattern, SignInType } from '@/constants';
+import { captchaPattern, phonePattern, SignInType, passwordPattern } from '@/constants';
 import { ElForm } from 'element-ui/types/form';
 import { ElInput } from 'element-ui/types/input';
+import toNumber from 'lodash-es/toNumber';
 
 import { authService } from '../services';
 
@@ -128,10 +133,21 @@ export default class SignUp extends Vue {
   rules = {
     phone_num: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
     gender: [{ required: true, message: '请确定用户性别', trigger: 'change' }],
-    captcha: [{ required: true, pattern: captchaPattern, message: '验证码格式有误', trigger: 'blur' }],
+    captcha: [
+      {
+        required: true,
+        type: 'number',
+        pattern: captchaPattern,
+        message: '验证码格式有误',
+        trigger: 'blur',
+        transform(value: string) {
+          return toNumber(value);
+        },
+      },
+    ],
     agreement: [{ required: true, message: '用户条款未同意', trigger: 'change' }],
     password: [
-      { required: true, message: '请输入密码', trigger: 'blur' },
+      { required: true, pattern: passwordPattern, message: '请输入有效密码（字母、数字、特殊字符）', trigger: 'blur' },
       { min: 8, message: '密码须为8位以上', trigger: 'blur' },
     ],
     confirmPassword: [
@@ -155,9 +171,9 @@ export default class SignUp extends Vue {
   }
 
   tryStep2() {
+    this.submitting = true;
     (this.$refs.form as ElForm).validate(valid => {
       if (valid) {
-        this.submitting = true;
         authService
           .validateSMS(this.form1.phone_num, this.form1.captcha)
           .then(
@@ -170,6 +186,8 @@ export default class SignUp extends Vue {
             },
           )
           .finally(() => (this.submitting = false));
+      } else {
+        this.submitting = true;
       }
     });
   }
@@ -183,9 +201,9 @@ export default class SignUp extends Vue {
   }
 
   submitForm() {
+    this.submitting = true;
     (this.$refs.infoForm as ElForm).validate(valid => {
       if (valid) {
-        this.submitting = true;
         authService
           .signup({
             phoneNum: this.form1.phone_num,
@@ -204,15 +222,16 @@ export default class SignUp extends Vue {
             },
           )
           .finally(() => (this.submitting = false));
+      } else {
+        this.submitting = true;
       }
     });
   }
 
   requestCaptcha() {
+    this.requestingSms = true;
     (this.$refs.form as ElForm).validateField('phone_num', err => {
       if (!err) {
-        this.requestingSms = true;
-
         authService
           .isPhoneExisted(this.form1.phone_num)
           .then(
@@ -235,6 +254,8 @@ export default class SignUp extends Vue {
           .finally(() => {
             this.requestingSms = false;
           });
+      } else {
+        this.requestingSms = true;
       }
     });
   }

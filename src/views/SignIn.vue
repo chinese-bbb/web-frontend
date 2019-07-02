@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { phonePattern, SignInType } from '@/constants';
+import { phonePattern, SignInType, passwordPattern } from '@/constants';
 import { ElForm } from 'element-ui/types/form';
 
 import { authService } from '../services';
@@ -57,8 +57,8 @@ export default class SignIn extends Vue {
   rules = {
     username: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
     password: [
-      { required: true, message: '请输入密码', trigger: 'blur' },
-      { min: 6, message: '密码须为6位以上', trigger: 'blur' },
+      { required: true, pattern: passwordPattern, message: '请输入有效密码', trigger: 'blur' },
+      { min: 8, message: '密码须为8位以上', trigger: 'blur' },
     ],
   };
 

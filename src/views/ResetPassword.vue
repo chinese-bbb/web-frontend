@@ -81,9 +81,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { phonePattern, SignInType } from '@/constants';
+import { phonePattern, SignInType, passwordPattern } from '@/constants';
 import { ElInput } from 'element-ui/types/input';
 import { ElForm } from 'element-ui/types/form';
+import toNumber from 'lodash-es/toNumber';
 import { CodeMeta, create as createVerificationCode } from 'verification-code';
 
 import { authService } from '../services';
@@ -112,7 +113,7 @@ export default class ResetPassword extends Vue {
   rules = {
     username: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
     password: [
-      { required: true, message: '请输入密码', trigger: 'blur' },
+      { required: true, pattern: passwordPattern, message: '请输入有效密码（字母、数字、特殊字符）', trigger: 'blur' },
       { min: 8, message: '密码须为8位以上', trigger: 'blur' },
     ],
     confirmPassword: [
@@ -121,7 +122,15 @@ export default class ResetPassword extends Vue {
       { validator: this.validateConfirmPass, trigger: 'blur' },
     ],
     smsCaptcha: [
-      { required: true, message: '请输入验证码', trigger: 'blur' },
+      {
+        required: true,
+        type: 'number',
+        message: '请输入验证码',
+        trigger: 'blur',
+        transform(value: string) {
+          return toNumber(value);
+        },
+      },
       { min: 4, message: '验证码长度有误', trigger: 'blur' },
     ],
     picCaptcha: [
