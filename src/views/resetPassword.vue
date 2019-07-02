@@ -17,7 +17,9 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button @click="submitPicCaptcha()" class="btn-block" type="primary">下一步</el-button>
+          <el-button :loading="prechecking" @click="submitPicCaptcha()" class="btn-block" type="primary"
+            >下一步</el-button
+          >
         </el-form-item>
       </el-form>
     </section>
@@ -140,6 +142,7 @@ export default class ResetPassword extends Vue {
   };
 
   captchaDisabled = false;
+  prechecking = false;
   validating = false;
   resetting = false;
   requestingSms = false;
@@ -162,12 +165,28 @@ export default class ResetPassword extends Vue {
   }
 
   submitPicCaptcha() {
+    this.prechecking = true;
     (this.$refs.form1 as ElForm).validate(valid => {
       if (valid) {
-        this.form2.username = this.form1.username;
-        this.step = 2;
+        authService
+          .isPhoneExisted(this.form1.username)
+          .then(
+            () => {
+              this.form2.username = this.form1.username;
+              this.step = 2;
 
-        this.requestCaptcha();
+              this.requestCaptcha();
+            },
+            () => {
+              throw new Error('该手机号无法找回密码');
+            },
+          )
+          .catch(error => this.$message.error(error.message))
+          .finally(() => {
+            this.prechecking = false;
+          });
+      } else {
+        this.prechecking = true;
       }
     });
   }
