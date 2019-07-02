@@ -44,6 +44,8 @@ async function tryToRegisterServiceWorker() {
 
         registration.waiting.postMessage({ type: 'SKIP_WAITING' });
       });
+
+      registration.update();
     });
   }
 }
