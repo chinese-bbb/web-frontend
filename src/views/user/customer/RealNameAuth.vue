@@ -19,14 +19,11 @@
     >
       <div class="text-center">
         请点此上传您的身份证照片正面
-        <br />
-        或
-        <br />
-        将身份证照片正面拖至此框
+        <br />或 <br />将身份证照片正面拖至此框
       </div>
     </el-upload>
 
-    <el-button :loading="uploading || verifying" @click="submitUpload" type="primary" v-if="fileSelected"
+    <el-button :loading="uploading || verifying" @click="submitUpload" type="primary" v-if="fileSelected && !verifying"
       >上传文件</el-button
     >
   </div>
@@ -50,7 +47,7 @@ export default class RealNameAuth extends Vue {
   };
 
   handleExceedError() {
-    this.$message.error({ duration: 0, message: '只需上传一个文件。可通过预览卡片去除已选择文件' });
+    this.$message.error({ message: '只需上传一个文件。可通过预览卡片去除已选择文件' });
   }
 
   handleOnChange(file: File, filelist: FileList) {
@@ -71,6 +68,7 @@ export default class RealNameAuth extends Vue {
       .then(
         resp => {
           if (resp.data.error) {
+            this.fileSelected = false;
             (this.$refs.uploader as ElUpload).clearFiles();
             if (resp.data.error.includes('Please upload clear ID')) {
               this.$message.error('请提供清晰的身份证照片（人脸那一面）');
