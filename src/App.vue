@@ -15,7 +15,7 @@
         <div class="row justify-content-around" style="line-height: 1.5">
           <div>微信公众号：互信公益</div>
           <div>微博：（即将推出）</div>
-          <div>邮箱：<a href="mailto:info@huxingongyi.com">info@huxingongyi.com</a></div>
+          <div>邮箱：<a class="email-link" href="mailto:info@huxingongyi.com">info@huxingongyi.com</a></div>
         </div>
       </el-footer>
     </el-container>
@@ -84,5 +84,9 @@ function createDynamicVnode(options: ComponentOptions<Vue>) {
 
 .footer-title {
   font-size: $--font-size-title;
+}
+
+.email-link:hover {
+  color: inherit;
 }
 </style>
