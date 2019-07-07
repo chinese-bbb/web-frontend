@@ -244,7 +244,7 @@
                     :on-success="handleInvoiceUploadSuccess"
                     :on-error="handleUploadError"
                     :show-file-list="true"
-                    accept=".jpg, .jpeg, .png"
+                    accept="image/*"
                     class="evidence-upload"
                     list-type="picture-card"
                     name="pic_file"
@@ -275,7 +275,7 @@
                     :on-success="handleOtherEvidenceUploadSuccess"
                     :on-error="handleUploadError"
                     :show-file-list="true"
-                    accept=".jpg, .jpeg, .png"
+                    accept="image/*"
                     class="evidence-upload"
                     list-type="picture-card"
                     name="pic_file"
@@ -540,7 +540,7 @@ export default class FileComplaint extends Vue {
   }
 
   beforeUpload(file: File) {
-    const isIMAGE = file.type === 'image/jpeg' || 'image/png';
+    const isIMAGE = file.type === 'image/jpeg' || file.type === 'image/png';
 
     if (!isIMAGE) {
       this.$message({

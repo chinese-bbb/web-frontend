@@ -9,6 +9,7 @@
       :on-error="handleUploadError"
       :on-exceed="handleExceedError"
       :on-success="handleUploadSuccess"
+      accept="image/*"
       class="upload-box"
       drag
       list-type="picture"
@@ -41,6 +42,8 @@ export default class RealNameAuth extends Vue {
   uploading = false;
   verifying = false;
   uploadUrl = axios.defaults.baseURL + 'upload_file';
+  // unit: MB
+  fileSizeLimit = 3;
 
   uploadExtraData = {
     upload_type: 'id',
@@ -57,6 +60,29 @@ export default class RealNameAuth extends Vue {
   submitUpload() {
     this.uploading = true;
     (this.$refs.uploader as ElUpload).submit();
+  }
+
+  beforeUpload(file: File) {
+    const isIMAGE = file.type === 'image/jpeg' || file.type === 'image/png';
+
+    if (!isIMAGE) {
+      this.$message({
+        message: `上传图片格式不支持!`,
+        type: 'warning',
+      });
+
+      return false;
+    }
+
+    const isExceededLimit = file.size / 1024 / 1024 > this.fileSizeLimit;
+    if (isExceededLimit) {
+      this.$message({
+        message: `上传文件大小不能超过 ${this.fileSizeLimit} MB!`,
+        type: 'warning',
+      });
+
+      return false;
+    }
   }
 
   handleUploadSuccess(response: any) {
