@@ -9,30 +9,38 @@
 
           <div class="content">
             <div class="complaint-meta row mb-2">
-              <span class="complaint-type col-6 col-md-5"
+              <span class="complaint-type col-12 col-sm-6 col-lg-5"
                 >投诉类型：{{ complaintInfo.complain_type | complaintType }}</span
               >
-              <span class="complaint-status col-6 col-md-3"
+              <span class="complaint-status col-12 col-sm-6 col-lg-3"
                 >状态：{{ complaintInfo.complaint_state | complaintState }}</span
               >
-              <span class="complaint-owner col-12 col-md-4">投诉人：{{ complaintInfo.user | userName }}</span>
+              <span class="complaint-owner col-12 col-lg-4">投诉人：{{ complaintInfo.user | userName }}</span>
             </div>
 
-            <p class="brief-summary">
-              {{ complaintInfo.complaint_body }}
-            </p>
+            <p class="brief-summary">{{ complaintInfo.complaint_body }}</p>
           </div>
         </el-card>
 
         <el-card class="invoice-info mb-3 d-block d-md-none" shadow="hover">
           <h3>发票信息</h3>
 
-          <div></div>
+          <div class="images-list" v-if="evidenceImages.length">
+            <viewer :images="evidenceImages" class="viewer" ref="viewer">
+              <template slot-scope="scope">
+                <div class="image-wrapper" v-for="src in scope.images" :key="src">
+                  <img class="img-fluid" :src="src" alt="点击查看大图" />
+                </div>
+              </template>
+            </viewer>
+          </div>
+
+          <p v-if="!evidenceImages.length">无相关数据</p>
         </el-card>
 
         <el-card class="complaint-comments" shadow="hover" v-if="comments.length">
           <ol class="comments list-unstyled mb-0">
-            <li class="comment media d-flex" v-for="item in comments">
+            <li class="comment media d-flex" v-for="item in comments" :key="item.timestamp">
               <div class="thumb mr-2">
                 <i class="el-icon-s-custom"></i>
               </div>
@@ -67,16 +75,30 @@
               @click="reply()"
               class="btn-submit"
               type="primary"
-              >提交
-            </el-button>
+              >提交</el-button
+            >
           </div>
         </div>
       </div>
 
-      <el-card class="invoice-info col-md-4 d-none d-md-block" shadow="hover">
+      <el-card
+        class="invoice-info col-md-4 p-0 d-none d-md-block"
+        :class="{ empty: evidenceImages.length === 0 }"
+        shadow="hover"
+      >
         <h3>发票信息</h3>
 
-        <div></div>
+        <div class="images-list" v-if="evidenceImages.length">
+          <viewer :images="evidenceImages" class="viewer" ref="viewer">
+            <template slot-scope="scope">
+              <div class="image-wrapper" v-for="src in scope.images" :key="src">
+                <img class="img-fluid" :src="src" alt="点击查看大图" />
+              </div>
+            </template>
+          </viewer>
+        </div>
+
+        <p class="empty-msg" v-if="!evidenceImages.length">无相关数据</p>
       </el-card>
     </div>
   </div>
@@ -84,11 +106,20 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import Viewer from 'v-viewer/src/component.vue';
 import { complaintService } from '@/services';
 import { CommentModel, ServerComplaintModel } from '@/models';
 
+const sourceImages = [];
+// const base = parseInt(Math.random() * 60, 10) + 10;
+// for (let i = 0; i < 10; i++) {
+//   sourceImages.push('https://picsum.photos/1440/900/?image=' + (base + i));
+// }
+
 @Component({
-  components: {},
+  components: {
+    Viewer,
+  },
 })
 export default class ComplaintDetails extends Vue {
   @Prop(String) id: string;
@@ -100,6 +131,16 @@ export default class ComplaintDetails extends Vue {
 
   comments: CommentModel[] = [];
   complaintInfo: ServerComplaintModel = {} as any;
+
+  get evidenceImages() {
+    if (this.complaintInfo) {
+      return this.complaintInfo.invoice_files.concat(this.complaintInfo.evidence_files);
+    } else {
+      return [];
+    }
+  }
+
+  viewerOptions = {};
 
   reply() {
     this.replying = true;
@@ -154,13 +195,34 @@ export default class ComplaintDetails extends Vue {
   //height: 450px;
 }
 
+.brief-summary {
+  white-space: pre-wrap;
+}
+
 .thumb {
   font-size: 64px;
   line-height: 1;
 }
 
-.invoice-info {
-  height: 250px;
+.invoice-info.empty {
+  @include media-breakpoint-up(md) {
+    height: 200px;
+    text-align: center;
+
+    .empty-msg {
+      margin-top: 3em;
+    }
+  }
+}
+
+.image-wrapper {
+  img {
+    cursor: pointer;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }
 
 .btn-submit {

@@ -105,6 +105,7 @@ export interface ServerComplaintModel {
   expected_solution_body: string;
   id_files: string[];
   if_negotiated_by_merchant: boolean;
+  evidence_files: string[];
   invoice_files: string[];
   item_model: string;
   item_price: string;

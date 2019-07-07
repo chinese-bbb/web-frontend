@@ -24,6 +24,7 @@
     "lodash-es": "^4.17.11",
     "luxon": "^1.15.0",
     "nprogress": "^0.2.0",
+    "v-viewer": "^1.4.1",
     "verification-code": "^1.0.0",
     "vue": "^2.6.10",
     "vue-clamp": "^0.2.1",

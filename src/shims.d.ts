@@ -17,3 +17,8 @@ declare module 'verification-code' {
   }
   export function create(): CodeMeta;
 }
+
+declare module 'v-viewer' {
+  const a: any;
+  export default a;
+}
