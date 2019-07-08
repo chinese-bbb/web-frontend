@@ -30,7 +30,7 @@
           </div>
 
           <router-link
-            :to="{ name: 'fileComplaint', query: { id: merchantInfo.No } }"
+            :to="{ name: 'fileComplaint', query: { id: merchantId } }"
             class="btn-file-complaint el-button el-button--primary"
             >我要投诉
           </router-link>
@@ -143,6 +143,7 @@ export default class MerchantInfoView extends Vue {
 
   loading = false;
   loadingList = false;
+  merchantId = '';
 
   get joinedLoading() {
     return this.loading || this.loadingList;
@@ -159,6 +160,7 @@ export default class MerchantInfoView extends Vue {
       .then(resp => {
         this.merchantInfo = resp.data.storage;
         this.$store.commit('cacheCurrentMerchant', this.merchantInfo);
+        this.merchantId = resp.data.merchant_id;
 
         this.getComplaints(resp.data.merchant_id);
       })

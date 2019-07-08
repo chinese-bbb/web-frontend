@@ -17,7 +17,7 @@ export class ComplaintService {
       relatedProducts: rawComplaint.involvedProducts,
       purchase_timestamp: rawComplaint.purchaseDate,
       invoice_files: rawComplaint.uploadedInvoices,
-      id_files: rawComplaint.uploadedEvidences,
+      evidence_files: rawComplaint.uploadedEvidences,
     });
   }
 
