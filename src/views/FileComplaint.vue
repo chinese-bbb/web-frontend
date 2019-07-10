@@ -583,7 +583,7 @@ export default class FileComplaint extends Vue {
     filelist: ElUploadInternalFileDetail[],
   ) {
     this.uploadForm.otherEvidenceImages = filelist;
-    this.uploadForm.uploadedOtherEvidences.push('a');
+    this.uploadForm.uploadedOtherEvidences.push(response.path);
     (this.$refs.uploadForm as ElForm).validateField('uploadedOtherEvidences', () => void 0);
   }
 
