@@ -250,6 +250,7 @@ export default class MerchantInfoView extends Vue {
 .chart-image {
   height: 100%;
   width: 100%;
+  display: block;
 }
 
 .el-image /deep/ .image-error-slot {
