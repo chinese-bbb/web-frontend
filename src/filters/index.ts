@@ -20,12 +20,30 @@ export function yearDuration(value: string, older: string, empty = '未知') {
     return empty;
   }
 
-  const newDate = new Date(value);
-  const oldDate = new Date(older);
+  const newDate = tryParseDateString(value);
+  const oldDate = tryParseDateString(older);
 
-  return Duration.fromMillis(newDate.getTime() - oldDate.getTime())
+  return Duration.fromObject(newDate.diff(oldDate).toObject())
     .as('years')
     .toFixed();
+}
+
+function tryParseDateString(dateStr: string) {
+  let val = DateTime.fromISO(dateStr);
+
+  if (!val.isValid) {
+    val = DateTime.fromSQL(dateStr);
+  }
+
+  if (!val.isValid) {
+    val = DateTime.fromRFC2822(dateStr);
+  }
+
+  if (!val.isValid) {
+    throw new TypeError('Unable to parse date string: ' + dateStr);
+  }
+
+  return val;
 }
 
 export function complaintTypeMapping(value: ComplaintType) {

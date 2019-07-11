@@ -8,7 +8,7 @@
           <h3 class="company-name">{{ merchantInfo.Name }}</h3>
 
           <p class="establishment-time">成立时间 ：{{ merchantInfo.StartDate | date }}</p>
-          <p class="years-in-business">营业年数 ：{{ new Date() | yearDuration(merchantInfo.StartDate) }}</p>
+          <p class="years-in-business">营业年数 ：{{ currentTimeISO | yearDuration(merchantInfo.StartDate) }}</p>
           <p class="corporative-name">法人姓名 ：{{ merchantInfo.OperName }}</p>
           <p class="ibn">工商号码 ：{{ merchantInfo.CreditCode }}</p>
           <p class="address">地址 ：{{ merchantInfo.Address }}</p>
@@ -152,6 +152,8 @@ export default class MerchantInfoView extends Vue {
   merchantInfo: MerchantDetail = {} as any;
 
   viewResults: ServerComplaintModel[] = [];
+
+  currentTimeISO = new Date().toISOString();
 
   mounted() {
     this.loading = true;
