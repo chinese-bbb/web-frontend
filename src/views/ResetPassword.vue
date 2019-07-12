@@ -81,7 +81,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { phonePattern, SignInType, passwordPattern } from '@/constants';
+import { phonePattern, SignInType, passwordPattern, smsPattern } from '@/constants';
 import { ElInput } from 'element-ui/types/input';
 import { ElForm } from 'element-ui/types/form';
 import toNumber from 'lodash-es/toNumber';
@@ -124,12 +124,9 @@ export default class ResetPassword extends Vue {
     smsCaptcha: [
       {
         required: true,
-        type: 'number',
+        pattern: smsPattern,
         message: '请输入验证码',
         trigger: 'blur',
-        transform(value: string) {
-          return toNumber(value);
-        },
       },
       { min: 4, message: '验证码长度有误', trigger: 'blur' },
     ],

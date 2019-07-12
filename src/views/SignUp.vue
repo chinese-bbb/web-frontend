@@ -136,14 +136,11 @@ export default class SignUp extends Vue {
     captcha: [
       {
         required: true,
-        type: 'number',
         pattern: captchaPattern,
         message: '验证码格式有误',
         trigger: 'blur',
-        transform(value: string) {
-          return toNumber(value);
-        },
       },
+      { min: 4, message: '验证码长度有误', trigger: 'blur' },
     ],
     agreement: [{ required: true, message: '用户条款未同意', trigger: 'change' }],
     password: [
