@@ -1,3 +1,5 @@
+import Vue, { ComponentOptions } from 'vue';
+
 export function generateBase64ImageFromText(text: string, width = 200, height = 200) {
   const canvas = document.createElement('canvas');
   canvas.width = width;
@@ -88,3 +90,11 @@ export const cookieUtil = {
     return aKeys;
   },
 };
+
+export function createDynamicVnode(options: ComponentOptions<Vue>) {
+  const Comp = Vue.extend(options);
+
+  const instance = new Comp().$mount();
+
+  return (instance as any)._vnode;
+}

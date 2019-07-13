@@ -57,16 +57,5 @@ module.exports = {
   chainWebpack: config => {
     config.plugins.delete('prefetch');
   },
-  pwa: {
-    themeColor: '#1a535c',
-    msTileColor: '#1a535c',
-    workboxOptions: {
-      clientsClaim: true,
-      cleanupOutdatedCaches: true,
-      importWorkboxFrom: 'disabled',
-      skipWaiting: false,
-      importScripts: ['https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js'],
-    },
-  },
   transpileDependencies: ['vue-clamp', 'resize-detector'],
 };
