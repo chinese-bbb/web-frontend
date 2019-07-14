@@ -83,9 +83,7 @@
     </el-card>
 
     <el-dialog :before-close="handleClose" :visible.sync="dialogVisible" :close-on-click-modal="false" title="用户条款">
-      <article>
-        <p>adlkfjdskfja;ldskf;kajlkdsfjlkadsjflkajdkslfjajkdsfjl</p>
-      </article>
+      <service-term></service-term>
 
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -101,10 +99,14 @@ import { ElForm } from 'element-ui/types/form';
 import { ElInput } from 'element-ui/types/input';
 import toNumber from 'lodash-es/toNumber';
 
+import ServiceTerm from '../components/service-term.vue';
+
 import { authService } from '../services';
 
 @Component({
-  components: {},
+  components: {
+    ServiceTerm,
+  },
 })
 export default class SignUp extends Vue {
   counter = 0;
