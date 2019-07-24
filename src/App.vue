@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <el-container>
+    <el-container direction="vertical">
       <app-header></app-header>
 
       <el-main>
@@ -9,19 +9,21 @@
         </fade-in-transition>
       </el-main>
 
-      <el-footer class="d-flex flex-column justify-content-center" height="80px">
+      <footer class="app-footer d-flex flex-column justify-content-center">
         <h3 class="footer-title">联系我们</h3>
 
         <div class="row justify-content-around" style="line-height: 1.5">
-          <div>微信公众号：互信公益</div>
-          <div>
+          <div class="contact-item">微信公众号：互信公益</div>
+          <div class="contact-item">
             微博：<a class="external-link" href="https://weibo.com/u/7103342303" target="_blank"
               >https://weibo.com/u/7103342303</a
             >
           </div>
-          <div>邮箱：<a class="external-link" href="mailto:info@huxingongyi.com">info@huxingongyi.com</a></div>
+          <div class="contact-item">
+            邮箱：<a class="external-link" href="mailto:info@huxingongyi.com">info@huxingongyi.com</a>
+          </div>
         </div>
-      </el-footer>
+      </footer>
     </el-container>
   </div>
 </template>
@@ -40,11 +42,21 @@ export default class App extends Vue {}
 @import 'styles/helper';
 
 .el-main {
-  min-height: calc(100vh - #{$headerHeight + $footerHeight});
+  min-height: calc(100vh - #{$mobileHeaderHeight});
 }
 
-.el-footer {
-  color: white;
+@include media-breakpoint-up(sm) {
+  .el-main {
+    min-height: calc(100vh - #{$headerHeight});
+  }
+}
+
+.app-footer {
+  color: $--color-primary-inverse;
+  background-color: $--color-primary;
+  text-align: center;
+  padding: 1em $grid-gutter-width / 2;
+  flex-shrink: 0;
 }
 
 .footer-title {
@@ -53,5 +65,9 @@ export default class App extends Vue {}
 
 .external-link:hover {
   color: inherit;
+}
+
+.contact-item {
+  padding: 0 $grid-gutter-width / 2;
 }
 </style>
