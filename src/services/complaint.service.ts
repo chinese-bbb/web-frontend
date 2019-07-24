@@ -3,7 +3,7 @@ import { CommentModel, RawComplaint, ServerComplaintModel } from '@/models';
 
 export class ComplaintService {
   public createComplaint(rawComplaint: RawComplaint) {
-    return axios.post('/complaint', {
+    return axios.post('/complaints', {
       merchant_id: rawComplaint.merchantId,
       complaint_body: rawComplaint.mainContent,
       expected_solution_body: rawComplaint.expectedSolution,
@@ -22,26 +22,26 @@ export class ComplaintService {
   }
 
   public getComplaint(id: string) {
-    return axios.get<ServerComplaintModel>(`/complaint/${id}`);
+    return axios.get<ServerComplaintModel>(`/complaints/${id}`);
   }
 
   public getComplaintByMerchant(id: string) {
-    return axios.get('/complaintByMerchant', { params: { merchant_id: id } });
+    return axios.get('/complaints/byMerchant', { params: { merchant_id: id } });
   }
 
   public getCommentsByComplaint(id: string) {
-    return axios.get<CommentModel[]>(`/commentsByComplaint/${id}`);
+    return axios.get<CommentModel[]>(`/comments/byComplaint/${id}`);
   }
 
   public addComment(id: string, text: string) {
-    return axios.post(`/comment`, {
+    return axios.post(`/comments`, {
       text,
       complaint_id: id,
     });
   }
 
   public getUserComplaints(phoneNumber: string) {
-    return axios.get('/complaintByUser', { params: { phone_num: phoneNumber } });
+    return axios.get('/complaints/byUser', { params: { phone_num: phoneNumber } });
   }
 }
 

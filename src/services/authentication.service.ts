@@ -3,15 +3,15 @@ import { SignUpMeta } from '@/models';
 
 export class AuthenticationService {
   public signin(username: string, pwd: string) {
-    return axios.post('/login', { phone_num: username, password: pwd });
+    return axios.post('/auth/login', { phone_num: username, password: pwd });
   }
 
   public signout() {
-    return axios.post('/logout');
+    return axios.post('/auth/logout');
   }
 
   public signup(info: SignUpMeta) {
-    return axios.post('/register', {
+    return axios.post('/auth/register', {
       phone_num: info.phoneNum,
       password: info.password,
       sex: info.sex,
@@ -21,23 +21,23 @@ export class AuthenticationService {
   }
 
   public sendSMS(phoneNum: string) {
-    return axios.get('/sms/' + phoneNum /*, { params: { phone_num: phoneNum } }*/);
+    return axios.get('/auth/sms/' + phoneNum /*, { params: { phone_num: phoneNum } }*/);
   }
 
   public validateSMS(phoneNum: string, captcha: string) {
-    return axios.post('/sms/' + phoneNum, { /*phone_num: phoneNum,*/ v_code: captcha });
+    return axios.post('/auth/sms/' + phoneNum, { /*phone_num: phoneNum,*/ v_code: captcha });
   }
 
   public resetPwd(phoneNum: string, password: string) {
-    return axios.post('/resetpw', { phone_num: phoneNum, new_password: password });
+    return axios.post('/auth/resetpw', { phone_num: phoneNum, new_password: password });
   }
 
   public identifyUser(path: string) {
-    return axios.post('/identify', { id_path: path });
+    return axios.post('/auth/identify', { id_path: path });
   }
 
   public isPhoneExisted(phone: string) {
-    return axios.get(`/phone_exist/${phone}`);
+    return axios.get(`/auth/phone_exist/${phone}`);
   }
 }
 

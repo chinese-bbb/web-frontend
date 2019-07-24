@@ -3,7 +3,7 @@ import { UserModel } from '@/models';
 
 export class CustomerService {
   public getCurrentUserInfo() {
-    return axios.get<UserModel>('/user_me');
+    return axios.get<UserModel>('/users/me');
   }
 
   public queryComplaints(customerId: string) {
