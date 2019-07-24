@@ -101,16 +101,17 @@ export function calcUserName(value: UserModel, splitter = '') {
     return '';
   }
 
-  if (value.first_name) {
-    if (value.last_name) {
-      return value.last_name + splitter + value.first_name;
-    }
-
+  if (value.last_name) {
     if (value.sex) {
-      return value.first_name + splitter + sexMapping(value.sex);
+      return value.last_name + splitter + sexMapping(value.sex);
     }
 
-    return value.first_name + splitter + 'XX';
+    return value.last_name + splitter + 'XX';
+  } else {
+    // tslint:disable-next-line: no-console
+    console.error('invalid user lastname');
+
+    return 'unknown';
   }
 }
 
