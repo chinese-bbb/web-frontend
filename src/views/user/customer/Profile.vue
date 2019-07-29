@@ -58,10 +58,6 @@
           <el-divider></el-divider>
 
           <p>注册时间：{{ user.registered_date | date('yyyy 年 MM 月 dd 日') }}</p>
-          <p class="d-flex justify-content-between">
-            <span>是否实名：{{ user.if_verified ? '是' : '否' }}</span>
-            <router-link :to="{ name: 'realnameAuth' }" class="primary-router-link">立即实名</router-link>
-          </p>
         </el-card>
       </div>
     </div>

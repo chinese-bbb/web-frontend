@@ -172,14 +172,14 @@ const routes: RouteConfig[] = [
               title: '用户设置',
             },
           },
-          {
-            path: 'realname-auth',
-            name: 'realnameAuth',
-            component: () => import('./views/user/customer/RealNameAuth.vue'),
-            meta: {
-              title: '实名认证',
-            },
-          },
+          // {
+          //   path: 'realname-auth',
+          //   name: 'realnameAuth',
+          //   component: () => import('./views/user/customer/RealNameAuth.vue'),
+          //   meta: {
+          //     title: '实名认证',
+          //   },
+          // },
         ],
       },
       {

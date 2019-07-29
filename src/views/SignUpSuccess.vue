@@ -4,11 +4,8 @@
       <h2 class="title"><i class="el-icon-success"></i>注册成功</h2>
 
       <p class="message mb-5">
-        为了保证投诉的真实有效性，请继续完成实名注册或
-        <router-link class="signin-link" to="/customer/signin">直接登录</router-link>
+        <router-link class="signin-link" to="/auth/customer/signin">直接登录</router-link>
       </p>
-
-      <el-button @click="gotoRealNameAuth()" class="btn-continue" type="primary">继续</el-button>
     </template>
 
     <template v-if="from === 'm'">
