@@ -17,6 +17,7 @@ export class AuthenticationService {
       sex: info.sex,
       last_name: info.lastName,
       first_name: info.firstName,
+      email: info.email,
     });
   }
 

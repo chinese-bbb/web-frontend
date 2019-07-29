@@ -123,6 +123,7 @@ export interface SignUpMeta {
   sex: string;
   firstName: string;
   lastName: string;
+  email: string;
 }
 
 export interface UserModel {

@@ -5,7 +5,7 @@
         <h2 class="form-title text-center mb-3">注册</h2>
 
         <el-form-item prop="phone_num" ref="phoneInput">
-          <el-input placeholder="请输入手机号" v-model="form1.phone_num" ref="phoneInput"></el-input>
+          <el-input placeholder="请输入手机号" ref="phoneInput" v-model="form1.phone_num"></el-input>
         </el-form-item>
 
         <el-form-item class="captcha-row" prop="captcha">
@@ -60,7 +60,7 @@
       <el-form :model="form3" :rules="rules" class="info-form" key="infoForm" ref="infoForm" v-if="step === 3">
         <h2 class="form-title text-center mb-3">设置基本信息</h2>
 
-        <div class="row">
+        <div class="row names">
           <el-form-item class="col" label="姓" prop="lastName">
             <el-input v-model="form3.lastName"></el-input>
           </el-form-item>
@@ -69,11 +69,16 @@
             <el-input v-model="form3.firstName"></el-input>
           </el-form-item>
         </div>
+
         <el-form-item class="inline-radios" label="性别" prop="gender">
           <el-radio-group v-model="form3.gender">
             <el-radio label="male">男性</el-radio>
             <el-radio label="female">女性</el-radio>
           </el-radio-group>
+        </el-form-item>
+
+        <el-form-item class="item-email" label="邮箱" prop="email">
+          <el-input v-model="form3.email"></el-input>
         </el-form-item>
 
         <el-form-item>
@@ -82,11 +87,11 @@
       </el-form>
     </el-card>
 
-    <el-dialog :before-close="handleClose" :visible.sync="dialogVisible" :close-on-click-modal="false" title="用户条款">
+    <el-dialog :before-close="handleClose" :close-on-click-modal="false" :visible.sync="dialogVisible" title="用户条款">
       <service-term></service-term>
 
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      <div class="dialog-footer" slot="footer">
+        <el-button @click="dialogVisible = false" type="primary">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -94,10 +99,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { captchaPattern, phonePattern, SignInType, passwordPattern } from '@/constants';
+import { captchaPattern, passwordPattern, phonePattern, SignInType } from '@/constants';
 import { ElForm } from 'element-ui/types/form';
 import { ElInput } from 'element-ui/types/input';
-import toNumber from 'lodash-es/toNumber';
 
 import ServiceTerm from '../components/service-term.vue';
 
@@ -130,6 +134,7 @@ export default class SignUp extends Vue {
     firstName: '',
     gender: '',
     lastName: '',
+    email: '',
   };
 
   rules = {
@@ -155,6 +160,10 @@ export default class SignUp extends Vue {
       { validator: this.validateConfirmPass, trigger: 'blur' },
     ],
     lastName: [{ required: true, message: '请输入您的姓氏', trigger: 'blur' }],
+    email: [
+      { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
+    ],
   };
 
   captchaDisabled = false;
@@ -186,7 +195,7 @@ export default class SignUp extends Vue {
           )
           .finally(() => (this.submitting = false));
       } else {
-        this.submitting = true;
+        this.submitting = false;
       }
     });
   }
@@ -210,6 +219,7 @@ export default class SignUp extends Vue {
             sex: this.form3.gender,
             firstName: this.form3.firstName,
             lastName: this.form3.lastName,
+            email: this.form3.email,
           })
           .then(
             () => {
@@ -314,7 +324,11 @@ export default class SignUp extends Vue {
   }
 }
 
-.info-form /deep/ .el-input {
-  width: 100px;
+.names /deep/ .el-input {
+  width: calc(100% - 40px);
+}
+
+.item-email /deep/ .el-input {
+  width: calc(100% - 54px);
 }
 </style>
