@@ -133,7 +133,7 @@ export default class ComplaintDetails extends Vue {
   complaintInfo: ServerComplaintModel = {} as any;
 
   get evidenceImages() {
-    if (this.complaintInfo) {
+    if (this.complaintInfo && this.complaintInfo.invoice_files) {
       return this.complaintInfo.invoice_files.concat(this.complaintInfo.evidence_files);
     } else {
       return [];
