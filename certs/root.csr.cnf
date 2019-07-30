@@ -11,4 +11,4 @@ L=test
 O=test
 OU=test
 emailAddress=test@example.com
-CN=localhost
+CN=example.com

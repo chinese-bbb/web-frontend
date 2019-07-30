@@ -27,5 +27,6 @@ yarn-error.log*
 # Custom
 certs
 !certs/gen.sh
+!certs/root.csr.cnf
 !certs/server.csr.cnf
 !certs/v3.ext
