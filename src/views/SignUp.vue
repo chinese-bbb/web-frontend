@@ -4,8 +4,13 @@
       <el-form :model="form1" :rules="rules" key="form" ref="form" v-if="step === 1">
         <h2 class="form-title text-center mb-3">注册</h2>
 
-        <el-form-item prop="phone_num" ref="phoneInput">
-          <el-input placeholder="请输入手机号" ref="phoneInput" v-model="form1.phone_num"></el-input>
+        <el-form-item prop="phone_num">
+          <vue-tel-input
+            ref="phoneInput"
+            :preferredCountries="['CN', 'US', 'GB']"
+            placeholder="请输入手机号"
+            v-model="form1.phone_num"
+          ></vue-tel-input>
         </el-form-item>
 
         <el-form-item class="captcha-row" prop="captcha">
@@ -104,12 +109,14 @@ import { ElForm } from 'element-ui/types/form';
 import { ElInput } from 'element-ui/types/input';
 
 import ServiceTerm from '../components/service-term.vue';
+import VueTelInput from '../libs/vue-tel-input/vue-tel-input.vue';
 
 import { authService } from '../services';
 
 @Component({
   components: {
     ServiceTerm,
+    VueTelInput,
   },
 })
 export default class SignUp extends Vue {
@@ -138,7 +145,16 @@ export default class SignUp extends Vue {
   };
 
   rules = {
-    phone_num: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
+    phone_num: [
+      {
+        required: true,
+        validator: (rule: any, val: any, cb: any) => {
+          (this.$refs.phoneInput as any).state ? cb() : cb('invalid phone number');
+        },
+        message: '请填入有效的手机号码',
+        trigger: 'blur',
+      },
+    ],
     gender: [{ required: true, message: '请确定用户性别', trigger: 'change' }],
     captcha: [
       {
@@ -298,6 +314,7 @@ export default class SignUp extends Vue {
 .signup-form {
   width: 360px;
   margin-top: 5rem;
+  overflow: visible;
 }
 
 .form-title {

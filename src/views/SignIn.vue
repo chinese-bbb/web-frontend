@@ -40,6 +40,8 @@ import { phonePattern, SignInType, passwordPattern } from '@/constants';
 import { ElForm } from 'element-ui/types/form';
 
 import { authService } from '../services';
+// @ts-ignore
+import { parsePhoneNumberFromString } from '../libs/libphonenumber-custom/mobile.js';
 
 @Component({
   props: {
@@ -55,7 +57,16 @@ export default class SignIn extends Vue {
   submitting = false;
 
   rules = {
-    username: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
+    username: [
+      {
+        required: true,
+        validator: (rule: any, val: any, cb: any) => {
+          parsePhoneNumberFromString(val, 'CN').isValid() ? cb() : cb('invalid');
+        },
+        message: '请填入有效的手机号码',
+        trigger: 'blur',
+      },
+    ],
     password: [
       { required: true, pattern: passwordPattern, message: '请输入有效密码', trigger: 'blur' },
       { min: 8, message: '密码须为8位以上', trigger: 'blur' },
