@@ -197,6 +197,7 @@ export default class ComplaintDetails extends Vue {
 
 .brief-summary {
   white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .thumb {

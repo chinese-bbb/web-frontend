@@ -91,9 +91,7 @@
               </div>
 
               <div class="content">
-                <p class="brief-summary">
-                  {{ item.complaint_body }}
-                </p>
+                <p class="brief-summary">{{ item.complaint_body }}</p>
 
                 <div class="text-right">
                   <el-button class="">查看具体<i class="el-icon-arrow-right"></i></el-button>
@@ -237,6 +235,11 @@ export default class MerchantInfoView extends Vue {
   height: 150px;
   width: 150px;
   background-color: #e4e4e4;
+}
+
+.brief-summary {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .filters .el-dropdown {
