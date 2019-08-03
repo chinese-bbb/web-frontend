@@ -264,7 +264,7 @@ export default class SignUp extends Vue {
             this.requestingSms = false;
           });
       } else {
-        this.requestingSms = true;
+        this.requestingSms = false;
       }
     });
   }
