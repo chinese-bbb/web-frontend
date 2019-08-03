@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+      - npm install
+  pre_build:
+    commands:
+      - touch .env.local
+      - echo "VUE_APP_SERVER_ADDR=https://api.huxingongyi.com/api/" >> .env.local
+      - echo VUE_APP_VERSION=$CODEBUILD_RESOLVED_SOURCE_VERSION >> .env.local
+  build:
+    commands:
+      - npm run build
+artifacts:
+  files:
+    - "**/*"
+  base-directory: 'dist'
+  name: dist-$(date +%Y-%m-%d)

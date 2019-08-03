@@ -41,7 +41,7 @@ import AppHeader from '@/components/Header.vue';
 })
 export default class App extends Vue {
   dialogVisible = false;
-  appVersion = process.env.VUE_APP_SERVER_ADDR;
+  appVersion = process.env.VUE_APP_VERSION || 'unavailable';
 
   handleClose() {
     this.dialogVisible = false;

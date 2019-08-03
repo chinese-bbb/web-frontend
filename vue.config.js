@@ -11,10 +11,10 @@ module.exports = {
     historyApiFallback: {
       rewrites: [{ from: /.*/, to: '/index.html' }],
     },
-    https: {
+    https: process.env.NODE_ENV === 'development' ? {
       key: fs.readFileSync(path.join(__dirname, './certs/server.key')),
       cert: fs.readFileSync(path.join(__dirname, './certs/server.crt')),
-    },
+    } : undefined,
     sockHost: 'localhost',
     sockPort: '8080',
   },
