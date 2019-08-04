@@ -8,7 +8,7 @@ phases:
   pre_build:
     commands:
       - touch .env.local
-      - echo "VUE_APP_SERVER_ADDR=https://api.huxingongyi.com/api/" >> .env.local
+      - echo VUE_APP_SERVER_ADDR=$SERVER_API_URL >> .env.local
       - echo VUE_APP_VERSION=$CODEBUILD_RESOLVED_SOURCE_VERSION >> .env.local
   build:
     commands:
