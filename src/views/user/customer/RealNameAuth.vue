@@ -41,7 +41,7 @@ export default class RealNameAuth extends Vue {
   fileSelected = false;
   uploading = false;
   verifying = false;
-  uploadUrl = axios.defaults.baseURL + 'upload_file';
+  uploadUrl = axios.defaults.baseURL + '/upload_file';
   // unit: MB
   fileSizeLimit = 3;
 

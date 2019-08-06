@@ -412,7 +412,7 @@ export default class FileComplaint extends Vue {
   submitting = false;
   // unit: MB
   fileSizeLimit = 3;
-  uploadUrl = axios.defaults.baseURL + 'upload_file';
+  uploadUrl = axios.defaults.baseURL + '/upload_file';
 
   complaintTypeForm: {
     negotiateDate: string | Date;
