@@ -156,7 +156,7 @@ export default class MerchantInfoView extends Vue {
   mounted() {
     this.loading = true;
     searchService
-      .queryMerchant(this.id)
+      .queryMerchantByQccId(this.id)
       .then(resp => {
         this.merchantInfo = resp.data.storage;
         this.$store.commit('cacheCurrentMerchant', this.merchantInfo);

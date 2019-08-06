@@ -21,8 +21,12 @@ export class ComplaintService {
     });
   }
 
-  public getComplaint(id: string) {
+  public getComplaint(id: number | string) {
     return axios.get<ServerComplaintModel>(`/complaints/${id}`);
+  }
+
+  public getLatestComplaints() {
+    return axios.get<ServerComplaintModel[]>(`/complaints/last`, { params: { N: 5 } });
   }
 
   public getComplaintByMerchant(id: string) {

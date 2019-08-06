@@ -11,6 +11,11 @@ export interface SearchItem {
   Status: string | '';
 }
 
+export interface MerchantResponse {
+  merchant_id: number;
+  storage: MerchantDetail;
+}
+
 export interface MerchantDetail {
   Address: string;
   BelongOrg: string;
