@@ -25,6 +25,15 @@ const commonAuthGuard: NavigationGuard = (to, from, next) => {
   }
 };
 
+const adminAuthGuard: NavigationGuard = (to, from, next) => {
+  if (!store.state.authenticated || !store.state.userInfo!.is_admin) {
+    Vue.prototype.$message.error('非法访问');
+    next(new Error('Access Denied'));
+  } else {
+    next();
+  }
+};
+
 const routes: RouteConfig[] = [
   {
     path: '/',
@@ -242,6 +251,15 @@ const routes: RouteConfig[] = [
     component: () => import('./views/About.vue'),
     meta: {
       title: '关于',
+    },
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    beforeEnter: adminAuthGuard,
+    component: () => import('./views/Admin.vue'),
+    meta: {
+      title: '管理员页面',
     },
   },
   {

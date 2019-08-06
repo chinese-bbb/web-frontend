@@ -29,7 +29,11 @@ export class ComplaintService {
     return axios.get<ServerComplaintModel[]>(`/complaints/last`, { params: { N: 5 } });
   }
 
-  public getComplaintByMerchant(id: string) {
+  public getAllComplaints() {
+    return axios.get<ServerComplaintModel[]>(`/complaints/all`);
+  }
+
+  public getComplaintByMerchant(id: string | number) {
     return axios.get('/complaints/byMerchant', { params: { merchant_id: id } });
   }
 
@@ -42,6 +46,10 @@ export class ComplaintService {
       text,
       complaint_id: id,
     });
+  }
+
+  public deleteComplaint(id: number) {
+    return axios.delete(`/complaints/${id}`);
   }
 
   public getUserComplaints(phoneNumber: string) {

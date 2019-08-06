@@ -141,7 +141,7 @@ export default class MerchantInfoView extends Vue {
 
   loading = false;
   loadingList = false;
-  merchantId = '';
+  merchantId: number;
 
   get joinedLoading() {
     return this.loading || this.loadingList;
@@ -167,7 +167,7 @@ export default class MerchantInfoView extends Vue {
       .finally(() => (this.loading = false));
   }
 
-  getComplaints(id: string) {
+  getComplaints(id: string | number) {
     this.loadingList = true;
 
     this.viewResults = [];
