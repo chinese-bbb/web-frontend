@@ -26,7 +26,7 @@ const commonAuthGuard: NavigationGuard = (to, from, next) => {
 };
 
 const adminAuthGuard: NavigationGuard = (to, from, next) => {
-  if (!store.state.authenticated || !store.state.userInfo!.is_admin) {
+  if (!store.state.authenticated || !(store.state.userInfo && store.state.userInfo.is_admin)) {
     Vue.prototype.$message.error('非法访问');
     next(new Error('Access Denied'));
   } else {
