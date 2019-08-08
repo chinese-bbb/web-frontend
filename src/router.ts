@@ -18,7 +18,7 @@ const forbidAuthedUserGuard: NavigationGuard = (to, from, next) => {
 
 const commonAuthGuard: NavigationGuard = (to, from, next) => {
   if (!store.state.authenticated) {
-    Vue.prototype.$message.error('非法访问');
+    Vue.prototype.$message.error('未授权访问');
     next(new Error('Access Denied'));
   } else {
     next();
@@ -27,7 +27,7 @@ const commonAuthGuard: NavigationGuard = (to, from, next) => {
 
 const adminAuthGuard: NavigationGuard = (to, from, next) => {
   if (!store.state.authenticated || !(store.state.userInfo && store.state.userInfo.is_admin)) {
-    Vue.prototype.$message.error('非法访问');
+    Vue.prototype.$message.error('未授权访问');
     next(new Error('Access Denied'));
   } else {
     next();
@@ -309,6 +309,12 @@ router.afterEach(() => {
 
 router.onError(() => {
   NProgress.done();
+
+  if (!router.currentRoute.matched.length) {
+    router.push({
+      name: 'home',
+    });
+  }
 });
 
 export default router;

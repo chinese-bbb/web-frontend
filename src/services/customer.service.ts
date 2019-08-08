@@ -2,8 +2,12 @@ import axios from 'axios';
 import { UserModel } from '@/models';
 
 export class CustomerService {
-  public getCurrentUserInfo() {
-    return axios.get<UserModel>('/users/me');
+  public getCurrentUserInfo(skipErrorHandle = false) {
+    return axios.get<UserModel>('/users/me', {
+      meta: {
+        skipCommonErrorHandle: skipErrorHandle,
+      },
+    });
   }
 
   public queryComplaints(customerId: string) {

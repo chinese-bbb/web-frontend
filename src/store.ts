@@ -5,9 +5,8 @@ import { SignInType } from '@/constants';
 
 import router from './router';
 import authService from './services/authentication.service';
-import { UserModel, MerchantDetail } from './models';
+import { MerchantDetail, UserModel } from './models';
 import { customerService } from './services';
-import { cookieUtil } from './utils';
 
 Vue.use(Vuex);
 
@@ -62,26 +61,26 @@ export default new Vuex.Store<RootState>({
   actions: {
     signIn({ commit }, payload) {
       commit('authenticate', { phone: payload.username, type: payload.type });
-      // fet => front end track
-      document.cookie = '__fet=true;path=/';
-      document.cookie = `__feun=${payload.username};path=/`;
-      document.cookie = `__feut=${payload.type};path=/`;
     },
     signout({ commit }) {
       authService.signout().finally(() => {
         commit('deAuthenticate');
 
-        cookieUtil.removeItem('__fet', '/');
-        cookieUtil.removeItem('__feun', '/');
-        cookieUtil.removeItem('__feut', '/');
-
         router.push({ name: 'home' });
       });
     },
     fetchUserInfo({ commit }) {
-      customerService.getCurrentUserInfo().then(res => {
-        commit('updateUserInfo', res.data);
-      });
+      return customerService.getCurrentUserInfo().then(
+        res => {
+          commit('updateUserInfo', res.data);
+        },
+        err => {
+          if (err.response.status === 401) {
+            commit('deAuthenticate');
+          }
+          throw err;
+        },
+      );
     },
   },
   plugins: [createPersistedState({ storage: window.sessionStorage })],
