@@ -72,10 +72,11 @@ export default new Vuex.Store<RootState>({
     fetchUserInfo({ commit }) {
       return customerService.getCurrentUserInfo().then(
         res => {
+          commit('authenticate', { phone: res.data.username, type: SignInType.Customer });
           commit('updateUserInfo', res.data);
         },
         err => {
-          if (err.response.status === 401) {
+          if (!err.response || err.response.status === 401) {
             commit('deAuthenticate');
           }
           throw err;

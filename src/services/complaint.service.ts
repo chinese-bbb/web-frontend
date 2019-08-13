@@ -26,7 +26,7 @@ export class ComplaintService {
   }
 
   public getLatestComplaints() {
-    return axios.get<ServerComplaintModel[]>(`/complaints/last`, { params: { N: 5 } });
+    return axios.get<ServerComplaintModel[]>(`/complaints/last`, { params: { n: 5 } });
   }
 
   public getAllComplaints() {

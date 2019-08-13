@@ -40,7 +40,11 @@ function defineInterceptors($message: ElMessage) {
       // tslint:disable-next-line:no-console
       console.error(error);
 
-      const { status } = error.response!;
+      if (!error.response) {
+        return Promise.reject(error);
+      }
+
+      const { status } = error.response;
 
       if (status === 400) {
         // $message.error('发送请求有误，请反馈给网站管理员');
