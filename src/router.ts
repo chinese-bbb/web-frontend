@@ -292,7 +292,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {
-    document.title = '互信公益 - ' + to.meta.title;
+    document.title = '互信公信 - ' + to.meta.title;
   }
 
   if (to.name !== 'home') {

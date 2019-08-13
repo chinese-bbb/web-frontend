@@ -13,7 +13,7 @@
         <h3 class="footer-title" @click="dialogVisible = true">联系我们</h3>
 
         <div class="row justify-content-around" style="line-height: 1.5">
-          <div class="contact-item">微信公众号：互信公益</div>
+          <div class="contact-item">微信公众号：互信公信</div>
           <div class="contact-item">
             微博：<a class="external-link" href="https://weibo.com/u/7103342303" target="_blank"
               >https://weibo.com/u/7103342303</a
