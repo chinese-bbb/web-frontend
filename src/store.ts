@@ -15,6 +15,7 @@ export interface RootState {
   authenticated: boolean;
   userRole: UserRole | null;
   userPhone: string | null;
+  lastUserUpdateTime: number | null;
   userInfo: null | UserModel;
   currentMerchant: MerchantDetail | null;
 }
@@ -31,6 +32,7 @@ export default new Vuex.Store<RootState>({
     userRole: null,
     userPhone: null,
     userInfo: null,
+    lastUserUpdateTime: null,
     currentMerchant: null,
   },
   mutations: {
@@ -49,10 +51,12 @@ export default new Vuex.Store<RootState>({
       state.authenticated = false;
       state.userPhone = null;
       state.userRole = null;
+      state.userInfo = null;
     },
     updateUserInfo(state, payload) {
       state.userInfo = { ...payload };
       state.userPhone = state.userInfo!.username;
+      state.lastUserUpdateTime = Date.now();
     },
     cacheCurrentMerchant(state, payload) {
       state.currentMerchant = { ...payload };

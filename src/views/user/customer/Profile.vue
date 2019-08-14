@@ -106,7 +106,13 @@ export default class Profile extends Vue {
   created() {
     this.activeTab = this.tab || this.activeTab;
 
-    this.getUserInfo();
+    if (!this.$store.state.userInfo || Date.now() - this.$store.state.lastUserUpdateTime > 1000 * 60 * 5) {
+      this.getUserInfo();
+    } else {
+      this.loadingUserInfo = false;
+      this.user = this.$store.state.userInfo;
+      this.getComplaints();
+    }
   }
 
   getUserInfo() {
