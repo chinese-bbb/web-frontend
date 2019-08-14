@@ -101,7 +101,7 @@ export default class Home extends Vue {
 
 .top-sec {
   height: calc(100vh - #{$headerHeight});
-  background-image: url('https://images.huxingongyi.com/background.jpeg');
+  background-image: url('https://images.huxingongyi.com/gratisography-mountain-peaks.jpg');
   background-size: cover;
 }
 
