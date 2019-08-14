@@ -138,7 +138,7 @@ export interface UserModel {
   username: string;
   first_name: string;
   last_name: string;
-  is_admin: boolean;
+  urole: 'normal' | 'admin';
 }
 
 export type ComplaintType =
