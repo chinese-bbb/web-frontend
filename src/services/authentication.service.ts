@@ -36,7 +36,7 @@ export class AuthenticationService {
 
   public validateSMS(phoneNum: string, captcha: string) {
     const result = parsePhoneNumberFromString(phoneNum, 'CN');
-    return axios.post('/auth/sms/validate', { phone_num: result.number, v_code: captcha });
+    return axios.post('/auth/sms/validate', { phone_num: result.number, code: captcha });
   }
 
   public resetPwd(phoneNum: string, password: string) {
