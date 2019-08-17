@@ -5,7 +5,7 @@
         :suffix-icon="searchStr ? '' : 'el-icon-search'"
         @keyup.enter.native="search"
         class="search-input"
-        placeholder="请输入您想查询的商户/产品/关键词"
+        placeholder="请输入您想查询或投诉的商户/产品/关键词"
         type="search"
         v-model="searchStr"
       >
