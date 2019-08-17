@@ -11,6 +11,11 @@ export interface SearchItem {
   Status: string | '';
 }
 
+export interface MerchantResponse {
+  merchant_id: number;
+  storage: MerchantDetail;
+}
+
 export interface MerchantDetail {
   Address: string;
   BelongOrg: string;
@@ -133,6 +138,7 @@ export interface UserModel {
   username: string;
   first_name: string;
   last_name: string;
+  urole: 'normal' | 'admin';
 }
 
 export type ComplaintType =

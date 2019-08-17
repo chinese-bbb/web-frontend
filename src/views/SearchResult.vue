@@ -103,7 +103,7 @@ export default class SearchResult extends Vue {
     searchService
       .search(keyword, index)
       .then(resp => {
-        this.$router.push({ name: 'search', query: { q: this.searchStr } });
+        this.$router.push({ name: 'search', query: { q: this.searchStr } }).catch(() => void 0);
         this.viewResults = resp.data.result;
         this.pageCount = Math.ceil(resp.data.totalPage / this.pageSize) || 0;
       })

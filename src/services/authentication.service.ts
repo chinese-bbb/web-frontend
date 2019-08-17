@@ -1,9 +1,12 @@
 import axios from 'axios';
 import { SignUpMeta } from '@/models';
+// @ts-ignore
+import { parsePhoneNumberFromString } from '../libs/libphonenumber-custom/mobile.js';
 
 export class AuthenticationService {
   public signin(username: string, pwd: string) {
-    return axios.post('/auth/login', { phone_num: username, password: pwd });
+    const result = parsePhoneNumberFromString(username, 'CN');
+    return axios.post('/auth/login', { phone_num: result.number, password: pwd });
   }
 
   public signout() {
@@ -11,8 +14,10 @@ export class AuthenticationService {
   }
 
   public signup(info: SignUpMeta) {
+    const result = parsePhoneNumberFromString(info.phoneNum, 'CN');
+
     return axios.post('/auth/register', {
-      phone_num: info.phoneNum,
+      phone_num: result.number,
       password: info.password,
       sex: info.sex,
       last_name: info.lastName,
@@ -22,23 +27,30 @@ export class AuthenticationService {
   }
 
   public sendSMS(phoneNum: string) {
-    return axios.get('/auth/sms/' + phoneNum /*, { params: { phone_num: phoneNum } }*/);
+    const result = parsePhoneNumberFromString(phoneNum, 'CN');
+    return axios.post('/auth/sms/request', {
+      national_number: result.nationalNumber,
+      country_code: result.countryCallingCode,
+    });
   }
 
   public validateSMS(phoneNum: string, captcha: string) {
-    return axios.post('/auth/sms/' + phoneNum, { /*phone_num: phoneNum,*/ v_code: captcha });
+    const result = parsePhoneNumberFromString(phoneNum, 'CN');
+    return axios.post('/auth/sms/validate', { phone_num: result.number, code: captcha });
   }
 
   public resetPwd(phoneNum: string, password: string) {
-    return axios.post('/auth/resetpw', { phone_num: phoneNum, new_password: password });
+    const result = parsePhoneNumberFromString(phoneNum, 'CN');
+    return axios.post('/auth/resetpw', { phone_num: result.number, new_password: password });
   }
 
   public identifyUser(path: string) {
     return axios.post('/auth/identify', { id_path: path });
   }
 
-  public isPhoneExisted(phone: string) {
-    return axios.get(`/auth/phone_exist/${phone}`);
+  public isPhoneExisted(phoneNum: string) {
+    const result = parsePhoneNumberFromString(phoneNum, 'CN');
+    return axios.get(`/auth/phone_exist/${result.number}`);
   }
 }
 

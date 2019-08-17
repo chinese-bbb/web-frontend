@@ -1,5 +1,9 @@
+import Vue from 'vue';
+
 import './axios';
 import './filters';
 import './components';
-import '../plugins/element';
+import ElementUI from '../plugins/element';
 import './fa-icon-imports';
+
+Vue.use(ElementUI);

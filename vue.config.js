@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const args = require('minimist')(process.argv)
 
 module.exports = {
   publicPath: '',
@@ -11,12 +12,11 @@ module.exports = {
     historyApiFallback: {
       rewrites: [{ from: /.*/, to: '/index.html' }],
     },
-    https: process.env.NODE_ENV === 'development' ? {
+    https: process.env.NODE_ENV === 'development' && args.https !== 'false' ? {
       key: fs.readFileSync(path.join(__dirname, './certs/server.key')),
       cert: fs.readFileSync(path.join(__dirname, './certs/server.crt')),
     } : undefined,
-    sockHost: 'localhost',
-    sockPort: '8080',
+    host: 'localhost',
   },
   configureWebpack: {
     resolve: {
@@ -48,7 +48,7 @@ module.exports = {
           common: {
             name: 'chunk-common',
             minChunks: 2,
-            minSize: 30000,
+            minSize: 3000,
           },
         },
       },

@@ -5,7 +5,12 @@
     <section v-if="step === 1">
       <el-form :model="form1" :rules="rules" key="form3" ref="form1">
         <el-form-item prop="username">
-          <el-input placeholder="手机号" v-model="form1.username"></el-input>
+          <vue-tel-input
+            ref="phoneInput"
+            :preferredCountries="['CN', 'US', 'GB']"
+            placeholder="请输入手机号"
+            v-model="form1.username"
+          ></vue-tel-input>
         </el-form-item>
 
         <el-form-item class="pic-captcha-form-item" prop="picCaptcha">
@@ -84,12 +89,17 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { phonePattern, SignInType, passwordPattern, smsPattern } from '@/constants';
 import { ElInput } from 'element-ui/types/input';
 import { ElForm } from 'element-ui/types/form';
-import toNumber from 'lodash-es/toNumber';
 import { CodeMeta, create as createVerificationCode } from 'verification-code';
+
+import VueTelInput from '../libs/vue-tel-input/vue-tel-input.vue';
 
 import { authService } from '../services';
 
-@Component({})
+@Component({
+  components: {
+    VueTelInput,
+  },
+})
 export default class ResetPassword extends Vue {
   @Prop({ type: String, default: SignInType.Customer }) from: SignInType;
 
@@ -111,7 +121,16 @@ export default class ResetPassword extends Vue {
   };
 
   rules = {
-    username: [{ required: true, pattern: phonePattern, message: '请填入有效的手机号码', trigger: 'blur' }],
+    username: [
+      {
+        required: true,
+        validator: (rule: any, val: any, cb: any) => {
+          (this.$refs.phoneInput as any).state ? cb() : cb('invalid phone number');
+        },
+        message: '请填入有效的手机号码',
+        trigger: 'blur',
+      },
+    ],
     password: [
       { required: true, pattern: passwordPattern, message: '请输入有效密码（字母、数字、特殊字符）', trigger: 'blur' },
       { min: 8, message: '密码须为8位以上', trigger: 'blur' },

@@ -70,5 +70,6 @@ export default class ComplaintCard extends Vue {
   text-align: left;
   flex-grow: 1;
   padding: 0.5rem 1rem;
+  word-break: break-word;
 }
 </style>

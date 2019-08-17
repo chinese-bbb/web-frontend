@@ -18,7 +18,16 @@ const forbidAuthedUserGuard: NavigationGuard = (to, from, next) => {
 
 const commonAuthGuard: NavigationGuard = (to, from, next) => {
   if (!store.state.authenticated) {
-    Vue.prototype.$message.error('非法访问');
+    Vue.prototype.$message.error('未授权访问');
+    next(new Error('Access Denied'));
+  } else {
+    next();
+  }
+};
+
+const adminAuthGuard: NavigationGuard = (to, from, next) => {
+  if (!store.state.authenticated || !(store.state.userInfo && store.state.userInfo.urole === 'admin')) {
+    Vue.prototype.$message.error('未授权访问');
     next(new Error('Access Denied'));
   } else {
     next();
@@ -245,6 +254,15 @@ const routes: RouteConfig[] = [
     },
   },
   {
+    path: '/admin',
+    name: 'admin',
+    beforeEnter: adminAuthGuard,
+    component: () => import('./views/Admin.vue'),
+    meta: {
+      title: '管理员页面',
+    },
+  },
+  {
     path: '/feedback',
     name: 'feedback',
     component: () => import('./views/Feedback.vue'),
@@ -274,7 +292,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {
-    document.title = '互信公益 - ' + to.meta.title;
+    document.title = '互信公信 - ' + to.meta.title;
   }
 
   if (to.name !== 'home') {
@@ -291,6 +309,12 @@ router.afterEach(() => {
 
 router.onError(() => {
   NProgress.done();
+
+  if (!router.currentRoute.matched.length) {
+    router.push({
+      name: 'home',
+    });
+  }
 });
 
 export default router;

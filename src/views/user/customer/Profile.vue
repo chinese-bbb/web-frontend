@@ -39,7 +39,17 @@
 
       <div class="side-col col-12 col-md-4">
         <div class="search-wrapper">
-          <el-input :value="searchStr" @input="search" placeholder="请输入投诉消息关键词" suffix-icon="el-icon-search">
+          <el-input
+            class="search-input"
+            :suffix-icon="searchStr ? '' : 'el-icon-search'"
+            type="search"
+            @keyup.enter.native="search"
+            v-model="searchStr"
+            placeholder="快捷查询商户/产品/关键词"
+          >
+            <el-button @click="search" icon="el-icon-search" slot="append" type="primary" v-if="searchStr"
+              >搜索</el-button
+            >
           </el-input>
         </div>
 
@@ -89,22 +99,20 @@ export default class Profile extends Vue {
   loadingUserInfo = true;
   loadingComplaints = true;
 
-  search(value: string) {
-    this.searchStr = value;
-
-    if (this.timeoutId) {
-      clearInterval(this.timeoutId);
-    }
-
-    this.timeoutId = setTimeout(() => {
-      this._search();
-    }, 500);
+  search() {
+    this.$router.push({ name: 'search', query: { q: this.searchStr } });
   }
 
   created() {
     this.activeTab = this.tab || this.activeTab;
 
-    this.getUserInfo();
+    if (!this.$store.state.userInfo || Date.now() - this.$store.state.lastUserUpdateTime > 1000 * 60 * 5) {
+      this.getUserInfo();
+    } else {
+      this.loadingUserInfo = false;
+      this.user = this.$store.state.userInfo;
+      this.getComplaints();
+    }
   }
 
   getUserInfo() {
@@ -147,10 +155,6 @@ export default class Profile extends Vue {
     }
 
     this.activeTab = tab.name;
-  }
-
-  private _search() {
-    // do something
   }
 }
 </script>

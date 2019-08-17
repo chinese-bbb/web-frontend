@@ -11,7 +11,6 @@ import './registerServiceWorker';
 
 import './styles.scss';
 import { ElMessage } from 'element-ui/types/message';
-import { cookieUtil } from './utils';
 
 Vue.config.productionTip = false;
 
@@ -19,16 +18,17 @@ Component.registerHooks(['beforeRouteEnter', 'beforeRouteLeave', 'beforeRouteUpd
 
 Vue.config.productionTip = false;
 
-recoverAuthState();
-
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-  beforeCreate() {
-    defineInterceptors(this.$message);
-  },
-}).$mount('#app');
+store.dispatch('fetchUserInfo').finally(() => {
+  const app = new Vue({
+    router,
+    store,
+    render: h => h(App),
+    beforeCreate() {
+      defineInterceptors(this.$message);
+    },
+  });
+  app.$mount('#app');
+});
 
 function defineInterceptors($message: ElMessage) {
   axios.interceptors.response.use(
@@ -40,7 +40,11 @@ function defineInterceptors($message: ElMessage) {
       // tslint:disable-next-line:no-console
       console.error(error);
 
-      const { status } = error.response!;
+      if (!error.response) {
+        return Promise.reject(error);
+      }
+
+      const { status } = error.response;
 
       if (status === 400) {
         // $message.error('发送请求有误，请反馈给网站管理员');
@@ -58,10 +62,4 @@ function defineInterceptors($message: ElMessage) {
       return Promise.reject(error);
     },
   );
-}
-
-function recoverAuthState() {
-  if (cookieUtil.hasItem('__fet')) {
-    store.dispatch('signIn', { username: cookieUtil.getItem('__feun'), type: cookieUtil.getItem('__feut') });
-  }
 }

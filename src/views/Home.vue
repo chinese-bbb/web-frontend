@@ -12,29 +12,39 @@
         <el-button @click="search" icon="el-icon-search" slot="append" type="primary" v-if="searchStr">搜索</el-button>
       </el-input>
 
-      <el-dialog class="precheck-dialog" :show-close="false" :visible.sync="authDialogVisible" center title top="0">
+      <el-dialog :show-close="false" :visible.sync="authDialogVisible" center class="precheck-dialog" title top="0">
         <p class="auth-hint text-center">
           请先
-          <router-link :to="{ name: 'cSignUp' }">注册</router-link>或
-          <router-link :to="{ name: 'cSignIn' }">登陆</router-link>后再进行搜索
+          <router-link :to="{ name: 'cSignUp' }">注册</router-link>
+          或
+          <router-link :to="{ name: 'cSignIn' }">登陆</router-link>
+          后再进行搜索
         </p>
       </el-dialog>
     </section>
 
-    <!-- <section class="news container mt-5">
-      <div class="information my-4">
-        <h3>information</h3>
-      </div>
+    <section class="news container my-5">
+      <h3>最新投诉</h3>
 
-      <div class="information my-4">
-        <h3>information</h3>
-      </div>
-    </section>-->
+      <ul class="list-unstyled">
+        <li :key="index" class="complaint-item pb-2" v-for="(item, index) in complaintList">
+          {{ item.complain_timestamp | date }}：<span class="font-italic">{{ item.user | userName }}</span> 由于
+          <span class="font-weight-bold">{{ item.complain_type | complaintType }}</span> 发起了对
+          <span class="company-name">{{ item.targetCompany }}</span> 的投诉
+        </li>
+      </ul>
+    </section>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { complaintService, merchantService } from '../services';
+import { ServerComplaintModel } from '@/models';
+
+interface ComplaintModel extends ServerComplaintModel {
+  targetCompany: string;
+}
 
 @Component({
   components: {},
@@ -42,6 +52,7 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Home extends Vue {
   searchStr: string = '';
   authDialogVisible = false;
+  complaintList: any[] = [];
 
   search() {
     if (this.$store.state.authenticated) {
@@ -49,6 +60,34 @@ export default class Home extends Vue {
     } else {
       this.authDialogVisible = true;
     }
+  }
+
+  getLatestComplaints() {
+    complaintService.getLatestComplaints().then(
+      data => {
+        Promise.all(
+          data.data.map(item =>
+            merchantService.queryMerchant(item.merchant_id).then(({ data: merchantInfo }) => {
+              const newItem: ComplaintModel = item as any;
+              newItem.targetCompany = merchantInfo.storage.Name;
+
+              return newItem;
+            }),
+          ),
+        ).then(output => {
+          this.complaintList = output;
+        });
+      },
+      error => {
+        if (error && error.response) {
+          this.$message.error(error.toString());
+        }
+      },
+    );
+  }
+
+  created() {
+    this.getLatestComplaints();
   }
 }
 </script>
@@ -62,7 +101,7 @@ export default class Home extends Vue {
 
 .top-sec {
   height: calc(100vh - #{$headerHeight});
-  background-image: url('https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg');
+  background-image: url('https://images.huxingongyi.com/gratisography-mountain-peaks.jpg');
   background-size: cover;
 }
 
@@ -91,6 +130,14 @@ export default class Home extends Vue {
 .information {
   height: 300px;
   background-color: #eaeaea;
+}
+
+.complaint-item {
+  border-bottom: 1px solid #d5d4d4;
+}
+
+.company-name {
+  text-decoration: underline;
 }
 
 .auth-hint {

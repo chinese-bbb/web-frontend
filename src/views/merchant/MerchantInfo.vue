@@ -141,7 +141,7 @@ export default class MerchantInfoView extends Vue {
 
   loading = false;
   loadingList = false;
-  merchantId = '';
+  merchantId: number | null = null;
 
   get joinedLoading() {
     return this.loading || this.loadingList;
@@ -156,7 +156,7 @@ export default class MerchantInfoView extends Vue {
   mounted() {
     this.loading = true;
     searchService
-      .queryMerchant(this.id)
+      .queryMerchantByQccId(this.id)
       .then(resp => {
         this.merchantInfo = resp.data.storage;
         this.$store.commit('cacheCurrentMerchant', this.merchantInfo);
@@ -167,7 +167,7 @@ export default class MerchantInfoView extends Vue {
       .finally(() => (this.loading = false));
   }
 
-  getComplaints(id: string) {
+  getComplaints(id: string | number) {
     this.loadingList = true;
 
     this.viewResults = [];
