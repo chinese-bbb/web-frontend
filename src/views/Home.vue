@@ -31,6 +31,14 @@
           {{ item.complain_timestamp | date }}：<span class="font-italic">{{ item.user | userName }}</span> 由于
           <span class="font-weight-bold">{{ item.complain_type | complaintType }}</span> 发起了对
           <span class="company-name">{{ item.targetCompany }}</span> 的投诉
+
+          <router-link
+            :to="{
+              name: 'complaintDetails',
+              params: { merchantId: item.targetCompanyId, complaintId: item.complaint_id },
+            }"
+            >查看详情</router-link
+          >
         </li>
       </ul>
     </section>
@@ -44,6 +52,7 @@ import { ServerComplaintModel } from '@/models';
 
 interface ComplaintModel extends ServerComplaintModel {
   targetCompany: string;
+  targetCompanyId: string;
 }
 
 @Component({
@@ -70,6 +79,7 @@ export default class Home extends Vue {
             merchantService.queryMerchant(item.merchant_id).then(({ data: merchantInfo }) => {
               const newItem: ComplaintModel = item as any;
               newItem.targetCompany = merchantInfo.storage.Name;
+              newItem.targetCompanyId = merchantInfo.storage.KeyNo;
 
               return newItem;
             }),

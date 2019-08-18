@@ -18,7 +18,7 @@ const forbidAuthedUserGuard: NavigationGuard = (to, from, next) => {
 
 const commonAuthGuard: NavigationGuard = (to, from, next) => {
   if (!store.state.authenticated) {
-    Vue.prototype.$message.error('未授权访问');
+    Vue.prototype.$message.error('用户未登录，无法访问');
     next(new Error('Access Denied'));
   } else {
     next();

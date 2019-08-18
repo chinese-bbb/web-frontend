@@ -28,7 +28,7 @@
           <div class="images-list" v-if="evidenceImages.length">
             <viewer :images="evidenceImages" class="viewer" ref="viewer">
               <template slot-scope="scope">
-                <div class="image-wrapper" v-for="src in scope.images" :key="src">
+                <div class="image-wrapper" v-for="(src, index) in scope.images" :key="index">
                   <img class="img-fluid" :src="src" alt="点击查看大图" />
                 </div>
               </template>
@@ -91,7 +91,7 @@
         <div class="images-list" v-if="evidenceImages.length">
           <viewer :images="evidenceImages" class="viewer" ref="viewer">
             <template slot-scope="scope">
-              <div class="image-wrapper" v-for="src in scope.images" :key="src">
+              <div class="image-wrapper" v-for="(src, index) in scope.images" :key="index">
                 <img class="img-fluid" :src="src" alt="点击查看大图" />
               </div>
             </template>
