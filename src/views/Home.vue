@@ -30,7 +30,14 @@
         <li :key="index" class="complaint-item pb-2" v-for="(item, index) in complaintList">
           {{ item.complain_timestamp | date }}：<span class="font-italic">{{ item.user | userName }}</span> 由于
           <span class="font-weight-bold">{{ item.complain_type | complaintType }}</span> 发起了对
-          <span class="company-name">{{ item.targetCompany }}</span> 的投诉
+          <router-link
+            :to="{
+              name: 'merchantInfo',
+              params: { merchantId: item.targetCompanyId },
+            }"
+            >{{ item.targetCompany }}</router-link
+          >
+          的投诉
 
           <router-link
             :to="{
@@ -89,7 +96,7 @@ export default class Home extends Vue {
         });
       },
       error => {
-        if (error && error.response) {
+        if (error && error.response && error.response.status < 500) {
           this.$message.error(error.toString());
         }
       },
