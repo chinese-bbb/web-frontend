@@ -24,7 +24,7 @@
     </section>
 
     <section class="news container my-5">
-      <h3>最新投诉</h3>
+      <h3>热门投诉</h3>
 
       <ul class="list-unstyled">
         <li :key="index" class="complaint-item pb-2" v-for="(item, index) in complaintList">
