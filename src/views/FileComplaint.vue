@@ -182,8 +182,11 @@
                   <el-input
                     :autosize="{ minRows: 4 }"
                     maxlength="2000"
-                    minlength="100"
-                    placeholder="100~2000字，同时尽可能具体的描述所遇到的问题，以及问题发现的时间，不要使用过激语言"
+                    :minlength="mainContentMinLength"
+                    :placeholder="
+                      mainContentMinLength +
+                        '~2000字，同时尽可能具体的描述所遇到的问题，以及问题发现的时间，不要使用过激语言'
+                    "
                     show-word-limit
                     type="textarea"
                     v-model="complaintDetailForm.content"
@@ -196,8 +199,8 @@
                   <el-input
                     :autosize="{ minRows: 4 }"
                     maxlength="1000"
-                    minlength="10"
-                    placeholder="下限10字，上限1000字"
+                    :minlength="expectationContentMinLength"
+                    :placeholder="expectationContentMinLength + '~1000字'"
                     show-word-limit
                     type="textarea"
                     v-model="complaintDetailForm.expectedSolution"
@@ -412,6 +415,8 @@ export default class FileComplaint extends Vue {
   submitting = false;
   // unit: MB
   fileSizeLimit = 3;
+  mainContentMinLength = 30;
+  expectationContentMinLength = 10;
   uploadUrl = axios.defaults.baseURL + '/upload_file';
 
   complaintTypeForm: {
@@ -456,12 +461,12 @@ export default class FileComplaint extends Vue {
   rules = {
     content: [
       { required: true, message: '请输入投诉内容', trigger: 'blur' },
-      { min: 100, message: '内容长度不满足要求', trigger: 'blur' },
+      { min: this.mainContentMinLength, message: '内容长度不满足要求', trigger: 'blur' },
     ],
     tradeDate: [{ required: true, message: '请输入有效时间', trigger: 'blur' }],
     expectedSolution: [
       { required: true, message: '请输入期望解决方案', trigger: 'blur' },
-      { min: 10, message: '内容长度不满足要求' },
+      { min: this.expectationContentMinLength, message: '内容长度不满足要求' },
     ],
     uploadedInvoices: [{ required: false, type: 'array', message: '至少上传一张发票图片', trigger: 'blur' }],
   };
@@ -515,7 +520,13 @@ export default class FileComplaint extends Vue {
             });
         },
         error => {
-          // do something
+          if (error.response && error.response.status < 500) {
+            if (error.response.status > 404) {
+              this.$message.error('投诉失败, 若多次失败请联系客服');
+            } else {
+              this.$message.error('投诉失败');
+            }
+          }
         },
       )
       .finally(() => {

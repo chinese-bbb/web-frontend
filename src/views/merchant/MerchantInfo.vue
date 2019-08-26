@@ -3,7 +3,7 @@
     <el-card class="info-card" shadow="never" v-loading="loading">
       <div class="row">
         <div class="company-info col-12 col-md-4">
-          <el-image :src="merchantInfo.ImageUrl" class="merchant-logo mb-3"></el-image>
+          <el-image :src="merchantInfo.ImageUrl || ''" class="merchant-logo mb-3"></el-image>
 
           <h3 class="company-name">{{ merchantInfo.Name }}</h3>
 
