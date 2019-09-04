@@ -33,7 +33,7 @@
       <p class="hint text-center">验证码已发送到您的手机</p>
 
       <el-form :model="form2" :rules="rules" key="form2" ref="form2">
-        <el-form-item prop="username">
+        <el-form-item>
           <el-input :disabled="true" placeholder="手机号" v-model="form2.username"></el-input>
         </el-form-item>
 
@@ -125,7 +125,7 @@ export default class ResetPassword extends Vue {
       {
         required: true,
         validator: (rule: any, val: any, cb: any) => {
-          (this.$refs.phoneInput as any).state ? cb() : cb('invalid phone number');
+          (this.getPhoneInput() as any).state ? cb() : cb('invalid phone number');
         },
         message: '请填入有效的手机号码',
         trigger: 'blur',
@@ -187,6 +187,10 @@ export default class ResetPassword extends Vue {
 
     this.picCaptchaMeta.dataURL = dataURL;
     this.picCaptchaMeta.code = code;
+  }
+
+  getPhoneInput() {
+    return this.$refs.phoneInput;
   }
 
   submitPicCaptcha() {
