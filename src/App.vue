@@ -23,6 +23,8 @@
             邮箱：<a class="external-link" href="mailto:info@huxingongyi.com">info@huxingongyi.com</a>
           </div>
         </div>
+
+        <div class="row justify-content-center mt-1">苏ICP备19048841号</div>
       </footer>
     </el-container>
 
